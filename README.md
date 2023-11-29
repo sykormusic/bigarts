@@ -1,4 +1,4 @@
-# React + Vite
+# React + Vite + Antd + SCSS + React Router v6 + Eslint
 
 1. Install pnpm (if not installed):
 ```
