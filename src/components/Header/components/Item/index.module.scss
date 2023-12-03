@@ -1,0 +1,16 @@
+.Item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  cursor: pointer;
+  .icon {
+    font-size: 28px;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+  }
+}

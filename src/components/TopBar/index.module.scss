@@ -1,0 +1,26 @@
+.TopBar {
+  background-color: #11181f;
+  padding: 0 24px;
+  height: 44px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  .contentWrapper {
+    max-width: var(--my-max-width);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin: 0 auto;
+    height: 100%;
+    color: #fff;
+    font-size: 12px;
+    .left {
+    }
+    .right {
+      display: flex;
+      justify-content: flex-end;
+      gap: 48px;
+      align-items: center;
+    }
+  }
+}

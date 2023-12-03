@@ -1,27 +1,105 @@
 .Footer {
-  background-color: #fff;
-  padding: 24px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  .contentWrapper {
+  background-color: #20303d;
+  color: #fff;
+  .maxWidthContainer {
     max-width: var(--my-max-width);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
+    // width: 100%;
     margin: 0 auto;
-    height: 100%;
-    .left {
-      p {
-        width: 60%;
+    padding: 0 var(--padding-lg);
+  }
+  .above {
+    .container {
+      @extend .maxWidthContainer;
+      max-width: calc(var(--my-max-width) * 3 / 4) !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 48px;
+      padding-block: calc(var(--padding-lg) * 2);
+
+      .label {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        .icon {
+          font-size: 32px;
+        }
+      }
+      .input {
+        flex: 1;
       }
     }
-
-    .right {
+  }
+  .contentWrapper {
+    border-top: 1px solid #444444;
+    .container {
+      @extend .maxWidthContainer;
       display: flex;
-      justify-content: flex-end;
-      gap: 12px;
+      justify-content: space-between;
       align-items: center;
+      gap: 24px;
+      margin: 0 auto;
+      padding-block: var(--padding-lg);
+      .content {
+        width: 100%;
+        .contactUs {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          p {
+            margin: 0;
+            line-height: 28px;
+            span {
+              display: block;
+            }
+            .spacer {
+              margin-block: 12px;
+            }
+          }
+          .socials {
+            margin-top: var(--padding-lg);
+            .btn {
+              border-radius: 50%;
+              width: 44px;
+              height: 44px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background-color: #2b353e;
+              .icon {
+                color: #fff;
+              }
+            }
+          }
+        }
+        .label {
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 12px;
+        }
+        .link {
+          a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+  .below {
+    border-top: 1px solid #444444;
+    background-color: #11181f;
+    .container {
+      @extend .maxWidthContainer;
+      padding-block: var(--padding-md);
+      p {
+        margin: 0;
+      }
     }
   }
 }

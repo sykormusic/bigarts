@@ -1,15 +1,41 @@
-import { SIGN_UP_SIGN_IN } from '@/utils/constants'
-import { SearchOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import { Badge, Button, Input, Popover } from 'antd'
-import { useState } from 'react'
-import SignUpInModal from '../SignUpInModal'
+import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, SyncOutlined } from '@ant-design/icons'
+import { Button, Input } from 'antd'
+import { useNavigate } from 'react-router-dom'
+import Item from './components/Item'
 import styles from './index.module.scss'
 
 const Header = () => {
-  const [signUpInOpen, setSignUpInOpen] = useState({
-    open: false,
-    type: ''
-  })
+  const navigate = useNavigate()
+
+  const headerItems = [
+    {
+      title: 'Compare',
+      subtitle: 'Products',
+      key: 'compare-products',
+      icon: <SyncOutlined />,
+      onClick: () => {}
+    },
+    {
+      title: 'Favorites',
+      subtitle: 'Wishlist',
+      key: 'wishlist',
+      icon: <HeartOutlined />,
+      onClick: () => {}
+    },
+    {
+      title: 'Log In',
+      subtitle: 'My Account',
+      key: 'login',
+      icon: <SearchOutlined />,
+      onClick: () => navigate(`/login`)
+    },
+    {
+      title: 'Cart',
+      key: 'cart',
+      icon: <ShoppingCartOutlined />,
+      onClick: () => {}
+    }
+  ]
 
   return (
     <div className={styles.Header}>
@@ -17,74 +43,28 @@ const Header = () => {
         <div className={styles.logo}>
           <a href='/'>SAMAZON</a>
         </div>
-
-        <div className={styles.right}>
+        <div className={styles.center}>
           <Input
-            placeholder='Type to search...'
+            placeholder='Search products here...'
             size='large'
             allowClear
-            // suffix={
-            //   <Button type='primary'>
-            //     <SearchOutlined />
-            //   </Button>
-            // }
-          />
-          {/* <Button
-            type='link'
-            onClick={() =>
-              setSignUpInOpen({
-                open: true,
-                type: SIGN_UP_SIGN_IN.MODAL_TYPE.SIGN_UP
-              })
-            }
-          >
-            Sign up
-          </Button> */}
-          <Popover content='Gio hang' placement='bottomRight' trigger='click'>
-            <Button type='text'>
-              <Badge count={4}>
-                <ShoppingCartOutlined
+            addonAfter={
+              <Button type='text'>
+                <SearchOutlined
                   style={{
-                    fontSize: 22
+                    color: 'white'
                   }}
                 />
-              </Badge>
-            </Button>
-          </Popover>
-          <Button
-            type='primary'
-            size='large'
-            onClick={() =>
-              setSignUpInOpen({
-                open: true,
-                type: SIGN_UP_SIGN_IN.MODAL_TYPE.SIGN_IN
-              })
+              </Button>
             }
-          >
-            Sign in
-          </Button>
+          />
+        </div>
+        <div className={styles.right}>
+          {headerItems.map((item) => (
+            <Item key={item.key} onClick={item.onClick} title={item.title} subtitle={item.subtitle} icon={item.icon} />
+          ))}
         </div>
       </div>
-
-      <SignUpInModal
-        open={signUpInOpen.open}
-        onCancel={() =>
-          setSignUpInOpen({
-            open: false,
-            type: ''
-          })
-        }
-        type={signUpInOpen.type}
-        onSwitch={() => {
-          setSignUpInOpen({
-            open: true,
-            type:
-              signUpInOpen.type === SIGN_UP_SIGN_IN.MODAL_TYPE.SIGN_IN
-                ? SIGN_UP_SIGN_IN.MODAL_TYPE.SIGN_UP
-                : SIGN_UP_SIGN_IN.MODAL_TYPE.SIGN_IN
-          })
-        }}
-      />
     </div>
   )
 }

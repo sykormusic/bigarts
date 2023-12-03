@@ -1,46 +1,65 @@
 .Banner {
-  width: 100%;
-  .item {
+  gap: 16px;
+  margin-top: var(--padding-lg);
+  .container {
+    display: grid;
     width: 100%;
-    height: 400px;
-    overflow: hidden;
-    border-radius: var(--my-border-radius);
-    position: relative;
-    img {
-      width: 100%;
-      object-fit: cover;
-      border-radius: var(--my-border-radius);
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-    // .texts {
-    //   color: black;
-    //   position: absolute;
-    //   top: 0;
-    //   left: 0;
-    //   width: 100%;
-    //   padding: 20px;
-    //   z-index: 10;
-    //   width: 60%;
-
-    //   h1 {
-    //     font-size: 32px;
-    //     color: white;
-    //     text-shadow:
-    //       -1px -1px 0 #000,
-    //       1px -1px 0 #000,
-    //       -1px 1px 0 #000,
-    //       1px 1px 0 #000;
+    height: 100%;
+    gap: 12px;
+    grid-template-areas: 'otherItem1 otherItem1 otherItem1 otherItem2 otherItem3' 'otherItem1 otherItem1 otherItem1 otherItem4 otherItem5';
+    // .carousel {
+    //   grid-area: main;
+    //   background-color: red;
+    //   :global {
+    //     .ant-carousel {
+    //       background-color: green;
+    //       width: 100%;
+    //       height: 100%;
+    //     }
     //   }
-    //   h3 {
-    //     color: white;
-    //     text-shadow:
-    //       -1px -1px 0 #000,
-    //       1px -1px 0 #000,
-    //       -1px 1px 0 #000,
-    //       1px 1px 0 #000;
+    //   .carouselItem {
+    //     height: 100%;
+    //     width: 100%;
+    //     overflow: hidden;
+    //     border-radius: var(--my-border-radius);
+    //     position: relative;
+    //     img {
+    //       width: 100%;
+    //       object-fit: cover;
+    //       border-radius: var(--my-border-radius);
+    //       height: 100%;
+    //       position: absolute;
+    //       inset: 0;
+    //       z-index: 0;
+    //     }
     //   }
     // }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      grid-area: otherItem;
+      background-color: antiquewhite;
+      padding: var(--padding-md);
+      border-radius: var(--my-border-radius);
+      overflow: hidden;
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+      .texts {
+        display: flex;
+        flex-direction: column;
+        .type {
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: 600;
+        }
+        .description {
+          font-size: 14px;
+          font-weight: 400;
+        }
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,14 +7,14 @@
 
   /* color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87); */
-  background-color: #FAF6F0; 
+  background-color: #F4F5F3; 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --my-max-width: 1280px;
+  --my-max-width: 1480px;
   --my-border-radius: 8px;
   --padding-md: 16px;
   --padding-lg: 24px;

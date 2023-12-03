@@ -1,14 +1,19 @@
 import Banner from './components/Banner'
+import Brands from './components/Brands'
+import Categories from './components/Categories'
 import FeaturedProducts from './components/FeaturedProducts'
-import NewProducts from './components/NewProducts'
+import Information from './components/Information'
 import styles from './index.module.scss'
 
 const Home = () => {
   return (
     <div className={styles.Home}>
       <Banner />
-      <NewProducts />
+      <Information />
+      <Categories />
+      {/* <NewProducts /> */}
       <FeaturedProducts />
+      <Brands />
     </div>
   )
 }
