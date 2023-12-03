@@ -10,6 +10,7 @@ import MainLayout from './layouts/MainLayout'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Products from './pages/Products'
+import Cart from './pages/Cart'
 
 const router = createBrowserRouter([
   {
@@ -41,19 +42,30 @@ const router = createBrowserRouter([
       },
       {
         path: '/products',
-        element: <Products />,
         handle: {
           crumb: () => 'Products'
         },
         children: [
           {
-            path: '/products/:id',
+            index: true,
+            element: <Products />
+          },
+          {
+            path: ':id',
             element: <Details />,
             handle: {
               crumb: () => 'Details'
             }
           }
         ]
+      },
+      {
+        path: '/cart',
+        element: <Cart />
+      },
+      {
+        path: '*',
+        element: <ErrorPage />
       }
     ]
   }

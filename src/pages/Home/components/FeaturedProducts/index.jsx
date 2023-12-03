@@ -21,7 +21,7 @@ const FeaturedProducts = () => {
     },
     {
       id: 3,
-      name: 'Product 3',
+      name: 'Product 3 asd asd asdd asd asd asd asd ',
       image: 'https://random.imagecdn.app/500/200',
       price: 6000000,
       brand: 'Samsung'

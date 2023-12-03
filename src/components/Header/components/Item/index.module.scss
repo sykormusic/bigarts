@@ -5,7 +5,10 @@
   color: #fff;
   cursor: pointer;
   .icon {
-    font-size: 28px;
+    span[role='img'] {
+      font-size: 28px;
+      color: #fff;
+    }
   }
   .content {
     display: flex;

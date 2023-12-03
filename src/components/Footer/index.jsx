@@ -2,12 +2,15 @@ import styles from './index.module.scss'
 import { createFromIconfontCN } from '@ant-design/icons'
 import { Row, Col, Space, Input, Button } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
+import { useLocation } from 'react-router-dom'
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js'
 })
 
 const Footer = () => {
+  const location = useLocation()
+  const showSubscribe = location.pathname === '/'
   const items = [
     {
       label: 'Contact Us',
@@ -119,22 +122,24 @@ const Footer = () => {
   ]
   return (
     <div className={styles.Footer}>
-      <div className={styles.above}>
-        <div className={styles.container}>
-          <div className={styles.label}>
-            <SendOutlined className={styles.icon} />
-            <span>Sign Up for Our Newsletter</span>
-          </div>
-          <div className={styles.input}>
-            <Input
-              placeholder='Enter your email'
-              allowClear
-              suffix={<Button type='primary'>Subscribe</Button>}
-              size='large'
-            />
+      {showSubscribe && (
+        <div className={styles.above}>
+          <div className={styles.container}>
+            <div className={styles.label}>
+              <SendOutlined className={styles.icon} />
+              <span>Sign Up for Our Newsletter</span>
+            </div>
+            <div className={styles.input}>
+              <Input
+                placeholder='Enter your email'
+                allowClear
+                suffix={<Button type='primary'>Subscribe</Button>}
+                size='large'
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <div className={styles.contentWrapper}>
         <div className={styles.container}>
           <Row gutter={[24, 24]} className={styles.content}>

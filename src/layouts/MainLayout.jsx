@@ -18,7 +18,10 @@ const MainLayout = () => {
         <Outlet />
       </div>
       <Footer />
-      <BackTop />
+      <BackTop  style={{
+        right: 24,
+        bottom: 24
+      }}/>
     </div>
   )
 }

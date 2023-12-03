@@ -20,7 +20,14 @@ const ProductItem = (props) => {
         <h1>{name}</h1>
         <h3>{price}</h3>
       </div>
-      <button type='button' className={styles.saveBtn}>
+      <button
+        type='button'
+        className={styles.saveBtn}
+        onClick={(e) => {
+          e.stopPropagation()
+          e.preventDefault()
+        }}
+      >
         <HeartOutlined />
       </button>
     </div>

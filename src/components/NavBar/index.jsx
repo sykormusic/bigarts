@@ -1,6 +1,7 @@
 import { DownOutlined, AppstoreOutlined } from '@ant-design/icons'
 import { Dropdown, Space } from 'antd'
 import styles from './index.module.scss'
+import { Link } from 'react-router-dom'
 
 const NavBar = () => {
   const links = [
@@ -12,7 +13,7 @@ const NavBar = () => {
     {
       key: 'our-store',
       label: 'Our Store',
-      url: '/our-store'
+      url: '/products'
     },
     {
       key: 'blogs',
@@ -48,9 +49,9 @@ const NavBar = () => {
 
         <div className={styles.right}>
           {links.map((link) => (
-            <a key={link.key} href={link.url}>
+            <Link key={link.key} to={link.url}>
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

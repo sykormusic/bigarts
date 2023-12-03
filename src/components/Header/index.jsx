@@ -1,11 +1,14 @@
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, SyncOutlined } from '@ant-design/icons'
-import { Button, Input } from 'antd'
+import { Button, Input, Badge } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import Item from './components/Item'
 import styles from './index.module.scss'
+import { useState } from 'react'
+import CartDrawer from '../CartDrawer'
 
 const Header = () => {
   const navigate = useNavigate()
+  const [isCartOpen, setIsCartOpen] = useState(false)
 
   const headerItems = [
     {
@@ -32,8 +35,12 @@ const Header = () => {
     {
       title: 'Cart',
       key: 'cart',
-      icon: <ShoppingCartOutlined />,
-      onClick: () => {}
+      icon: (
+        <Badge count={4}>
+          <ShoppingCartOutlined />
+        </Badge>
+      ),
+      onClick: () => setIsCartOpen((prev) => !prev)
     }
   ]
 
@@ -65,6 +72,7 @@ const Header = () => {
           ))}
         </div>
       </div>
+      <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   )
 }
