@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import { createFromIconfontCN } from '@ant-design/icons'
 import { Row, Col, Space, Input, Button } from 'antd'
 import { SendOutlined } from '@ant-design/icons'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js'
@@ -45,27 +45,27 @@ const Footer = () => {
         {
           key: 1,
           label: 'Privacy Policy',
-          url: '#'
+          url: '/#'
         },
         {
           key: 2,
           label: 'Return Policy',
-          url: '#'
+          url: '/#'
         },
         {
           key: 3,
           label: 'Shipping Policy',
-          url: '#'
+          url: '/#'
         },
         {
           key: 4,
           label: 'Terms & Conditions',
-          url: '#'
+          url: '/#'
         },
         {
           key: 5,
           label: 'Blogs',
-          url: '#'
+          url: '/blogs'
         }
       ]
     },
@@ -75,22 +75,22 @@ const Footer = () => {
         {
           key: 1,
           label: 'Search',
-          url: '#'
+          url: '/#'
         },
         {
           key: 2,
           label: 'About us',
-          url: '#'
+          url: '/#'
         },
         {
           key: 3,
           label: 'FAQ',
-          url: '#'
+          url: '/#'
         },
         {
           key: 4,
           label: 'Contact',
-          url: '#'
+          url: '/#'
         }
       ]
     },
@@ -100,22 +100,22 @@ const Footer = () => {
         {
           key: 1,
           label: 'Accessories',
-          url: '#'
+          url: '/#'
         },
         {
           key: 2,
           label: 'Laptops',
-          url: '#'
+          url: '/#'
         },
         {
           key: 3,
           label: 'Headphones',
-          url: '#'
+          url: '/#'
         },
         {
           key: 4,
           label: 'Tablets',
-          url: '#'
+          url: '/#'
         }
       ]
     }
@@ -151,9 +151,7 @@ const Footer = () => {
                     ? item.value
                     : item.links?.map((link) => (
                         <p key={link.key} className={styles.link}>
-                          <a href={link.url} target='_blank' rel='noreferrer'>
-                            {link.label}
-                          </a>
+                          <Link to={link.url}>{link.label}</Link>
                         </p>
                       ))}
                 </div>
