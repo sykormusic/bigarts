@@ -1,6 +1,7 @@
 import Header from '@/components/Header'
 import { Outlet } from 'react-router-dom'
 import styles from './MainLayout.module.scss'
+import Footer from '@/components/Footer'
 
 const MainLayout = () => {
   return (
@@ -9,6 +10,7 @@ const MainLayout = () => {
       <div className={styles.body}>
         <Outlet />
       </div>
+      <Footer />
     </div>
   )
 }

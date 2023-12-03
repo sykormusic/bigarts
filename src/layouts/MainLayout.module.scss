@@ -1,8 +1,7 @@
 .MainLayout {
   .body {
-    padding: 24px;
+    padding: calc(var(--padding-lg) * 2) var(--padding-lg) calc(var(--padding-lg) * 4);
     margin: 0 auto;
     max-width: var(--my-max-width);
-    width: 100%;
   }
 }

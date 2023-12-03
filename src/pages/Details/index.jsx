@@ -7,7 +7,7 @@ const Details = () => {
 
   return (
     <div className={styles.Details}>
-      <div>Details</div>
+      <div>Product {id}</div>
     </div>
   )
 }

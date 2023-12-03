@@ -1,7 +1,6 @@
-.Header {
+.Footer {
   background-color: #fff;
-  padding: 0 24px;
-  height: 60px;
+  padding: 24px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   .contentWrapper {
     max-width: var(--my-max-width);
@@ -12,18 +11,12 @@
     gap: 24px;
     margin: 0 auto;
     height: 100%;
-    .logo {
-      font-size: 20px;
-      font-weight: 600;
-      color: blue;
-      a {
-        text-decoration: none;
-        color: inherit;
+    .left {
+      p {
+        width: 60%;
       }
     }
-    .search {
-      width: 50%;
-    }
+
     .right {
       display: flex;
       justify-content: flex-end;

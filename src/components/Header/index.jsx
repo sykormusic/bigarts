@@ -15,21 +15,20 @@ const Header = () => {
     <div className={styles.Header}>
       <div className={styles.contentWrapper}>
         <div className={styles.logo}>
-          <a href='/'>Samazon</a>
+          <a href='/'>SAMAZON</a>
         </div>
-        <div className={styles.search}>
+
+        <div className={styles.right}>
           <Input
             placeholder='Type to search...'
-            size='middle'
+            size='large'
             allowClear
-            suffix={
-              <Button type='primary'>
-                <SearchOutlined />
-              </Button>
-            }
+            // suffix={
+            //   <Button type='primary'>
+            //     <SearchOutlined />
+            //   </Button>
+            // }
           />
-        </div>
-        <div className={styles.right}>
           {/* <Button
             type='link'
             onClick={() =>
@@ -41,8 +40,8 @@ const Header = () => {
           >
             Sign up
           </Button> */}
-          <Button type='text'>
-            <Popover content='Gio hang' placement='bottomRight' trigger='click'>
+          <Popover content='Gio hang' placement='bottomRight' trigger='click'>
+            <Button type='text'>
               <Badge count={4}>
                 <ShoppingCartOutlined
                   style={{
@@ -50,10 +49,11 @@ const Header = () => {
                   }}
                 />
               </Badge>
-            </Popover>
-          </Button>
+            </Button>
+          </Popover>
           <Button
             type='primary'
+            size='large'
             onClick={() =>
               setSignUpInOpen({
                 open: true,

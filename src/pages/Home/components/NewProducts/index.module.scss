@@ -1,0 +1,13 @@
+.NewProducts {
+  width: 100%;
+  margin-top: var(--padding-lg);
+
+  .container {
+    margin-top: var(--padding-lg);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    width: 100%;
+    flex-wrap: nowrap;
+  }
+}

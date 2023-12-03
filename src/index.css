@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -14,6 +16,8 @@
 
   --my-max-width: 1280px;
   --my-border-radius: 8px;
+  --padding-md: 16px;
+  --padding-lg: 24px;
 }
 
 body {

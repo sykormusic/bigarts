@@ -1,0 +1,12 @@
+.Title {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+  }
+}
