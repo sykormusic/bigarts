@@ -11,6 +11,7 @@ import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
 
 const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
         element: <Cart />
       },
       {
+        path: '/checkout',
+        element: <Checkout />
+      },
+      {
         path: '*',
         element: <ErrorPage />
       }
@@ -76,7 +81,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: '#00b96b',
+          colorPrimary: '#00aa13',
           borderRadius: 2
         }
       }}
