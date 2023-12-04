@@ -1,9 +1,10 @@
 .Header {
-  background-color: #11181f;
+  // background-color: #11181f;
+  background-color: #fff;
   padding: 0 24px;
   height: 80px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  border-top: 1px solid #313131;
+  border-top: 1px solid var(--border-color);
   display: block;
   position: sticky;
   top: 0;
@@ -18,11 +19,11 @@
     gap: 48px;
     margin: 0 auto;
     height: 100%;
-    color: #fff;
+    // color: #fff;
     .logo {
       font-size: 20px;
       font-weight: 600;
-      color: #fff;
+      color: var(--green);
       a {
         text-decoration: none;
         color: inherit;

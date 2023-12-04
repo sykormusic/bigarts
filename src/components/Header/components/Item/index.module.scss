@@ -2,12 +2,12 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  color: #fff;
+  // color: #fff;
   cursor: pointer;
   .icon {
     span[role='img'] {
       font-size: 28px;
-      color: #fff;
+      // color: #fff;
     }
   }
   .content {
@@ -15,5 +15,6 @@
     flex-direction: column;
     gap: 2px;
     font-size: 12px;
+    font-weight: 500;
   }
 }

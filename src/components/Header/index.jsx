@@ -57,11 +57,7 @@ const Header = () => {
             allowClear
             addonAfter={
               <Button type='text'>
-                <SearchOutlined
-                  style={{
-                    color: 'white'
-                  }}
-                />
+                <SearchOutlined />
               </Button>
             }
           />

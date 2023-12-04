@@ -1,6 +1,5 @@
 .Footer {
-  background-color: #20303d;
-  color: #fff;
+  background-color: #fff;
   .maxWidthContainer {
     max-width: var(--my-max-width);
     // width: 100%;
@@ -31,7 +30,7 @@
     }
   }
   .contentWrapper {
-    border-top: 1px solid #444444;
+    border-top: 1px solid var(--border-color);
     .container {
       @extend .maxWidthContainer;
       display: flex;
@@ -80,7 +79,6 @@
         }
         .link {
           a {
-            color: #fff;
             text-decoration: none;
             font-size: 12px;
             &:hover {
@@ -92,8 +90,9 @@
     }
   }
   .below {
-    border-top: 1px solid #444444;
+    border-top: 1px solid var(--border-color);
     background-color: #11181f;
+    color: #fff;
     .container {
       @extend .maxWidthContainer;
       padding-block: var(--padding-md);

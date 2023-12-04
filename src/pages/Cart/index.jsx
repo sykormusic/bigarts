@@ -1,9 +1,12 @@
-import { Table, Space, Tooltip, Button, InputNumber } from 'antd'
-import styles from './index.module.scss'
-import { DeleteOutlined, ArrowRightOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { Button, InputNumber, Space, Table, Tooltip } from 'antd'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
+  const navigate = useNavigate()
   const [selectedRowKeys, setSelectedRowKeys] = useState([])
 
   const items = [
@@ -50,7 +53,9 @@ const Cart = () => {
             <img src={row.image} alt={row.title} />
           </div>
           <div className={styles.content}>
-            <div className={styles.title}>{row.title}</div>
+            <div className={styles.title}>
+              <Link to={`/products/${row.id}`}>{row.title}</Link>
+            </div>
             {!!row.size && <div className={styles.size}>Size: {row.size}</div>}
             {!!row.color && <div className={styles.color}>Color: {row.color}</div>}
           </div>
@@ -79,7 +84,7 @@ const Cart = () => {
       dataIndex: 'action',
       key: 'action',
       align: 'center',
-      render: (text, row) => (
+      render: () => (
         <Tooltip title='Remove' placement='right'>
           <Button className={styles.remove} danger type='default'>
             <DeleteOutlined />
@@ -125,10 +130,26 @@ const Cart = () => {
         />
       </div>
       <div className={styles.buttons}>
-        <Button type='default' size='large'>
-          Continue Shopping
+        <Button
+          type='default'
+          size='large'
+          onClick={() => {
+            navigate('/')
+          }}
+        >
+          <Space>
+            Continue Shopping
+            <ShoppingCartOutlined />
+          </Space>
         </Button>
-        <Button type='primary' size='large' disabled={!selectedRowKeys.length}>
+        <Button
+          type='primary'
+          size='large'
+          disabled={!selectedRowKeys.length}
+          onClick={() => {
+            navigate('/checkout')
+          }}
+        >
           <Space>
             Checkout
             <ArrowRightOutlined />

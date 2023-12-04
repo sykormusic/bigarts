@@ -1,4 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,7 +7,7 @@
 
   /* color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87); */
-  background-color: #F4F5F3; 
+  background-color: #f4f5f3;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -18,6 +18,15 @@
   --my-border-radius: 8px;
   --padding-md: 16px;
   --padding-lg: 24px;
+
+  --green: #00aa13;
+  --orange: #f06400;
+  --red: #ee2737;
+  --pink: #df1995;
+  --blue: #00aed6;
+  --purple: #93328e;
+
+  --border-color: #ececec;
 }
 
 body {
