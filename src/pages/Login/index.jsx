@@ -1,19 +1,43 @@
 import { Form, Button, Input } from 'antd'
 import styles from './index.module.scss'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { loginAPI } from '@/store/reducers/authSlice'
+import { useSelector } from 'react-redux'
+import { notification } from 'antd'
 
 const Login = () => {
+  const { isLoadingLogin } = useSelector((state) => state.auth)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
-  const onSignIn = (values) => {
-    console.log('🚀  ~ Sign In Values:', values)
+
+  const onSignIn = async (values) => {
+    const res = await dispatch(loginAPI(values))
+    if (res.payload) {
+      notification.success({
+        message: 'Success',
+        description: 'Login successfully'
+      })
+      navigate('/')
+    }
   }
 
   return (
     <div className={styles.Login}>
       <div className={styles.container}>
         <span className={styles.title}>Login</span>
-        <Form name='signInForm' form={form} onFinish={onSignIn} autoComplete='off' layout='vertical'>
+        <Form
+          initialValues={{
+            email: 'sykormusic@gmail.com',
+            password: '19052001Sam'
+          }}
+          name='signInForm'
+          form={form}
+          onFinish={onSignIn}
+          autoComplete='off'
+          layout='vertical'
+        >
           <Form.Item
             label='Email'
             name='email'
@@ -43,7 +67,7 @@ const Login = () => {
           <a href='#'>Forgot password?</a>
 
           <div className={styles.footer}>
-            <Button type='primary' htmlType='submit' size='large'>
+            <Button type='primary' htmlType='submit' size='large' loading={isLoadingLogin}>
               Login
             </Button>
             <Button

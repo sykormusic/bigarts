@@ -4,7 +4,7 @@ import styles from './MainLayout.module.scss'
 import Footer from '@/components/Footer'
 import TopBar from '@/components/TopBar'
 import NavBar from '@/components/NavBar'
-import { BackTop } from 'antd'
+import { FloatButton } from 'antd'
 import Breadcrumb from '@/components/Breadcrumb'
 import { useEffect } from 'react'
 import { goToTop } from '@/utils/functions'
@@ -27,7 +27,8 @@ const MainLayout = () => {
         <Outlet />
       </div>
       <Footer />
-      <BackTop
+
+      <FloatButton.BackTop
         style={{
           right: 24,
           bottom: 24

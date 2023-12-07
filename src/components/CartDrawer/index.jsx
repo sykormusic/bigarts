@@ -31,13 +31,13 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
   ]
   return (
     <Drawer
-      title='Your Cart'
+      title='Giỏ hàng'
       placement='right'
       closable={false}
       onClose={onClose}
       open={open}
       className={styles.CartDrawer}
-      extra={<span>{items.length} items</span>}
+      extra={<span>Số lượng: {items.length}</span>}
     >
       <div className={styles.items}>
         {items.map((item) => (
@@ -49,12 +49,12 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
               <div className={styles.content}>
                 <div className={styles.title}>{item.title}</div>
                 <div className={styles.price}>${item.price}</div>
-                <div className={styles.size}>Size: {item.size}</div>
-                <div className={styles.quantity}>Quantity: {item.quantity}</div>
+                <div className={styles.size}>Kích thước: {item.size}</div>
+                <div className={styles.quantity}>Số lượng: {item.quantity}</div>
               </div>
             </div>
             <div className={styles.right}>
-              <Tooltip title='Remove'>
+              <Tooltip title='Xóa khỏi giỏ hàng'>
                 <Button className={styles.remove} danger type='default'>
                   <DeleteOutlined />
                 </Button>
@@ -65,7 +65,7 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
       </div>
       <div className={styles.footer}>
         <div className={styles.total}>
-          <span>Total</span>
+          <span>Tổng</span>
           <span>${items.reduce((total, item) => total + item.price, 0)}</span>
         </div>
         <div className={styles.btns}>
@@ -78,10 +78,10 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
               navigate('/cart')
             }}
           >
-            View cart
+            Xem giỏ hàng
           </Button>
           <Button type='primary' className={styles.checkout} size='large'>
-            Checkout
+            Thanh toán
           </Button>
         </div>
       </div>

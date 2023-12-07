@@ -7,22 +7,22 @@ const NavBar = () => {
   const links = [
     {
       key: 'home',
-      label: 'Home',
+      label: 'Trang chủ',
       url: '/'
     },
     {
       key: 'our-store',
-      label: 'Our Store',
+      label: 'Tất cả sản phẩm',
       url: '/products'
     },
     {
       key: 'blogs',
-      label: 'Blogs',
+      label: 'Blog',
       url: '/blogs'
     },
     {
       key: 'contact',
-      label: 'Contact',
+      label: 'Liên hệ',
       url: '/contact'
     }
   ]
@@ -87,7 +87,7 @@ const NavBar = () => {
                       fontSize: 20
                     }}
                   />
-                  SHOP CATEGORIES
+                  DANH MỤC
                 </div>
                 <DownOutlined />
               </Space>

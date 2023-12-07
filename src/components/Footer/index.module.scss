@@ -78,9 +78,11 @@
           margin-bottom: 12px;
         }
         .link {
+          margin-top: 0;
+          margin-bottom: 5px;
           a {
             text-decoration: none;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--green);
             &:hover {
               text-decoration: underline;
@@ -98,6 +100,7 @@
       @extend .maxWidthContainer;
       padding-block: var(--padding-md);
       p {
+        font-size: 13px;
         margin: 0;
       }
     }

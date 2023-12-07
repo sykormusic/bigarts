@@ -1,22 +1,47 @@
-import { Form, Button, Input } from 'antd'
-import styles from './index.module.scss'
+import { Button, Form, Input } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
+import { useDispatch } from 'react-redux'
+import { signupAPI } from '@/store/reducers/authSlice'
+import { notification } from 'antd'
+import { useSelector } from 'react-redux'
 
 const SignUp = () => {
+  const { isLoadingSignUp } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [form] = Form.useForm()
-  const onSignIn = (values) => {
-    console.log('🚀  ~ Sign In Values:', values)
+  const onSignUp = async (values) => {
+    const res = await dispatch(signupAPI(values))
+    if (res.payload) {
+      notification.success({
+        message: 'Success',
+        description: 'Sign up successfully'
+      })
+      navigate('/login')
+    }
   }
 
   return (
     <div className={styles.SignUp}>
       <div className={styles.container}>
         <span className={styles.title}>Sign Up</span>
-        <Form name='signInForm' form={form} onFinish={onSignIn} autoComplete='off' layout='vertical'>
+        <Form name='signInForm' form={form} onFinish={onSignUp} autoComplete='off' layout='vertical'>
           <Form.Item
             label='First Name'
-            name='firstName'
+            name='firstname'
+            rules={[
+              {
+                required: true,
+                message: 'Please input your first name!'
+              }
+            ]}
+          >
+            <Input size='large' placeholder='Input your first name' />
+          </Form.Item>
+          <Form.Item
+            label='Last Name'
+            name='lastname'
             rules={[
               {
                 required: true,
@@ -40,6 +65,19 @@ const SignUp = () => {
           </Form.Item>
 
           <Form.Item
+            label='Phone Number'
+            name='mobile'
+            rules={[
+              {
+                required: true,
+                message: 'Please input your phone number!'
+              }
+            ]}
+          >
+            <Input type='text' size='large' placeholder='Input your phone number' />
+          </Form.Item>
+
+          <Form.Item
             label='Password'
             name='password'
             rules={[
@@ -53,7 +91,7 @@ const SignUp = () => {
           </Form.Item>
 
           <div className={styles.footer}>
-            <Button type='primary' htmlType='submit' size='large'>
+            <Button type='primary' htmlType='submit' size='large' loading={isLoadingSignUp}>
               Sign Up
             </Button>
             <Button

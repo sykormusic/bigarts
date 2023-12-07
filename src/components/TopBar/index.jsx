@@ -7,19 +7,29 @@ const TopBar = () => {
     {
       key: 'en',
       label: 'English'
+    },
+    {
+      key: 'vi',
+      label: 'Tiếng Việt'
     }
   ]
   return (
     <div className={styles.TopBar}>
       <div className={styles.contentWrapper}>
-        <div className={styles.left}>Free Shipping Over $100 & Free Returns</div>
+        <div className={styles.left}>Miễn phí ship mọi đơn hàng trên 10 triệu đồng</div>
 
         <div className={styles.right}>
-          <span>Hotline: (+84) 123 456 789</span>
+          <span>Hotline: (+84) 827250515</span>
           <Dropdown menu={{ items: languages }}>
-            <a onClick={(e) => e.preventDefault()}>
+            <a
+              onClick={(e) => e.preventDefault()}
+              style={{
+                cursor: 'pointer'
+              }}
+            >
               <Space>
-                English
+                <img className={styles.flag} src='/images/vn-flag.png' alt='' />
+                Tiếng Việt
                 <DownOutlined />
               </Space>
             </a>

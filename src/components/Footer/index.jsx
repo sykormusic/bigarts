@@ -13,17 +13,17 @@ const Footer = () => {
   const showSubscribe = location.pathname === '/'
   const items = [
     {
-      label: 'Contact Us',
+      label: 'Liên hệ',
       value: (
         <div className={styles.contactUs}>
-          <p>
-            <span>Samazon Store</span>
+          <div>
+            <span>BigArts Store</span>
             <span>Thu Dau Mot City, Binh Duong</span>
             <div className={styles.spacer} />
             <span>+84123456789</span>
             <div className={styles.spacer} />
             <span>sykormusic@gmail.com</span>
-          </p>
+          </div>
           <Space className={styles.socials}>
             <a href='https://www.facebook.com/' rel='noreferrer' target='_blank'>
               <div className={styles.btn}>
@@ -40,62 +40,57 @@ const Footer = () => {
       )
     },
     {
-      label: 'Information',
+      label: 'Thông tin',
       links: [
         {
-          key: 1,
-          label: 'Privacy Policy',
-          url: '/#'
-        },
-        {
           key: 2,
-          label: 'Return Policy',
+          label: 'Chính sách đổi trả',
           url: '/#'
         },
         {
           key: 3,
-          label: 'Shipping Policy',
+          label: 'Chính sách vận chuyển',
           url: '/#'
         },
         {
           key: 4,
-          label: 'Terms & Conditions',
+          label: 'Các điều khoản và điều kiện',
           url: '/#'
         },
         {
           key: 5,
-          label: 'Blogs',
+          label: 'Blog',
           url: '/blogs'
         }
       ]
     },
     {
-      label: 'Account',
+      label: 'Tài khoản',
       links: [
         {
           key: 1,
-          label: 'Search',
+          label: 'Tìm kiếm',
           url: '/#'
         },
         {
           key: 2,
-          label: 'About us',
+          label: 'Về chúng tôi',
           url: '/#'
         },
         {
           key: 3,
-          label: 'FAQ',
+          label: 'Hỏi đáp',
           url: '/#'
         },
         {
           key: 4,
-          label: 'Contact',
+          label: 'Liên hệ',
           url: '/#'
         }
       ]
     },
     {
-      label: 'Quick Links',
+      label: 'Liên kết nhanh',
       links: [
         {
           key: 1,
@@ -127,13 +122,13 @@ const Footer = () => {
           <div className={styles.container}>
             <div className={styles.label}>
               <SendOutlined className={styles.icon} />
-              <span>Sign Up for Our Newsletter</span>
+              <span>Đăng ký nhận tin</span>
             </div>
             <div className={styles.input}>
               <Input
-                placeholder='Enter your email'
+                placeholder='Nhập email của bạn...'
                 allowClear
-                suffix={<Button type='primary'>Subscribe</Button>}
+                suffix={<Button type='primary'>Đăng ký</Button>}
                 size='large'
               />
             </div>
@@ -162,7 +157,7 @@ const Footer = () => {
       </div>
       <div className={styles.below}>
         <div className={styles.container}>
-          <p className={styles.copyright}>© 2023. Samazon by Sykor</p>
+          <p className={styles.copyright}>© 2023. BigArts Store by Sykor</p>
         </div>
       </div>
     </div>
