@@ -1,24 +1,24 @@
 import ProductItem from '@/components/ProductItem'
-import { getFeaturedProducts } from '@/store/reducers/homeSlice'
+import { getPopularProducts } from '@/store/reducers/homeSlice'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Title from '../Title'
 import styles from './index.module.scss'
 
-const FeaturedProducts = () => {
-  const { featuredProducts = [] } = useSelector((state) => state.home)
+const PopularProducts = () => {
+  const { popularProducts = [] } = useSelector((state) => state.home)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getFeaturedProducts())
+    dispatch(getPopularProducts())
   }, [])
 
   return (
-    <div className={styles.FeaturedProducts}>
-      <Title title='Featured Collection' />
+    <div className={styles.PopularProducts}>
+      <Title title='Popular' />
 
       <div className={styles.container}>
-        {featuredProducts.map((product) => (
+        {popularProducts.map((product) => (
           <ProductItem key={product._id} data={product} />
         ))}
       </div>
@@ -26,4 +26,4 @@ const FeaturedProducts = () => {
   )
 }
 
-export default FeaturedProducts
+export default PopularProducts

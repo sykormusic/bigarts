@@ -1,40 +1,18 @@
 import { Carousel } from 'antd'
 import styles from './index.module.scss'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { getSpecialProducts } from '@/store/reducers/homeSlice'
 
 const Banner = () => {
-  const colors = ['#BBBEC3', '#B3DEEF', '#F0E1D3', '#B8D5CF', '#E0D0CE']
-  const items = [
-    {
-      type: 'New Arrival',
-      label: 'Laptops Max',
-      description: 'From $1699 or $64.22/mo',
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      type: 'Best Sale',
-      label: 'Laptops Max',
-      description: 'From $1699 or $64.22/mo',
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      type: '15% Off',
-      label: 'Laptops Max',
-      description: 'From $1699 or $64.22/mo',
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      type: '30% Off',
-      label: 'Laptops Max',
-      description: 'From $1699 or $64.22/mo',
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      type: 'Free Shipping',
-      label: 'Laptops Max',
-      description: 'From $1699 or $64.22/mo',
-      image: 'https://picsum.photos/500/500'
-    }
-  ]
+  const { specialProducts = [] } = useSelector((state) => state.home)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getSpecialProducts())
+  }, [])
+
   return (
     <div className={styles.Banner}>
       <div className={styles.container}>
@@ -47,21 +25,22 @@ const Banner = () => {
             ))}
           </Carousel>
         </div> */}
-        {items.map((item, index) => (
+        {specialProducts.slice(0, 5).map((item, index) => (
           <div
-            key={item.type}
+            key={item._id}
             className={styles.item}
             style={{
-              gridArea: `otherItem${index + 1}`,
-              backgroundColor: colors[index]
+              gridArea: `otherItem${index + 1}`
             }}
           >
             <div className={styles.texts}>
-              <span className={styles.type}>{item.type}</span>
-              <h1>{item.label}</h1>
-              <span className={styles.description}>{item.description}</span>
+              <span className={styles.type}>{item.tags}</span>
+              <h3>{item.title}</h3>
+              {/* <span className={styles.description}>{item.description}</span> */}
             </div>
-            <img src={item.image} />
+            <div className={styles.image}>
+              <img src={item.images?.[0]?.url} />
+            </div>
           </div>
         ))}
       </div>

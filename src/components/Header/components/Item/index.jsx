@@ -13,7 +13,6 @@ const Item = ({ icon, title, subtitle, onClick = () => {}, menuItems }) => {
     )
   }
 
-  console.log('🚀  ~ menuItems:', menuItems)
   if (menuItems) {
     return (
       <Dropdown

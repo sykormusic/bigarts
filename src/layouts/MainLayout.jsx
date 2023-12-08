@@ -9,13 +9,20 @@ import Breadcrumb from '@/components/Breadcrumb'
 import { useEffect } from 'react'
 import { goToTop } from '@/utils/functions'
 import { useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { getCategoriesAPI } from '@/store/reducers/categorySlice'
 
 const MainLayout = () => {
+  const dispatch = useDispatch()
   const location = useLocation()
 
   useEffect(() => {
     goToTop()
   }, [location.pathname])
+
+  useEffect(() => {
+    dispatch(getCategoriesAPI())
+  }, [])
 
   return (
     <div className={styles.MainLayout}>

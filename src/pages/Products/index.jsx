@@ -1,68 +1,40 @@
 import ProductItem from '@/components/ProductItem'
 import styles from './index.module.scss'
 
-import { Row, Col, Select, Space, InputNumber, Form, Checkbox } from 'antd'
+import { getProductsAPI } from '@/store/reducers/productSlice'
+import { goToTop } from '@/utils/functions'
+import { Checkbox, Col, Form, InputNumber, Pagination, Row, Select, Space, Spin } from 'antd'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 const Products = () => {
   const [form] = Form.useForm()
+  const { isLoadingProducts, products = [] } = useSelector((state) => state.product)
+  const { categories = [] } = useSelector((state) => state.category)
+  const dispatch = useDispatch()
+  const { state } = useLocation()
 
-  const products = [
-    {
-      id: 1,
-      name: 'Product 1',
-      image: 'https://picsum.photos/500/500',
-      price: 1000000,
-      brand: 'Sony'
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      image: 'https://random.imagecdn.app/500/150',
-      price: 3000000,
-      brand: 'Toshiba'
-    },
-    {
-      id: 3,
-      name: 'Product 3',
-      image: 'https://random.imagecdn.app/500/200',
-      price: 6000000,
-      brand: 'Samsung'
-    },
-    {
-      id: 4,
-      name: 'Product 4',
-      image: 'https://picsum.photos/500/500',
-      price: 1000000,
-      brand: 'Sony'
-    },
-    {
-      id: 5,
-      name: 'Product 5',
-      image: 'https://picsum.photos/500/500',
-      price: 1000000,
-      brand: 'Apple'
-    },
-    {
-      id: 6,
-      name: 'Product 6',
-      image: 'https://picsum.photos/500/500',
-      price: 1000000,
-      brand: 'Samsung'
-    },
-    {
-      id: 7,
-      name: 'Product 7',
-      image: 'https://picsum.photos/500/500',
-      price: 1000000,
-      brand: 'Philips'
-    },
-    {
-      id: 8,
-      name: 'Product 8',
-      image: 'https://picsum.photos/500/500',
-      price: 1000000,
-      brand: 'Sony'
-    }
-  ]
+  const { categoryName } = state || {}
+
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(12)
+  const [formValues, setFormValues] = useState({
+    category: categoryName
+  })
+
+  const productsPerPage = (products || []).slice((page - 1) * pageSize, page * pageSize)
+
+  const getData = (params) => {
+    dispatch(
+      getProductsAPI({
+        ...params
+      })
+    )
+  }
+
+  useEffect(() => {
+    getData(formValues)
+  }, [JSON.stringify(formValues)])
 
   const _renderFilterItem = (title, content) => {
     return (
@@ -74,27 +46,34 @@ const Products = () => {
   }
   return (
     <div className={styles.Products}>
-      <Form form={form}>
+      <Form initialValues={formValues} form={form} onValuesChange={(values) => setFormValues(values)}>
         <Row gutter={[24, 24]}>
           <Col span={6}>
             <div className={styles.filterContainer}>
-              <p className={styles.title}>Filter by</p>
+              <p className={styles.title}>Lọc sản phẩm</p>
               <div className={styles.container}>
                 {_renderFilterItem(
-                  'Availability',
+                  'Danh mục',
                   <div>
-                    <Form.Item name='availability'>
+                    <Form.Item name='category'>
                       <Checkbox.Group>
                         <Space direction='vertical'>
-                          <Checkbox value='In Stock'>In Stock</Checkbox>
-                          <Checkbox value='Out of Stock'>Out of Stock</Checkbox>
+                          {/* <Checkbox key={'all'} value={undefined}>
+                            Tất cả
+                          </Checkbox> */}
+                          {categories.map((category) => (
+                            <Checkbox key={category.title} value={category.title}>
+                              {category.title}
+                            </Checkbox>
+                          ))}
                         </Space>
                       </Checkbox.Group>
                     </Form.Item>
                   </div>
                 )}
+
                 {_renderFilterItem(
-                  'Price',
+                  'Giá',
                   <div className={styles.priceContainer}>
                     <Form.Item name='priceFrom'>
                       <InputNumber prefix='$' min={0} placeholder='From' size='large' />
@@ -106,7 +85,7 @@ const Products = () => {
                 )}
 
                 {_renderFilterItem(
-                  'Size',
+                  'Kích cỡ',
                   <div>
                     <Form.Item name='size'>
                       <Checkbox.Group>
@@ -129,44 +108,58 @@ const Products = () => {
               <Col span={24}>
                 <div className={styles.sortContainer}>
                   <div className={styles.left}>
-                    <span>Sort by</span>
+                    <span>Sắp xếp</span>
                     <Form.Item name='sort'>
                       <Select
-                        placeholder='Sort by'
+                        placeholder='Sắp xếp theo...'
                         size='large'
                         options={[
                           {
-                            label: 'Best selling',
-                            value: 'Best selling'
+                            label: 'Mới nhất',
+                            value: '-createdAt'
                           },
                           {
                             label: 'A-Z',
-                            value: 'A-Z'
+                            value: 'title'
                           },
                           {
                             label: 'Z-A',
-                            value: 'Z-A'
+                            value: '-title'
                           },
                           {
-                            label: 'Price, low to high',
-                            value: 'Price, low to high'
+                            label: 'Giá thấp đến cao',
+                            value: 'price'
                           },
                           {
-                            label: 'Price, high to low',
-                            value: 'Price, high to low'
+                            label: 'Giá cao đến thấp',
+                            value: '-price'
                           }
                         ]}
                       />
                     </Form.Item>
                   </div>
-                  <div className={styles.right}>21 products</div>
+                  <div className={styles.right}>{products.length} sản phẩm</div>
                 </div>
               </Col>
               <Col span={24}>
-                <div className={styles.productContainer}>
-                  {products.map((product) => (
-                    <ProductItem key={product.id} data={product} />
-                  ))}
+                <div className={styles.productList}>
+                  <Spin spinning={isLoadingProducts}>
+                    <div className={styles.productContainer}>
+                      {productsPerPage.map((product) => (
+                        <ProductItem key={product._id} data={product} />
+                      ))}
+                    </div>
+                    <Pagination
+                      pageSize={pageSize}
+                      current={page}
+                      onChange={(p, l) => {
+                        goToTop()
+                        setPage(p)
+                        setPageSize(l)
+                      }}
+                      total={products.length}
+                    />
+                  </Spin>
                 </div>
               </Col>
             </Row>

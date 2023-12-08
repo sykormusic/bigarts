@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <ErrorPage />,
     handle: {
-      crumb: () => 'Home'
+      crumb: () => 'Trang chủ'
     },
     children: [
       {
@@ -34,20 +34,20 @@ const router = createBrowserRouter([
         path: '/login',
         element: <Login />,
         handle: {
-          crumb: () => 'Account'
+          crumb: () => 'Đăng nhập'
         }
       },
       {
         path: '/sign-up',
         element: <SignUp />,
         handle: {
-          crumb: () => 'Create Account'
+          crumb: () => 'Đăng ký'
         }
       },
       {
         path: '/products',
         handle: {
-          crumb: () => 'Products'
+          crumb: () => 'Tất cả sản phẩm'
         },
         children: [
           {
@@ -58,7 +58,7 @@ const router = createBrowserRouter([
             path: ':id',
             element: <Details />,
             handle: {
-              crumb: () => 'Details'
+              crumb: () => 'Chi tiết sản phẩm'
             }
           }
         ]
@@ -80,20 +80,18 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#00aa13',
-          borderRadius: 2
-        }
-      }}
-    >
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </Provider>
-    </ConfigProvider>
-  </React.StrictMode>
+  <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: '#00aa13',
+        borderRadius: 2
+      }
+    }}
+  >
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
+  </ConfigProvider>
 )

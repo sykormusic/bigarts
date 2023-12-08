@@ -1,4 +1,7 @@
 import authReducer from './reducers/authSlice'
+import categoryReducer from './reducers/categorySlice'
+import productReducer from './reducers/productSlice'
+import homeReducer from './reducers/homeSlice'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -9,14 +12,15 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({
-  auth: persistReducer(persistConfig, authReducer)
+  auth: persistReducer(persistConfig, authReducer),
+  category: categoryReducer,
+  product: productReducer,
+  home: homeReducer
   // Add other reducers as needed
 })
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
-
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

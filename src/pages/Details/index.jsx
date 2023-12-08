@@ -2,13 +2,28 @@ import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Button, Image, Typography, Rate, Carousel, Col, InputNumber, Row, Space, notification } from 'antd'
 import { useParams, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
+import { useDispatch } from 'react-redux'
+import { getAProductAPI } from '@/store/reducers/productSlice'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 const Details = () => {
+  const { productDetails = {} } = useSelector((state) => state.product)
   const navigate = useNavigate()
-  const { id } = useParams()
-  console.log('🚀  ~ id:', id)
+  const dispatch = useDispatch()
 
-  const images = ['https://picsum.photos/500/500', 'https://picsum.photos/500/500', 'https://picsum.photos/500/500']
+  const { images = [], brand, quantity, title, description, price, totalrating = 0 } = productDetails || {}
+  const { id } = useParams()
+
+  const getProductData = () => {
+    dispatch(getAProductAPI(id))
+  }
+
+  useEffect(() => {
+    if (id) {
+      getProductData()
+    }
+  }, [id])
 
   const onAddToCart = () => {
     notification.success({
@@ -24,8 +39,8 @@ const Details = () => {
             <Image.PreviewGroup>
               <Carousel infinite={false} arrows prevArrow={<PlusOutlined />} nextArrow={<PlusOutlined />}>
                 {images.map((image) => (
-                  <div key={image} className={styles.carouselItem}>
-                    <Image src={image} className={styles.carouselImage} />
+                  <div key={image._id} className={styles.carouselItem}>
+                    <Image src={image.url} className={styles.carouselImage} />
                   </div>
                 ))}
               </Carousel>
@@ -34,31 +49,29 @@ const Details = () => {
         </Col>
         <Col span={14}>
           <div className={styles.productInfo}>
-            <span className={styles.title}>iPhone 15 Pro Max Dark Grey</span>
+            <span className={styles.title}>{title}</span>
+            <span className={styles.brand}>{brand}</span>
             <div className={styles.rating}>
-              <Rate disabled defaultValue={2} />
+              <Rate disabled defaultValue={totalrating} />
             </div>
 
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua.
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
             <div className={styles.price}>
               <div className={styles.priceItem}>
                 <span>$</span>
-                <span>1000000</span>
+                <span>{price}</span>
               </div>
 
-              <Typography.Text delete className={styles.oldPrice}>
+              {/* <Typography.Text delete className={styles.oldPrice}>
                 $ 1200000
-              </Typography.Text>
+              </Typography.Text> */}
             </div>
-            <InputNumber size='large' defaultValue={1} min={1} />
+            <InputNumber size='large' defaultValue={1} max={quantity} min={1} />
             <div className={styles.buttons}>
               <Button size='large' onClick={onAddToCart}>
                 <Space>
                   <PlusOutlined />
-                  Add to Cart
+                  Thêm vào giỏ hàng
                 </Space>
               </Button>
               <Button
@@ -70,7 +83,7 @@ const Details = () => {
               >
                 <Space>
                   <ShoppingCartOutlined />
-                  Buy now
+                  Mua ngay
                 </Space>
               </Button>
             </div>

@@ -9,10 +9,16 @@
     cursor: pointer;
     border: 1px solid #e5e7eb;
   }
-  img {
-    width: 100%;
+  .image {
     height: 200px;
-    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
   }
   .texts {
     padding: var(--padding-md);

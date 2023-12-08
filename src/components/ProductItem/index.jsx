@@ -4,20 +4,22 @@ import { HeartOutlined } from '@ant-design/icons'
 
 const ProductItem = (props) => {
   const navigate = useNavigate()
-  const { data: { id, name, brand, image, price } = {} } = props
+  const { data: { _id, title, brand, images, price } = {} } = props
 
   return (
     <div
       className={styles.ProductItem}
-      key={id}
+      key={_id}
       onClick={() => {
-        navigate(`/products/${id}`)
+        navigate(`/products/${_id}`)
       }}
     >
-      <img src={image} alt='' />
+      <div className={styles.image}>
+        <img src={images?.[0]?.url} alt='' />
+      </div>
       <div className={styles.texts}>
         <span className={styles.brand}>{brand}</span>
-        <h1>{name}</h1>
+        <h1>{title}</h1>
         <h3>{price}</h3>
       </div>
       <button

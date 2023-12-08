@@ -71,11 +71,14 @@
     }
   }
 
-  .productContainer {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
-    width: 100%;
-    flex-wrap: nowrap;
+  .productList {
+    .productContainer {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+      flex-wrap: nowrap;
+      margin-bottom: 24px;
+    }
   }
 }
