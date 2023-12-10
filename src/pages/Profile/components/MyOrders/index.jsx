@@ -44,7 +44,7 @@ const MyOrders = () => {
               <div className={styles.productList}>
                 {(order.products || []).map((x, index) => (
                   <>
-                    <Link to={`/product/${x.product?._id}`}>
+                    <Link to={`/products/${x.product?._id}`}>
                       <div className={styles.product} key={x._id}>
                         <div className={styles.left}>
                           <Badge count={x.count}>
