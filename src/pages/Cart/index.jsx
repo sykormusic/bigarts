@@ -71,7 +71,7 @@ const Cart = () => {
       dataIndex: 'qty',
       key: 'qty',
       render: (text, row) => (
-        <InputNumber size='large' defaultValue={row.count} min={0} onChange={(val) => onChangeQty(row._id, val)} />
+        <InputNumber size='large' defaultValue={row.count} min={1} onChange={(val) => onChangeQty(row._id, val)} />
       )
     },
     {
