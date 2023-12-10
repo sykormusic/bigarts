@@ -24,6 +24,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Comment from './components/Comment'
 import styles from './index.module.scss'
 import { TAG_COLOR } from '@/utils/constants'
+import { useRef } from 'react'
+import { isEmpty } from 'lodash'
 
 const Details = () => {
   const [form] = Form.useForm()
@@ -32,6 +34,8 @@ const Details = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [count, setCount] = useState(1)
+
+  const reviewInputRef = useRef()
 
   const {
     _id,
@@ -73,6 +77,9 @@ const Details = () => {
   }
 
   const onRate = async (values) => {
+    if (values.star < 1 && values.star > 5) {
+      return
+    }
     const res = await dispatch(
       rateProductAPI({
         star: values.star,
@@ -141,8 +148,15 @@ const Details = () => {
               </Typography.Text> */}
             </div>
             <div className={styles.rating}>
-              <Rate defaultValue={totalrating} onChange={onRate} />
-              <span>({ratings.length} reviews)</span>
+              <Rate defaultValue={totalrating} disabled />
+              <span>
+                <span>({ratings.length} reviews)</span>
+                {!!user && (
+                  <Button type='link' onClick={() => reviewInputRef.current.focus()}>
+                    Write a review
+                  </Button>
+                )}
+              </span>
             </div>
             <Divider />
             <span className={styles.info}>
@@ -193,37 +207,44 @@ const Details = () => {
             <div dangerouslySetInnerHTML={{ __html: description }} />
           </div>
         </Col>
-        <Col span={24}>
-          <div className={styles.reviewContainer}>
-            <span className={styles.title}>Đánh giá sản phẩm</span>
-            <Form
-              form={form}
-              onFinish={onRate}
-              initialValues={{
-                star: myRating?.star,
-                comment: myRating?.comment
-              }}
-            >
-              <Form.Item name='star'>
-                <Rate />
-              </Form.Item>
-              <Form.Item name='comment'>
-                <Input.TextArea rows={4} placeholder='Nhập đánh giá...' />
-              </Form.Item>
 
-              <Form.Item>
-                <Button type='primary' htmlType='submit'>
-                  Đánh giá
-                </Button>
-              </Form.Item>
-            </Form>
+        {!user && isEmpty(ratings) ? null : (
+          <Col span={24}>
+            <div className={styles.reviewContainer}>
+              <span className={styles.title}>Đánh giá sản phẩm</span>
+              {!!user && (
+                <>
+                  <Form
+                    form={form}
+                    onFinish={onRate}
+                    initialValues={{
+                      star: myRating?.star,
+                      comment: myRating?.comment
+                    }}
+                  >
+                    <Form.Item name='star'>
+                      <Rate />
+                    </Form.Item>
+                    <Form.Item name='comment'>
+                      <Input.TextArea rows={4} placeholder='Nhập đánh giá...' ref={reviewInputRef} />
+                    </Form.Item>
 
-            {ratings.length > 0 ? <Divider /> : null}
-            {ratings.map((x) => (
-              <Comment key={x._id} data={x} />
-            ))}
-          </div>
-        </Col>
+                    <Form.Item>
+                      <Button type='primary' htmlType='submit'>
+                        Đánh giá
+                      </Button>
+                    </Form.Item>
+                  </Form>
+
+                  {ratings.length > 0 ? <Divider /> : null}
+                </>
+              )}
+              {ratings.map((x) => (
+                <Comment key={x._id} data={x} />
+              ))}
+            </div>
+          </Col>
+        )}
       </Row>
     </div>
   )
