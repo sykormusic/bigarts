@@ -142,7 +142,7 @@ const Cart = () => {
             <ShoppingCartOutlined />
           </Space>
         </Button>
-        <Button type='primary' size='large' onClick={onCheckout}>
+        <Button type='primary' size='large' onClick={onCheckout} disabled={products.length === 0}>
           <Space>
             Thanh toán
             <ArrowRightOutlined />

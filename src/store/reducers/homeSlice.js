@@ -5,14 +5,18 @@ import axios from 'axios'
 const initialState = {
   featuredProducts: [],
   specialProducts: [],
-  popularProducts: []
+  popularProducts: [],
+  isLoadingFeaturedProducts: false,
+  isLoadingSpecialProducts: false,
+  isLoadingPopularProducts: false
 }
 
 export const getFeaturedProducts = createAsyncThunk('home/get-featured', async () => {
   try {
     const { data } = await axios.get(`${BASE_API}/product`, {
       params: {
-        tags: 'featured'
+        tags: 'featured',
+        limit: 10
       }
     })
     return data
@@ -25,7 +29,8 @@ export const getSpecialProducts = createAsyncThunk('home/get-special', async () 
   try {
     const { data } = await axios.get(`${BASE_API}/product`, {
       params: {
-        tags: 'special'
+        tags: 'special',
+        limit: 5
       }
     })
     return data
@@ -38,7 +43,8 @@ export const getPopularProducts = createAsyncThunk('home/get-popular', async () 
   try {
     const { data } = await axios.get(`${BASE_API}/product`, {
       params: {
-        tags: 'popular'
+        tags: 'popular',
+        limit: 10
       }
     })
     return data
@@ -57,15 +63,36 @@ export const homeSlice = createSlice({
     // }
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
+    builder.addCase(getFeaturedProducts.pending, (state) => {
+      state.isLoadingFeaturedProducts = true
+    })
+    builder.addCase(getSpecialProducts.pending, (state) => {
+      state.isLoadingSpecialProducts = true
+    })
+    builder.addCase(getPopularProducts.pending, (state) => {
+      state.isLoadingPopularProducts = true
+    })
     builder.addCase(getFeaturedProducts.fulfilled, (state, action) => {
       state.featuredProducts = action.payload
+      state.isLoadingFeaturedProducts = false
     })
     builder.addCase(getSpecialProducts.fulfilled, (state, action) => {
       state.specialProducts = action.payload
+      state.isLoadingSpecialProducts = false
     })
     builder.addCase(getPopularProducts.fulfilled, (state, action) => {
       state.popularProducts = action.payload
+      state.isLoadingPopularProducts = false
+    })
+
+    builder.addCase(getFeaturedProducts.rejected, (state) => {
+      state.isLoadingFeaturedProducts = false
+    })
+    builder.addCase(getSpecialProducts.rejected, (state) => {
+      state.isLoadingSpecialProducts = false
+    })
+    builder.addCase(getPopularProducts.rejected, (state) => {
+      state.isLoadingPopularProducts = false
     })
   }
 })

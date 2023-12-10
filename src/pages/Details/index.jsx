@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import Comment from './components/Comment'
 import styles from './index.module.scss'
+import { TAG_COLOR } from '@/utils/constants'
 
 const Details = () => {
   const [form] = Form.useForm()
@@ -151,7 +152,7 @@ const Details = () => {
               Category: <Tag color='blue'>{category}</Tag>
             </span>
             <span className={styles.info}>
-              Tag: <Tag color='green'>{tags}</Tag>
+              Tag: <Tag color={TAG_COLOR[tags]}>{tags}</Tag>
             </span>
             <Divider />
             <div className={styles.buttons}>

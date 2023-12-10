@@ -74,7 +74,7 @@ const Checkout = () => {
   if (orderStatus === 'success') {
     return (
       <Result
-        title='Thanh toán thành công'
+        title='Đặt hàng thành công'
         subTitle='Cảm ơn quý khách đã mua hàng'
         extra={[
           <Button key='back' type='primary' icon={<ArrowLeftOutlined />} onClick={() => navigate('/')}>

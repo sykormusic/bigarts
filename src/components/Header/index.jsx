@@ -1,5 +1,5 @@
 import { getMyWishlistAPI, logoutAPI } from '@/store/reducers/authSlice'
-import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { HeartOutlined, LogoutOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Button, Input } from 'antd'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -67,14 +67,36 @@ const Header = () => {
               {
                 label: 'Trang cá nhân',
                 key: 'profile',
-                onClick: () => navigate(`/profile/info`)
+                onClick: () => navigate(`/profile/info`),
+                icon: <UserOutlined />
               },
               {
-                label: 'Đăng xuất',
+                label: 'Đơn hàng của tôi',
+                key: 'orders',
+                onClick: () => navigate(`/profile/orders`),
+                icon: <ShoppingCartOutlined />
+              },
+              {
+                label: (
+                  <span
+                    style={{
+                      color: 'var(--red)'
+                    }}
+                  >
+                    Đăng xuất
+                  </span>
+                ),
                 key: 'logout',
                 onClick: () => {
                   dispatch(logoutAPI())
-                }
+                },
+                icon: (
+                  <LogoutOutlined
+                    style={{
+                      color: 'var(--red)'
+                    }}
+                  />
+                )
               }
             ]
           }

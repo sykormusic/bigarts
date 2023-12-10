@@ -3,12 +3,13 @@ import styles from './index.module.scss'
 
 import { getProductsAPI } from '@/store/reducers/productSlice'
 import { goToTop } from '@/utils/functions'
-import { Checkbox, Col, Form, InputNumber, Pagination, Row, Select, Space, Spin } from 'antd'
+import { Button, Checkbox, Col, Form, InputNumber, Pagination, Row, Select, Space, Spin } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
 import { getBrandsAPI } from '@/store/reducers/brandSlice'
-import { debounce } from 'lodash'
+import { debounce, isEmpty } from 'lodash'
+import { CloseOutlined } from '@ant-design/icons'
 const Products = () => {
   const [form] = Form.useForm()
   const { isLoadingProducts, products = [] } = useSelector((state) => state.product)
@@ -17,18 +18,19 @@ const Products = () => {
   const dispatch = useDispatch()
   const { state } = useLocation()
 
-  const { categoryName } = state || {}
+  const { categoryName, tags } = state || {}
 
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(12)
   const [formValues, setFormValues] = useState({
-    category: [categoryName]
+    category: [categoryName],
+    tags: [tags]
   })
 
   const productsPerPage = (products || []).slice((page - 1) * pageSize, page * pageSize)
 
   useEffect(() => {
-    if (categoryName !== formValues.category?.[0]) {
+    if (categoryName !== formValues?.category?.[0]) {
       setFormValues({
         category: [categoryName]
       })
@@ -37,6 +39,17 @@ const Products = () => {
       })
     }
   }, [categoryName])
+
+  useEffect(() => {
+    if (tags !== formValues.tags) {
+      setFormValues({
+        tags: [tags]
+      })
+      form.setFieldsValue({
+        tags: [tags]
+      })
+    }
+  }, [tags])
 
   const getBrands = () => {
     dispatch(getBrandsAPI())
@@ -73,7 +86,34 @@ const Products = () => {
         <Row gutter={[24, 24]}>
           <Col span={6}>
             <div className={styles.filterContainer}>
-              <p className={styles.title}>Lọc sản phẩm</p>
+              <div className={styles.header}>
+                <span className={styles.title}>Lọc sản phẩm</span>
+                {!isEmpty(formValues) && (
+                  <Button
+                    danger
+                    size='small'
+                    icon={
+                      <CloseOutlined
+                        style={{
+                          fontSize: 12
+                        }}
+                      />
+                    }
+                    onClick={() => {
+                      setFormValues({})
+                      form.setFieldsValue({
+                        category: undefined,
+                        tags: undefined,
+                        'price[lte]': undefined,
+                        'price[gte]': undefined,
+                        brand: undefined
+                      })
+                    }}
+                  >
+                    Bỏ lọc
+                  </Button>
+                )}
+              </div>
               <div className={styles.container}>
                 {_renderFilterItem(
                   'Danh mục',
@@ -96,13 +136,43 @@ const Products = () => {
                 )}
 
                 {_renderFilterItem(
+                  'Phân loại',
+                  <div>
+                    <Form.Item name='tags'>
+                      <Checkbox.Group>
+                        <Space direction='vertical'>
+                          {[
+                            {
+                              label: 'Sản phẩm nổi bật',
+                              value: 'featured'
+                            },
+                            {
+                              label: 'Sản phẩm phổ biến',
+                              value: 'popular'
+                            },
+                            {
+                              label: 'Sản phẩm đặc biệt',
+                              value: 'special'
+                            }
+                          ].map((item) => (
+                            <Checkbox key={item.value} value={item.value}>
+                              {item.label}
+                            </Checkbox>
+                          ))}
+                        </Space>
+                      </Checkbox.Group>
+                    </Form.Item>
+                  </div>
+                )}
+
+                {_renderFilterItem(
                   'Giá',
                   <div className={styles.priceContainer}>
                     <Form.Item name='price[gte]'>
-                      <InputNumber prefix='' min={0} placeholder='From' size='large' />
+                      <InputNumber prefix='' min={0} placeholder='Từ' size='large' />
                     </Form.Item>
                     <Form.Item name='price[lte]'>
-                      <InputNumber prefix='' min={0} placeholder='To' size='large' />
+                      <InputNumber prefix='' min={0} placeholder='Đến' size='large' />
                     </Form.Item>
                   </div>
                 )}

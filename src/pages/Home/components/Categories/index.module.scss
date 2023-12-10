@@ -1,11 +1,13 @@
 .Categories {
   padding: var(--padding-lg);
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
   border-radius: var(--my-border-radius);
   table {
     width: 100%;
     border-collapse: collapse;
     border-spacing: 0;
+    table-layout: fixed;
   }
 }

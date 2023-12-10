@@ -19,6 +19,7 @@ const Item = ({ icon, title, subtitle, onClick = () => {}, menuItems }) => {
         menu={{
           items: menuItems
         }}
+        arrow
       >
         {renderItem()}
       </Dropdown>
