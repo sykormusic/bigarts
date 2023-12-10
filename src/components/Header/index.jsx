@@ -1,4 +1,4 @@
-import { logoutAPI } from '@/store/reducers/authSlice'
+import { getMyWishlistAPI, logoutAPI } from '@/store/reducers/authSlice'
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Button, Input } from 'antd'
 import { useState } from 'react'
@@ -7,16 +7,22 @@ import { useNavigate } from 'react-router-dom'
 import CartDrawer from '../CartDrawer'
 import Item from './components/Item'
 import styles from './index.module.scss'
+import { useEffect } from 'react'
 
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
+  const { myWishlist = [] } = useSelector((state) => state.auth)
   const {
     cart: { products = [] }
   } = useSelector((state) => state.cart)
 
   const [isCartOpen, setIsCartOpen] = useState(false)
+
+  useEffect(() => {
+    dispatch(getMyWishlistAPI())
+  }, [])
 
   const headerItems = [
     // {
@@ -30,7 +36,11 @@ const Header = () => {
       title: 'Sản phẩm',
       subtitle: 'Yêu thích',
       key: 'wishlist',
-      icon: <HeartOutlined />,
+      icon: (
+        <Badge count={myWishlist.length}>
+          <HeartOutlined />
+        </Badge>
+      ),
       onClick: () => {
         navigate('/profile/wishlist')
       }

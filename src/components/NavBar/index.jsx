@@ -26,9 +26,9 @@ const NavBar = () => {
       url: '/blogs'
     },
     {
-      key: 'contact',
+      key: 'about',
       label: 'Liên hệ',
-      url: '/contact'
+      url: '/about'
     }
   ]
 

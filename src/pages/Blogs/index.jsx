@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux'
 import { Tag } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { DislikeFilled, EyeFilled, LikeFilled } from '@ant-design/icons'
+import { isEmpty } from 'lodash'
+import { Space } from 'antd'
 
 const { Meta } = Card
 
@@ -70,13 +72,7 @@ const Blogs = () => {
               key={item._id}
               hoverable
               onClick={() => navigate(`/blogs/${item._id}`)}
-              cover={
-                <Skeleton.Image
-                  style={{
-                    width: '100%'
-                  }}
-                />
-              }
+              cover={!isEmpty(item.images) && <img alt={item.title} src={item.images?.[0]?.url} />}
               actions={[
                 <div key='views' onClick={() => navigate(`/blogs/${item._id}`)}>
                   <EyeFilled /> {item.numViews}
@@ -111,7 +107,15 @@ const Blogs = () => {
                 </div>
               ]}
             >
-              <Meta title={item.title} description={<Tag color='green'>Tác giả: {item.author}</Tag>} />
+              <Meta
+                title={item.title}
+                description={
+                  <Space direction='vertical'>
+                    <div dangerouslySetInnerHTML={{ __html: (item.description || '').slice(0, 70) }} />
+                    <Tag color='green'>Tác giả: {item.author}</Tag>
+                  </Space>
+                }
+              />
             </Card>
           ))}
         </div>

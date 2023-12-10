@@ -75,7 +75,7 @@ const Footer = () => {
         {
           key: 2,
           label: 'Về chúng tôi',
-          url: '/#'
+          url: '/about'
         },
         {
           key: 3,
@@ -85,7 +85,7 @@ const Footer = () => {
         {
           key: 4,
           label: 'Liên hệ',
-          url: '/#'
+          url: '/about'
         }
       ]
     },

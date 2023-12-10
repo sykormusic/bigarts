@@ -26,7 +26,7 @@ const Contact = () => {
         <Col span={18}>
           <div className={styles.contactUs}>
             <div>
-              <span>BigArts Store</span>
+              <h1>BigArts Store</h1>
               <span>Thu Dau Mot City, Binh Duong</span>
               <div className={styles.spacer} />
               <span>+84123456789</span>

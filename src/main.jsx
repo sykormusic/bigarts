@@ -48,14 +48,9 @@ const router = createBrowserRouter([
           crumb: () => 'Đăng ký'
         }
       },
+
       {
         path: '/about',
-        handle: {
-          crumb: () => 'Giới thiệu'
-        }
-      },
-      {
-        path: '/contact',
         element: <Contact />,
         handle: {
           crumb: () => 'Liên hệ'

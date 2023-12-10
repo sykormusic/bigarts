@@ -8,7 +8,7 @@ import { Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import { Empty } from 'antd'
-import { renderMoney } from '@/utils/functions'
+import { formatDate, renderMoney } from '@/utils/functions'
 
 const MyOrders = () => {
   const dispatch = useDispatch()
@@ -28,10 +28,10 @@ const MyOrders = () => {
         <div className={styles.orderBody}>
           <Row className={styles.orderItem} gutter={[12, 12]}>
             <Col span={8}>Ngày tạo</Col>
-            <Col span={16}>{order.createdAt}</Col>
-
+            <Col span={16}>{formatDate(order.createdAt)}</Col>
+            {/* 
             <Col span={8}>Mã đơn hàng</Col>
-            <Col span={16}>{order._id}</Col>
+            <Col span={16}>{order._id}</Col> */}
 
             <Col span={8}>Tiền đơn hàng</Col>
             <Col span={16}>{order.paymentIntent?.amount}</Col>

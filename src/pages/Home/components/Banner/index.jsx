@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
+import { Tag } from 'antd'
+import { TAG_COLOR } from '@/utils/constants'
 
 const Banner = () => {
   const { specialProducts = [] } = useSelector((state) => state.home)
@@ -35,7 +37,11 @@ const Banner = () => {
             onClick={() => navigate(`/products/${item._id}`)}
           >
             <div className={styles.texts}>
-              <span className={styles.type}>{item.tags}</span>
+              <div>
+                <Tag className={styles.type} color={TAG_COLOR[item.tags]} bordered={false}>
+                  {item.tags}
+                </Tag>
+              </div>
               <h3>{item.title}</h3>
               {/* <span className={styles.description}>{item.description}</span> */}
             </div>
