@@ -1,10 +1,21 @@
 import styles from './index.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { HeartOutlined } from '@ant-design/icons'
+import { useDispatch } from 'react-redux'
+import { addToWishListAPI } from '@/store/reducers/productSlice'
 
 const ProductItem = (props) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { data: { _id, title, brand, images, price } = {} } = props
+
+  const onAddToWishList = (id) => {
+    dispatch(
+      addToWishListAPI({
+        prodId: id
+      })
+    )
+  }
 
   return (
     <div
@@ -20,7 +31,7 @@ const ProductItem = (props) => {
       <div className={styles.texts}>
         <span className={styles.brand}>{brand}</span>
         <h1>{title}</h1>
-        <h3>{price}</h3>
+        <h3 className={styles.price}>{price}</h3>
       </div>
       <button
         type='button'
@@ -28,6 +39,7 @@ const ProductItem = (props) => {
         onClick={(e) => {
           e.stopPropagation()
           e.preventDefault()
+          onAddToWishList(_id)
         }}
       >
         <HeartOutlined />

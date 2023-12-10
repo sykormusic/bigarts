@@ -1,0 +1,23 @@
+.Profile {
+  .title {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+  .container {
+    border-radius: var(--my-border-radius);
+    background-color: #fff;
+    padding: var(--padding-lg);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    :global {
+      .ant-tabs {
+        min-height: 400px;
+      }
+    }
+  }
+}

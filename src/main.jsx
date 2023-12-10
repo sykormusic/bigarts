@@ -1,20 +1,20 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
 import { ConfigProvider } from 'antd'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './pages/Home'
-import Details from './pages/Details'
+import { PersistGate } from 'redux-persist/integration/react'
 import ErrorPage from './error-page'
+import './index.css'
 import MainLayout from './layouts/MainLayout'
-import Login from './pages/Login'
-import SignUp from './pages/SignUp'
-import Products from './pages/Products'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
+import Details from './pages/Details'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Products from './pages/Products'
+import SignUp from './pages/SignUp'
 import { persistor, store } from './store'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
+import Profile from './pages/Profile'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +45,64 @@ const router = createBrowserRouter([
         }
       },
       {
+        path: '/about',
+        handle: {
+          crumb: () => 'Giới thiệu'
+        }
+      },
+      {
+        path: '/contact',
+        handle: {
+          crumb: () => 'Liên hệ'
+        }
+      },
+      {
+        path: '/blogs',
+        handle: {
+          crumb: () => 'Blog'
+        }
+      },
+      {
+        path: '/blogs/:id',
+        element: <div />,
+        handle: {
+          crumb: () => 'Chi tiết blog'
+        }
+      },
+      {
+        path: '/profile',
+        handle: {
+          crumb: () => 'Trang cá nhân'
+        },
+        children: [
+          {
+            index: true,
+            element: <Profile />
+          },
+          {
+            path: 'info',
+            element: <Profile />,
+            handle: {
+              crumb: () => 'Thông tin cá nhân'
+            }
+          },
+          {
+            path: 'orders',
+            element: <Profile />,
+            handle: {
+              crumb: () => 'Đơn hàng'
+            }
+          },
+          {
+            path: 'wishlist',
+            element: <Profile />,
+            handle: {
+              crumb: () => 'Danh sách yêu thích'
+            }
+          }
+        ]
+      },
+      {
         path: '/products',
         handle: {
           crumb: () => 'Tất cả sản phẩm'
@@ -65,11 +123,17 @@ const router = createBrowserRouter([
       },
       {
         path: '/cart',
-        element: <Cart />
+        element: <Cart />,
+        handle: {
+          crumb: () => 'Giỏ hàng'
+        }
       },
       {
         path: '/checkout',
-        element: <Checkout />
+        element: <Checkout />,
+        handle: {
+          crumb: () => 'Thanh toán'
+        }
       },
       {
         path: '*',

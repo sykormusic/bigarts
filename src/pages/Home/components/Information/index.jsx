@@ -13,32 +13,32 @@ const Information = () => {
   const items = [
     {
       key: 1,
-      label: 'Free Shipping',
-      description: 'From all orders over $100',
+      label: 'Miễn phí vận chuyển',
+      description: 'Đơn trên 10 triệu VNĐ',
       icon: <CarOutlined />
     },
     {
       key: 2,
-      label: 'Daily Surprise Offers',
-      description: 'Save up to 25% off',
+      label: 'Nhiều ưu đãi hấp dẫn',
+      description: 'Lên đến 50%',
       icon: <GiftOutlined />
     },
     {
       key: 3,
-      label: 'Support 24/7',
-      description: 'Shop with an expert',
+      label: 'Hỗ trợ 24/7',
+      description: 'Nhanh chóng, tiện lợi',
       icon: <CustomerServiceOutlined />
     },
     {
       key: 4,
-      label: 'Affordable Prices',
-      description: 'Get Factory Default Price',
+      label: 'Giá cả phải chăng',
+      description: 'Chất lượng tốt',
       icon: <DollarOutlined />
     },
     {
       key: 5,
-      label: 'Secure Payments',
-      description: '100% Protected',
+      label: 'Thanh toán bảo mật',
+      description: '100% an toàn',
       icon: <CreditCardOutlined />
     }
   ]

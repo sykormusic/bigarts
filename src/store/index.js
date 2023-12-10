@@ -2,6 +2,7 @@ import authReducer from './reducers/authSlice'
 import categoryReducer from './reducers/categorySlice'
 import productReducer from './reducers/productSlice'
 import homeReducer from './reducers/homeSlice'
+import cartReducer from './reducers/cartSlice'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   auth: persistReducer(persistConfig, authReducer),
   category: categoryReducer,
   product: productReducer,
-  home: homeReducer
+  home: homeReducer,
+  cart: cartReducer
   // Add other reducers as needed
 })
 

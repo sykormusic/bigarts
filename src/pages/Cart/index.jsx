@@ -1,60 +1,57 @@
+import { emptyCartAPI, getUserCartAPI, removeFromCart, updateCartQty } from '@/store/reducers/cartSlice'
 import { ArrowRightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Button, InputNumber, Space, Table, Tooltip } from 'antd'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Cart = () => {
   const navigate = useNavigate()
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const dispatch = useDispatch()
+  const {
+    cart: { products = [], cartTotal },
+    loadingGetCart = false
+  } = useSelector((state) => state.cart)
 
-  const items = [
-    {
-      id: 1,
-      title: 'iPhone 13 Pro Max Dark Grey',
-      price: 1000000,
-      size: 'Large',
-      quantity: 1,
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      id: 2,
-      title: 'Sony A7',
-      price: 2300000,
-      quantity: 2,
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      id: 3,
-      title: 'iPhone 13 Pro Max Dark Grey',
-      price: 1000000,
-      size: 'Large',
-      quantity: 1,
-      image: 'https://picsum.photos/500/500'
-    },
-    {
-      id: 4,
-      title: 'Sony A7',
-      price: 2300000,
-      quantity: 1,
-      image: 'https://picsum.photos/500/500'
-    }
-  ]
+  const onRemoveItem = (id) => {
+    dispatch(removeFromCart(id))
+  }
+
+  const onClearCart = () => {
+    dispatch(emptyCartAPI())
+  }
+
+  const onChangeQty = (id, qty) => {
+    dispatch(
+      updateCartQty({
+        _id: id,
+        count: qty
+      })
+    )
+  }
+
+  const onCheckout = async () => {
+    navigate('/checkout')
+  }
+
+  useEffect(() => {
+    dispatch(getUserCartAPI())
+  }, [])
 
   const columns = [
     {
-      title: 'Title',
-      dataIndex: 'title',
+      title: 'Sản phẩm',
+      dataIndex: 'product',
       key: 'title',
-      render: (text, row) => (
+      render: (product = {}, row) => (
         <div className={styles.titleContainer}>
           <div className={styles.image}>
-            <img src={row.image} alt={row.title} />
+            <img src={product.images?.[0]?.url} alt={row.title} />
           </div>
           <div className={styles.content}>
             <div className={styles.title}>
-              <Link to={`/products/${row.id}`}>{row.title}</Link>
+              <Link to={`/products/${product?._id}`}>{product?.title}</Link>
             </div>
             {!!row.size && <div className={styles.size}>Size: {row.size}</div>}
             {!!row.color && <div className={styles.color}>Color: {row.color}</div>}
@@ -63,30 +60,33 @@ const Cart = () => {
       )
     },
     {
-      title: 'Price',
+      title: 'Giá',
+      dataIndex: 'product',
+      key: 'price',
+      render: (product) => <div>{product.price}</div>
+    },
+    {
+      title: 'Số lượng',
+      dataIndex: 'qty',
+      key: 'qty',
+      render: (text, row) => (
+        <InputNumber size='large' defaultValue={row.count} min={0} onChange={(val) => onChangeQty(row._id, val)} />
+      )
+    },
+    {
+      title: 'Tổng tiền',
       dataIndex: 'price',
-      key: 'price'
-    },
-    {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      render: (text, row) => <InputNumber size='large' defaultValue={row.quantity} min={0} />
-    },
-    {
-      title: 'Total',
-      dataIndex: 'total',
       key: 'total',
-      render: (text, row) => <div>{row.price * row.quantity}</div>
+      render: (price, row) => <div>{price * row.count}</div>
     },
     {
-      title: 'Action',
+      title: 'Thao tác',
       dataIndex: 'action',
       key: 'action',
       align: 'center',
-      render: () => (
+      render: (_, row) => (
         <Tooltip title='Remove' placement='right'>
-          <Button className={styles.remove} danger type='default'>
+          <Button className={styles.remove} danger type='default' onClick={() => onRemoveItem(row._id)}>
             <DeleteOutlined />
           </Button>
         </Tooltip>
@@ -95,36 +95,35 @@ const Cart = () => {
   ]
 
   const getTotal = () => {
-    let total = 0
-    selectedRowKeys.forEach((key) => {
-      const item = items.find((i) => i.id === key)
-      total += item.price * item.quantity
-    })
-    return total
+    return cartTotal
   }
 
   return (
     <div className={styles.Cart}>
       <div className={styles.title}>
-        <h1>Cart</h1>
-        <Button type='default' size='large' danger icon={<DeleteOutlined />}>
-          Clear All
+        <h1>Giỏ hàng</h1>
+        <Button
+          type='default'
+          size='large'
+          danger
+          icon={<DeleteOutlined />}
+          onClick={onClearCart}
+          disabled={products.length === 0}
+        >
+          Xoá tất cả
         </Button>
       </div>
       <div className={styles.tableContainer}>
         <Table
-          rowKey='id'
-          rowSelection={{
-            selectedRowKeys,
-            onChange: (selectedRowKeys) => setSelectedRowKeys(selectedRowKeys)
-          }}
-          dataSource={items}
+          rowKey='_id'
+          dataSource={products}
           bordered
           columns={columns}
+          loading={loadingGetCart}
           pagination={false}
           footer={() => (
             <div className={styles.summary}>
-              <div className={styles.total}>Total: {getTotal()}</div>
+              <div className={styles.total}>Tổng tiền: {getTotal()}</div>
             </div>
           )}
         />
@@ -138,20 +137,13 @@ const Cart = () => {
           }}
         >
           <Space>
-            Continue Shopping
+            Tiếp tục mua hàng
             <ShoppingCartOutlined />
           </Space>
         </Button>
-        <Button
-          type='primary'
-          size='large'
-          disabled={!selectedRowKeys.length}
-          onClick={() => {
-            navigate('/checkout')
-          }}
-        >
+        <Button type='primary' size='large' onClick={onCheckout}>
           <Space>
-            Checkout
+            Thanh toán
             <ArrowRightOutlined />
           </Space>
         </Button>

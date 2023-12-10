@@ -1,13 +1,13 @@
-import { Carousel } from 'antd'
-import styles from './index.module.scss'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { useEffect } from 'react'
 import { getSpecialProducts } from '@/store/reducers/homeSlice'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
 
 const Banner = () => {
   const { specialProducts = [] } = useSelector((state) => state.home)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     dispatch(getSpecialProducts())
@@ -32,6 +32,7 @@ const Banner = () => {
             style={{
               gridArea: `otherItem${index + 1}`
             }}
+            onClick={() => navigate(`/products/${item._id}`)}
           >
             <div className={styles.texts}>
               <span className={styles.type}>{item.tags}</span>

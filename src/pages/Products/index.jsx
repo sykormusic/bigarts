@@ -76,16 +76,16 @@ const Products = () => {
                   'Giá',
                   <div className={styles.priceContainer}>
                     <Form.Item name='priceFrom'>
-                      <InputNumber prefix='$' min={0} placeholder='From' size='large' />
+                      <InputNumber prefix='' min={0} placeholder='From' size='large' />
                     </Form.Item>
                     <Form.Item name='priceTo'>
-                      <InputNumber prefix='$' min={0} placeholder='To' size='large' />
+                      <InputNumber prefix='' min={0} placeholder='To' size='large' />
                     </Form.Item>
                   </div>
                 )}
-
+                {/* 
                 {_renderFilterItem(
-                  'Kích cỡ',
+                  '',
                   <div>
                     <Form.Item name='size'>
                       <Checkbox.Group>
@@ -99,7 +99,7 @@ const Products = () => {
                       </Checkbox.Group>
                     </Form.Item>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </Col>

@@ -1,34 +1,37 @@
 import { DeleteOutlined } from '@ant-design/icons'
 import { Button, Drawer, Tooltip } from 'antd'
-import styles from './index.module.scss'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
+import { useDispatch } from 'react-redux'
+import { getUserCartAPI, removeFromCart } from '@/store/reducers/cartSlice'
+import { useEffect } from 'react'
+import { Spin } from 'antd'
 
 const CartDrawer = ({ open, onClose = () => {} }) => {
+  const {
+    cart: { products = [], cartTotal },
+    loadingGetCart = false
+  } = useSelector((state) => state.cart)
+  const { user } = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const items = [
-    {
-      title: 'iPhone 13 Pro Max Dark Grey',
-      price: 1000000,
-      size: 'Large',
-      quantity: 1
-    },
-    {
-      title: 'Sony A7',
-      price: 2300000,
-      quantity: 1
-    },
-    {
-      title: 'iPhone 13 Pro Max Dark Grey',
-      price: 1000000,
-      size: 'Large',
-      quantity: 1
-    },
-    {
-      title: 'Sony A7',
-      price: 2300000,
-      quantity: 1
+
+  const onRemoveItem = (id) => {
+    dispatch(removeFromCart(id))
+  }
+
+  const onCheckout = () => {
+    onClose()
+    navigate('/checkout')
+  }
+
+  useEffect(() => {
+    if (user) {
+      dispatch(getUserCartAPI())
     }
-  ]
+  }, [user, open])
+
   return (
     <Drawer
       title='Giỏ hàng'
@@ -37,36 +40,38 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
       onClose={onClose}
       open={open}
       className={styles.CartDrawer}
-      extra={<span>Số lượng: {items.length}</span>}
+      extra={<span>Số lượng: {products.length}</span>}
     >
-      <div className={styles.items}>
-        {items.map((item) => (
-          <div className={styles.item} key={item.title}>
-            <div className={styles.left}>
-              <div className={styles.image}>
-                <img src='https://picsum.photos/500/500' alt='' />
+      <Spin spinning={loadingGetCart}>
+        <div className={styles.items}>
+          {products.map((item) => (
+            <div className={styles.item} key={item.title}>
+              <div className={styles.left}>
+                <div className={styles.image}>
+                  <img src={item.product?.images?.[0]?.url} alt='' />
+                </div>
+                <div className={styles.content}>
+                  <div className={styles.title}>{item.product?.title}</div>
+                  <div className={styles.price}>{item.price}</div>
+                  {item.size ? <div className={styles.size}>Kích thước: {item.size}</div> : null}
+                  <div className={styles.quantity}>Số lượng: {item.count}</div>
+                </div>
               </div>
-              <div className={styles.content}>
-                <div className={styles.title}>{item.title}</div>
-                <div className={styles.price}>${item.price}</div>
-                <div className={styles.size}>Kích thước: {item.size}</div>
-                <div className={styles.quantity}>Số lượng: {item.quantity}</div>
+              <div className={styles.right}>
+                <Tooltip title='Xóa khỏi giỏ hàng'>
+                  <Button className={styles.remove} danger type='default' onClick={() => onRemoveItem(item._id)}>
+                    <DeleteOutlined />
+                  </Button>
+                </Tooltip>
               </div>
             </div>
-            <div className={styles.right}>
-              <Tooltip title='Xóa khỏi giỏ hàng'>
-                <Button className={styles.remove} danger type='default'>
-                  <DeleteOutlined />
-                </Button>
-              </Tooltip>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Spin>
       <div className={styles.footer}>
         <div className={styles.total}>
           <span>Tổng</span>
-          <span>${items.reduce((total, item) => total + item.price, 0)}</span>
+          <span>{cartTotal}</span>
         </div>
         <div className={styles.btns}>
           <Button
@@ -80,7 +85,7 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
           >
             Xem giỏ hàng
           </Button>
-          <Button type='primary' className={styles.checkout} size='large'>
+          <Button type='primary' className={styles.checkout} size='large' onClick={onCheckout}>
             Thanh toán
           </Button>
         </div>

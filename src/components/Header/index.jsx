@@ -1,4 +1,4 @@
-import { SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Button, Input } from 'antd'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -6,13 +6,16 @@ import { useNavigate } from 'react-router-dom'
 import CartDrawer from '../CartDrawer'
 import Item from './components/Item'
 import styles from './index.module.scss'
-import { logout } from '@/store/reducers/authSlice'
+import { logout, logoutAPI } from '@/store/reducers/authSlice'
 import { useDispatch } from 'react-redux'
 
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
+  const {
+    cart: { products = [] }
+  } = useSelector((state) => state.cart)
 
   const [isCartOpen, setIsCartOpen] = useState(false)
 
@@ -24,13 +27,15 @@ const Header = () => {
     //   icon: <SyncOutlined />,
     //   onClick: () => {}
     // },
-    // {
-    //   title: 'Favorites',
-    //   subtitle: 'Wishlist',
-    //   key: 'wishlist',
-    //   icon: <HeartOutlined />,
-    //   onClick: () => {}
-    // },
+    {
+      title: 'Favorites',
+      subtitle: 'Wishlist',
+      key: 'wishlist',
+      icon: <HeartOutlined />,
+      onClick: () => {
+        navigate('/profile/wishlist')
+      }
+    },
     ...(!user
       ? [
           {
@@ -56,7 +61,10 @@ const Header = () => {
               {
                 label: 'Đăng xuất',
                 key: 'logout',
-                onClick: () => dispatch(logout())
+                onClick: () => {
+                  dispatch(logoutAPI())
+                  dispatch(logout())
+                }
               }
             ]
           }
@@ -65,7 +73,7 @@ const Header = () => {
       title: 'Giỏ hàng',
       key: 'cart',
       icon: (
-        <Badge count={4}>
+        <Badge count={products.length}>
           <ShoppingCartOutlined />
         </Badge>
       ),

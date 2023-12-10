@@ -22,11 +22,14 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
+      flex-wrap: wrap;
       .left {
         display: flex;
         gap: 12px;
+        flex: 1;
         .image {
           width: 56px;
+          min-width: 56px;
           height: 56px;
           border-radius: var(--my-border-radius);
           overflow: hidden;
@@ -48,8 +51,11 @@
           .price {
             font-weight: 700;
             font-size: 14px;
+            margin-bottom: 10px;
           }
         }
+      }
+      .right {
       }
     }
   }
