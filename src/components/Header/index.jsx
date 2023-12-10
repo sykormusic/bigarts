@@ -21,8 +21,10 @@ const Header = () => {
   const [isCartOpen, setIsCartOpen] = useState(false)
 
   useEffect(() => {
-    dispatch(getMyWishlistAPI())
-  }, [])
+    if (user) {
+      dispatch(getMyWishlistAPI())
+    }
+  }, [user])
 
   const headerItems = [
     // {

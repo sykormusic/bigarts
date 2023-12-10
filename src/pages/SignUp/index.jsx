@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { signupAPI } from '@/store/reducers/authSlice'
 import { notification } from 'antd'
 import { useSelector } from 'react-redux'
+import { message } from 'antd'
 
 const SignUp = () => {
   const { isLoadingSignUp } = useSelector((state) => state.auth)
@@ -14,10 +15,7 @@ const SignUp = () => {
   const onSignUp = async (values) => {
     const res = await dispatch(signupAPI(values))
     if (res.payload) {
-      notification.success({
-        message: 'Success',
-        description: 'Sign up successfully'
-      })
+      message.success('Đăng ký thành công.')
       navigate('/login')
     }
   }

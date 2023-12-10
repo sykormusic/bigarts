@@ -1,5 +1,6 @@
 import { addToCart, userCartAPI } from '@/store/reducers/cartSlice'
 import { getAProductAPI, rateProductAPI } from '@/store/reducers/productSlice'
+import { renderMoney } from '@/utils/functions'
 import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import {
   Button,
@@ -14,15 +15,14 @@ import {
   Row,
   Skeleton,
   Space,
-  notification
+  Tag,
+  message
 } from 'antd'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import styles from './index.module.scss'
 import Comment from './components/Comment'
-import { Tag } from 'antd'
-import { renderMoney } from '@/utils/functions'
+import styles from './index.module.scss'
 
 const Details = () => {
   const [form] = Form.useForm()
@@ -97,15 +97,8 @@ const Details = () => {
       return
     }
     dispatch(addToCart({ product: productDetails, count: count }))
-    notification.success({
-      message: 'Success',
-      description: 'Add to cart successfully',
-      btn: (
-        <Button type='primary' size='small' onClick={() => navigate('/cart')}>
-          Go to cart
-        </Button>
-      )
-    })
+
+    message.success('Đã thêm vào giỏ hàng')
   }
 
   if (isLoadingProductDetails) {

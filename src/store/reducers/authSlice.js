@@ -1,6 +1,6 @@
 import { BASE_API } from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { notification } from 'antd'
+import { message } from 'antd'
 import axios from 'axios'
 
 const initialState = {
@@ -106,10 +106,7 @@ export const authSlice = createSlice({
 
     builder.addCase(updateUserAPI.fulfilled, (state, action) => {
       state.user = { ...state.user, ...action.payload }
-      notification.success({
-        message: 'Thành công',
-        description: 'Cập nhật thông tin thành công'
-      })
+      message.success('Cập nhật thông tin thành công')
     })
 
     builder.addCase(getMyOrdersAPI.fulfilled, (state, action) => {
@@ -122,6 +119,8 @@ export const authSlice = createSlice({
 
     builder.addCase(logoutAPI.fulfilled, (state) => {
       state.user = null
+      state.myOrders = []
+      state.myWishlist = []
       localStorage.clear()
       window.location.href = '/'
     })
