@@ -42,6 +42,19 @@ export const addToWishListAPI = createAsyncThunk('product/add-to-wishlist', asyn
   }
 })
 
+export const rateProductAPI = createAsyncThunk('product/rate', async (payload) => {
+  try {
+    const { data } = await axios.put(`${BASE_API}/product/rating`, payload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    return data
+  } catch (error) {
+    return error
+  }
+})
+
 export const productSlice = createSlice({
   name: 'product',
   initialState,

@@ -3,6 +3,7 @@ import categoryReducer from './reducers/categorySlice'
 import productReducer from './reducers/productSlice'
 import homeReducer from './reducers/homeSlice'
 import cartReducer from './reducers/cartSlice'
+import brandReducer from './reducers/brandSlice'
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   category: categoryReducer,
   product: productReducer,
   home: homeReducer,
-  cart: cartReducer
+  cart: cartReducer,
+  brand: brandReducer
   // Add other reducers as needed
 })
 

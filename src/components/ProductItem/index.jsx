@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { HeartOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { addToWishListAPI } from '@/store/reducers/productSlice'
+import { Rate } from 'antd'
 
 const ProductItem = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { data: { _id, title, brand, images, price } = {} } = props
+  const { data: { _id, title, brand, images, price, totalrating } = {} } = props
 
   const onAddToWishList = (id) => {
     dispatch(
@@ -32,6 +33,9 @@ const ProductItem = (props) => {
         <span className={styles.brand}>{brand}</span>
         <h1>{title}</h1>
         <h3 className={styles.price}>{price}</h3>
+        <div className={styles.rating}>
+          <Rate defaultValue={totalrating} disabled />
+        </div>
       </div>
       <button
         type='button'

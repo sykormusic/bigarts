@@ -7,9 +7,12 @@ import { Checkbox, Col, Form, InputNumber, Pagination, Row, Select, Space, Spin 
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import { getBrandsAPI } from '@/store/reducers/brandSlice'
+import { debounce } from 'lodash'
 const Products = () => {
   const [form] = Form.useForm()
   const { isLoadingProducts, products = [] } = useSelector((state) => state.product)
+  const { brands = [] } = useSelector((state) => state.brand)
   const { categories = [] } = useSelector((state) => state.category)
   const dispatch = useDispatch()
   const { state } = useLocation()
@@ -24,13 +27,22 @@ const Products = () => {
 
   const productsPerPage = (products || []).slice((page - 1) * pageSize, page * pageSize)
 
+  const getBrands = () => {
+    dispatch(getBrandsAPI())
+  }
+
   const getData = (params) => {
     dispatch(
       getProductsAPI({
         ...params
       })
     )
+    getBrands()
   }
+
+  const debounceSaveFormValues = debounce((values) => {
+    setFormValues(values)
+  }, 500)
 
   useEffect(() => {
     getData(formValues)
@@ -46,7 +58,7 @@ const Products = () => {
   }
   return (
     <div className={styles.Products}>
-      <Form initialValues={formValues} form={form} onValuesChange={(values) => setFormValues(values)}>
+      <Form initialValues={formValues} form={form} onValuesChange={(values) => debounceSaveFormValues(values)}>
         <Row gutter={[24, 24]}>
           <Col span={6}>
             <div className={styles.filterContainer}>
@@ -75,31 +87,31 @@ const Products = () => {
                 {_renderFilterItem(
                   'Giá',
                   <div className={styles.priceContainer}>
-                    <Form.Item name='priceFrom'>
+                    <Form.Item name='price[gte]'>
                       <InputNumber prefix='' min={0} placeholder='From' size='large' />
                     </Form.Item>
-                    <Form.Item name='priceTo'>
+                    <Form.Item name='price[lte]'>
                       <InputNumber prefix='' min={0} placeholder='To' size='large' />
                     </Form.Item>
                   </div>
                 )}
-                {/* 
+
                 {_renderFilterItem(
-                  '',
+                  'Thương hiệu',
                   <div>
-                    <Form.Item name='size'>
+                    <Form.Item name='brand'>
                       <Checkbox.Group>
                         <Space direction='vertical'>
-                          <Checkbox value='S'>S</Checkbox>
-                          <Checkbox value='M'>M</Checkbox>
-                          <Checkbox value='L'>L</Checkbox>
-                          <Checkbox value='XL'>XL</Checkbox>
-                          <Checkbox value='XXL'>XXL</Checkbox>
+                          {brands.map((brand) => (
+                            <Checkbox key={brand.title} value={brand.title}>
+                              {brand.title}
+                            </Checkbox>
+                          ))}
                         </Space>
                       </Checkbox.Group>
                     </Form.Item>
                   </div>
-                )} */}
+                )}
               </div>
             </div>
           </Col>
@@ -117,6 +129,10 @@ const Products = () => {
                           {
                             label: 'Mới nhất',
                             value: '-createdAt'
+                          },
+                          {
+                            label: 'Cũ nhất',
+                            value: 'createdAt'
                           },
                           {
                             label: 'A-Z',

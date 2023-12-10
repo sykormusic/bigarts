@@ -45,7 +45,7 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
       <Spin spinning={loadingGetCart}>
         <div className={styles.items}>
           {products.map((item) => (
-            <div className={styles.item} key={item.title}>
+            <div className={styles.item} key={item._id}>
               <div className={styles.left}>
                 <div className={styles.image}>
                   <img src={item.product?.images?.[0]?.url} alt='' />

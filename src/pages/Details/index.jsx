@@ -1,22 +1,37 @@
-import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
-import { Button, Image, Typography, Rate, Carousel, Col, InputNumber, Row, Space, notification, Skeleton } from 'antd'
-import { useParams, useNavigate } from 'react-router-dom'
-import styles from './index.module.scss'
-import { useDispatch } from 'react-redux'
-import { getAProductAPI } from '@/store/reducers/productSlice'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import { addToCart, userCartAPI } from '@/store/reducers/cartSlice'
-import { useState } from 'react'
-import { Divider } from 'antd'
+import { getAProductAPI, rateProductAPI } from '@/store/reducers/productSlice'
+import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import {
+  Button,
+  Carousel,
+  Col,
+  Divider,
+  Form,
+  Image,
+  Input,
+  InputNumber,
+  Rate,
+  Row,
+  Skeleton,
+  Space,
+  notification
+} from 'antd'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import styles from './index.module.scss'
+import Comment from './components/Comment'
 
 const Details = () => {
+  const [form] = Form.useForm()
   const { productDetails = {}, isLoadingProductDetails } = useSelector((state) => state.product)
+  const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [count, setCount] = useState(1)
 
   const {
+    _id,
     images = [],
     category,
     tags,
@@ -25,9 +40,16 @@ const Details = () => {
     title,
     description,
     price,
-    totalrating = 0
+    totalrating = 0,
+    ratings = []
   } = productDetails || {}
   const { id } = useParams()
+
+  const myRating = ratings.find((rating) => rating.postedby === user?._id)
+
+  useEffect(() => {
+    form.resetFields()
+  }, [JSON.stringify(myRating)])
 
   const getProductData = () => {
     dispatch(getAProductAPI(id))
@@ -47,6 +69,20 @@ const Details = () => {
     navigate('/checkout')
   }
 
+  const onRate = async (values) => {
+    const res = await dispatch(
+      rateProductAPI({
+        star: values.star,
+        prodId: _id,
+        comment: values.comment
+      })
+    )
+    if (res.payload) {
+      getProductData()
+      form.resetFields()
+    }
+  }
+
   useEffect(() => {
     if (id) {
       getProductData()
@@ -54,6 +90,10 @@ const Details = () => {
   }, [id])
 
   const onAddToCart = () => {
+    if (!user) {
+      navigate('/login')
+      return
+    }
     dispatch(addToCart({ product: productDetails, count: count }))
     notification.success({
       message: 'Success',
@@ -69,6 +109,7 @@ const Details = () => {
   if (isLoadingProductDetails) {
     return (
       <div className={styles.Details}>
+        <Skeleton active />
         <Skeleton active />
       </div>
     )
@@ -104,17 +145,14 @@ const Details = () => {
               </Typography.Text> */}
             </div>
             <div className={styles.rating}>
-              <Rate disabled defaultValue={totalrating} />
-              <span>({totalrating} reviews)</span>
+              <Rate defaultValue={totalrating} onChange={onRate} />
+              <span>({ratings.length} reviews)</span>
             </div>
             <Divider />
             <span className={styles.info}>Brand: {brand}</span>
             <span className={styles.info}>Category: {category}</span>
             <span className={styles.info}>Tag: {tags}</span>
             <Divider />
-
-            <div dangerouslySetInnerHTML={{ __html: description }} />
-
             <div className={styles.buttons}>
               <InputNumber
                 size='large'
@@ -137,6 +175,46 @@ const Details = () => {
                 </Space>
               </Button>
             </div>
+          </div>
+        </Col>
+      </Row>
+
+      <Row gutter={[24, 24]}>
+        <Col span={24}>
+          <div className={styles.descriptionContainer}>
+            <span className={styles.title}>Mô tả</span>
+            <div dangerouslySetInnerHTML={{ __html: description }} />
+          </div>
+        </Col>
+        <Col span={24}>
+          <div className={styles.reviewContainer}>
+            <span className={styles.title}>Đánh giá sản phẩm</span>
+            <Form
+              form={form}
+              onFinish={onRate}
+              initialValues={{
+                star: myRating?.star,
+                comment: myRating?.comment
+              }}
+            >
+              <Form.Item name='star'>
+                <Rate />
+              </Form.Item>
+              <Form.Item name='comment'>
+                <Input.TextArea rows={4} placeholder='Nhập đánh giá...' />
+              </Form.Item>
+
+              <Form.Item>
+                <Button type='primary' htmlType='submit'>
+                  Đánh giá
+                </Button>
+              </Form.Item>
+            </Form>
+
+            {ratings.length > 0 ? <Divider /> : null}
+            {ratings.map((x) => (
+              <Comment key={x._id} data={x} />
+            ))}
           </div>
         </Col>
       </Row>

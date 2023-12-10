@@ -56,7 +56,7 @@ const Header = () => {
               {
                 label: 'Xem trang cá nhân',
                 key: 'profile',
-                onClick: () => navigate(`/profile`)
+                onClick: () => navigate(`/profile/info`)
               },
               {
                 label: 'Đăng xuất',

@@ -1,12 +1,10 @@
-import { getMyOrdersAPI, getMyWishlistAPI } from '@/store/reducers/authSlice'
+import ProductItem from '@/components/ProductItem'
+import { getMyWishlistAPI } from '@/store/reducers/authSlice'
+import { Empty } from 'antd'
+import { isEmpty } from 'lodash'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
-import { Badge, Col, Row } from 'antd'
-import { Tag } from 'antd'
-import { Divider } from 'antd'
-import { Link } from 'react-router-dom'
-import ProductItem from '@/components/ProductItem'
 
 const MyWishlist = () => {
   const dispatch = useDispatch()
@@ -16,6 +14,13 @@ const MyWishlist = () => {
     dispatch(getMyWishlistAPI())
   }, [])
 
+  if (isEmpty(myWishlist)) {
+    return (
+      <div className={styles.MyWishlist}>
+        <Empty description='Danh sách trống' />
+      </div>
+    )
+  }
   return (
     <div className={styles.MyWishlist}>
       <div className={styles.container}>

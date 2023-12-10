@@ -6,11 +6,12 @@ import { Badge, Col, Row } from 'antd'
 import { Tag } from 'antd'
 import { Divider } from 'antd'
 import { Link } from 'react-router-dom'
+import { isEmpty } from 'lodash'
+import { Empty } from 'antd'
 
 const MyOrders = () => {
   const dispatch = useDispatch()
   const { myOrders = [] } = useSelector((state) => state.auth)
-  console.log('🚀  ~ myOrders:', myOrders)
 
   useEffect(() => {
     dispatch(getMyOrdersAPI())
@@ -72,6 +73,13 @@ const MyOrders = () => {
     )
   }
 
+  if (isEmpty(myOrders)) {
+    return (
+      <div className={styles.MyOrders}>
+        <Empty description='Chưa có đơn hàng' />
+      </div>
+    )
+  }
   return <div className={styles.MyOrders}>{myOrders.map((x) => _renderOrder(x))}</div>
 }
 export default MyOrders

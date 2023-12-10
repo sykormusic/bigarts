@@ -19,7 +19,7 @@ const Login = () => {
         message: 'Success',
         description: 'Login successfully'
       })
-      navigate('/')
+      navigate(-1)
     }
   }
 

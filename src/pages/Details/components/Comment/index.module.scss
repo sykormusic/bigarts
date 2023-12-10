@@ -1,0 +1,12 @@
+.Comment {
+  display: flex;
+  gap: 12px;
+  p {
+    margin: 0;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}

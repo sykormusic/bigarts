@@ -15,6 +15,7 @@ import Products from './pages/Products'
 import SignUp from './pages/SignUp'
 import { persistor, store } from './store'
 import Profile from './pages/Profile'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const router = createBrowserRouter([
   {
@@ -77,25 +78,41 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <Profile />
+            element: (
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            )
           },
           {
             path: 'info',
-            element: <Profile />,
+            element: (
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            ),
             handle: {
               crumb: () => 'Thông tin cá nhân'
             }
           },
           {
             path: 'orders',
-            element: <Profile />,
+            element: (
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            ),
             handle: {
               crumb: () => 'Đơn hàng'
             }
           },
           {
             path: 'wishlist',
-            element: <Profile />,
+            element: (
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            ),
             handle: {
               crumb: () => 'Danh sách yêu thích'
             }
@@ -123,14 +140,22 @@ const router = createBrowserRouter([
       },
       {
         path: '/cart',
-        element: <Cart />,
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
         handle: {
           crumb: () => 'Giỏ hàng'
         }
       },
       {
         path: '/checkout',
-        element: <Checkout />,
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
         handle: {
           crumb: () => 'Thanh toán'
         }
