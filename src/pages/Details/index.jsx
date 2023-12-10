@@ -77,7 +77,7 @@ const Details = () => {
   }
 
   const onRate = async (values) => {
-    if (values.star < 1 && values.star > 5) {
+    if (values.star < 1 || values.star > 5) {
       return
     }
     const res = await dispatch(
@@ -222,10 +222,30 @@ const Details = () => {
                       comment: myRating?.comment
                     }}
                   >
-                    <Form.Item name='star'>
-                      <Rate />
+                    <Form.Item
+                      name='star'
+                      rules={[
+                        {
+                          validator: async (_, value) => {
+                            if (value < 1 || value > 5) {
+                              throw new Error('Vui lòng chọn số sao!')
+                            }
+                            return Promise.resolve()
+                          }
+                        }
+                      ]}
+                    >
+                      <Rate allowClear={false} />
                     </Form.Item>
-                    <Form.Item name='comment'>
+                    <Form.Item
+                      name='comment'
+                      rules={[
+                        {
+                          min: 25,
+                          message: 'Đánh giá tối thiểu 25 ký tự!'
+                        }
+                      ]}
+                    >
                       <Input.TextArea rows={4} placeholder='Nhập đánh giá...' ref={reviewInputRef} />
                     </Form.Item>
 
