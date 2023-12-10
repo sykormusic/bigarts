@@ -1,0 +1,41 @@
+.Contact {
+  border-radius: var(--my-border-radius);
+  background-color: #fff;
+  padding: var(--padding-lg);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  span {
+    display: block;
+    line-height: 28px;
+  }
+  .contactUs {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    p {
+      margin: 0;
+      line-height: 28px;
+      span {
+        display: block;
+      }
+      .spacer {
+        margin-block: 12px;
+      }
+    }
+    .socials {
+      margin-top: var(--padding-lg);
+      .btn {
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #2b353e;
+        .icon {
+          color: #fff;
+        }
+      }
+    }
+  }
+}

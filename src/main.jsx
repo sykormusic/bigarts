@@ -16,6 +16,9 @@ import SignUp from './pages/SignUp'
 import { persistor, store } from './store'
 import Profile from './pages/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
+import Contact from './pages/Contact'
+import Blogs from './pages/Blogs'
+import ViewBlog from './pages/ViewBlog'
 
 const router = createBrowserRouter([
   {
@@ -53,6 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/contact',
+        element: <Contact />,
         handle: {
           crumb: () => 'Liên hệ'
         }
@@ -61,15 +65,22 @@ const router = createBrowserRouter([
         path: '/blogs',
         handle: {
           crumb: () => 'Blog'
-        }
+        },
+        children: [
+          {
+            index: true,
+            element: <Blogs />
+          },
+          {
+            path: ':id',
+            element: <ViewBlog />,
+            handle: {
+              crumb: () => 'Xem blog'
+            }
+          }
+        ]
       },
-      {
-        path: '/blogs/:id',
-        element: <div />,
-        handle: {
-          crumb: () => 'Chi tiết blog'
-        }
-      },
+
       {
         path: '/profile',
         handle: {

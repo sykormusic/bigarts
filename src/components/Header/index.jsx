@@ -27,8 +27,8 @@ const Header = () => {
     //   onClick: () => {}
     // },
     {
-      title: 'Favorites',
-      subtitle: 'Wishlist',
+      title: 'Sản phẩm',
+      subtitle: 'Yêu thích',
       key: 'wishlist',
       icon: <HeartOutlined />,
       onClick: () => {
@@ -53,7 +53,7 @@ const Header = () => {
             icon: <UserOutlined />,
             menuItems: [
               {
-                label: 'Xem trang cá nhân',
+                label: 'Trang cá nhân',
                 key: 'profile',
                 onClick: () => navigate(`/profile/info`)
               },

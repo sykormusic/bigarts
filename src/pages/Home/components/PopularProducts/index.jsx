@@ -15,7 +15,7 @@ const PopularProducts = () => {
 
   return (
     <div className={styles.PopularProducts}>
-      <Title title='Popular' />
+      <Title title='Sản phẩm phổ biến' />
 
       <div className={styles.container}>
         {popularProducts.map((product) => (

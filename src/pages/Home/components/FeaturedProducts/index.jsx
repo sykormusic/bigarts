@@ -15,7 +15,7 @@ const FeaturedProducts = () => {
 
   return (
     <div className={styles.FeaturedProducts}>
-      <Title title='Featured Collection' />
+      <Title title='Sản phẩm nổi bật' />
 
       <div className={styles.container}>
         {featuredProducts.map((product) => (

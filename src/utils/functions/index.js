@@ -11,3 +11,9 @@ export const renderMoney = (value) => {
     currency: 'VND'
   }).format(value)
 }
+
+export const formatDate = (date) => {
+  if (!date) return null
+
+  return new Date(date).toLocaleString()
+}
