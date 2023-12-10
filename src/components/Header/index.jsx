@@ -1,13 +1,12 @@
+import { logoutAPI } from '@/store/reducers/authSlice'
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Button, Input } from 'antd'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CartDrawer from '../CartDrawer'
 import Item from './components/Item'
 import styles from './index.module.scss'
-import { logout, logoutAPI } from '@/store/reducers/authSlice'
-import { useDispatch } from 'react-redux'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -63,7 +62,6 @@ const Header = () => {
                 key: 'logout',
                 onClick: () => {
                   dispatch(logoutAPI())
-                  dispatch(logout())
                 }
               }
             ]

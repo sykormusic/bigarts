@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import Result from '../Result'
 import styles from './index.module.scss'
 import { Select } from 'antd'
+import { Radio } from 'antd'
+import { renderMoney } from '@/utils/functions'
 
 const Checkout = () => {
   const navigate = useNavigate()
@@ -244,7 +246,7 @@ const Checkout = () => {
                     </div>
                     <div className={styles.content}>
                       <div className={styles.title}>{item?.product?.title}</div>
-                      <div className={styles.price}>{item.price}</div>
+                      <div className={styles.price}>{renderMoney(item.price)}</div>
                       {item.size ? <div className={styles.size}>Kích thước: {item.size}</div> : null}
                       <div className={styles.quantity}>Số lượng: {item.count}</div>
                     </div>
@@ -275,10 +277,23 @@ const Checkout = () => {
                 </div>
               </div>
               <Divider /> */}
+
+              <div className={styles.paymentMethod}>
+                <Radio.Group
+                  options={[
+                    {
+                      label: 'Thanh toán khi nhận hàng',
+                      value: 'COD'
+                    }
+                  ]}
+                  value='COD'
+                />
+              </div>
+              <Divider />
               <div className={styles.footer}>
                 <div className={styles.total}>
                   <span>Tổng</span>
-                  <span>{cartTotal}</span>
+                  <span>{renderMoney(cartTotal)}</span>
                 </div>
                 <div className={styles.btns}>
                   <Button type='primary' htmlType='submit' form='checkoutForm' className={styles.checkout} size='large'>

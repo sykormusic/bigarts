@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 import { useEffect } from 'react'
+import { renderMoney } from '@/utils/functions'
 
 const Cart = () => {
   const navigate = useNavigate()
@@ -63,7 +64,7 @@ const Cart = () => {
       title: 'Giá',
       dataIndex: 'product',
       key: 'price',
-      render: (product) => <div>{product.price}</div>
+      render: (product) => <div>{renderMoney(product.price)}</div>
     },
     {
       title: 'Số lượng',
@@ -95,7 +96,7 @@ const Cart = () => {
   ]
 
   const getTotal = () => {
-    return cartTotal
+    return renderMoney(cartTotal)
   }
 
   return (

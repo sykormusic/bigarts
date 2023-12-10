@@ -13,7 +13,7 @@
     margin: 0 auto;
     height: 100%;
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
     .left {
       .categories {
         cursor: pointer;
@@ -40,6 +40,8 @@
         text-decoration: none;
         color: inherit;
         text-transform: uppercase;
+        font-weight: 500;
+        font-size: 14px;
         &:hover {
           text-decoration: underline;
         }

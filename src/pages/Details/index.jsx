@@ -21,6 +21,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from './index.module.scss'
 import Comment from './components/Comment'
+import { Tag } from 'antd'
+import { renderMoney } from '@/utils/functions'
 
 const Details = () => {
   const [form] = Form.useForm()
@@ -120,7 +122,7 @@ const Details = () => {
         <Col span={10}>
           <div className={styles.carousel}>
             <Image.PreviewGroup>
-              <Carousel infinite={false} arrows prevArrow={<PlusOutlined />} nextArrow={<PlusOutlined />}>
+              <Carousel dots infinite={false} arrows prevArrow={<PlusOutlined />} nextArrow={<PlusOutlined />}>
                 {images.map((image) => (
                   <div key={image._id} className={styles.carouselItem}>
                     <Image src={image.url} className={styles.carouselImage} />
@@ -137,7 +139,7 @@ const Details = () => {
             <div className={styles.price}>
               <div className={styles.priceItem}>
                 <span></span>
-                <span>{price}</span>
+                <span>{renderMoney(price)}</span>
               </div>
 
               {/* <Typography.Text delete className={styles.oldPrice}>
@@ -149,9 +151,15 @@ const Details = () => {
               <span>({ratings.length} reviews)</span>
             </div>
             <Divider />
-            <span className={styles.info}>Brand: {brand}</span>
-            <span className={styles.info}>Category: {category}</span>
-            <span className={styles.info}>Tag: {tags}</span>
+            <span className={styles.info}>
+              Brand: <Tag color='orange'>{brand}</Tag>
+            </span>
+            <span className={styles.info}>
+              Category: <Tag color='blue'>{category}</Tag>
+            </span>
+            <span className={styles.info}>
+              Tag: <Tag color='green'>{tags}</Tag>
+            </span>
             <Divider />
             <div className={styles.buttons}>
               <InputNumber
@@ -179,7 +187,12 @@ const Details = () => {
         </Col>
       </Row>
 
-      <Row gutter={[24, 24]}>
+      <Row
+        gutter={[24, 24]}
+        style={{
+          marginTop: 24
+        }}
+      >
         <Col span={24}>
           <div className={styles.descriptionContainer}>
             <span className={styles.title}>Mô tả</span>

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { getUserCartAPI, removeFromCart } from '@/store/reducers/cartSlice'
 import { useEffect } from 'react'
 import { Spin } from 'antd'
+import { renderMoney } from '@/utils/functions'
 
 const CartDrawer = ({ open, onClose = () => {} }) => {
   const {
@@ -52,7 +53,7 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
                 </div>
                 <div className={styles.content}>
                   <div className={styles.title}>{item.product?.title}</div>
-                  <div className={styles.price}>{item.price}</div>
+                  <div className={styles.price}>{renderMoney(item.price)}</div>
                   {item.size ? <div className={styles.size}>Kích thước: {item.size}</div> : null}
                   <div className={styles.quantity}>Số lượng: {item.count}</div>
                 </div>
@@ -71,7 +72,7 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
       <div className={styles.footer}>
         <div className={styles.total}>
           <span>Tổng</span>
-          <span>{cartTotal}</span>
+          <span>{renderMoney(cartTotal)}</span>
         </div>
         <div className={styles.btns}>
           <Button

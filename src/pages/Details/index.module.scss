@@ -1,5 +1,16 @@
 .Details {
   .carousel {
+    :global {
+      .slick-dots {
+        margin-bottom: -24px;
+        li {
+          background-color: black;
+        }
+        .slick-active button {
+          background-color: var(--orange) !important;
+        }
+      }
+    }
     .carouselItem {
       height: 100%;
       overflow: hidden;
@@ -34,7 +45,7 @@
       color: var(--orange);
     }
     .info {
-      line-height: 24px;
+      line-height: 32px;
     }
     .rating {
       margin: 8px 0;
@@ -74,7 +85,6 @@
     }
   }
   .reviewContainer {
-    margin-top: var(--padding-lg);
     border-radius: var(--my-border-radius);
     background-color: #fff;
     padding: var(--padding-lg);

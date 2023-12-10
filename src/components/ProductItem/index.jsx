@@ -4,6 +4,7 @@ import { HeartOutlined } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
 import { addToWishListAPI } from '@/store/reducers/productSlice'
 import { Rate } from 'antd'
+import { renderMoney } from '@/utils/functions'
 
 const ProductItem = (props) => {
   const navigate = useNavigate()
@@ -32,7 +33,7 @@ const ProductItem = (props) => {
       <div className={styles.texts}>
         <span className={styles.brand}>{brand}</span>
         <h1>{title}</h1>
-        <h3 className={styles.price}>{price}</h3>
+        <h3 className={styles.price}>{renderMoney(price)}</h3>
         <div className={styles.rating}>
           <Rate defaultValue={totalrating} disabled />
         </div>
@@ -50,6 +51,10 @@ const ProductItem = (props) => {
       </button>
     </div>
   )
+}
+
+ProductItem.propTypes = {
+  data: Object
 }
 
 export default ProductItem

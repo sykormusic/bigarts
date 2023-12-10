@@ -80,13 +80,6 @@ export const getMyWishlistAPI = createAsyncThunk('user/my-wishlist', async () =>
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null
-      localStorage.removeItem('token')
-      window.location.reload()
-    }
-  },
   extraReducers: (builder) => {
     builder.addCase(loginAPI.pending, (state) => {
       state.isLoadingLogin = true
@@ -126,9 +119,14 @@ export const authSlice = createSlice({
     builder.addCase(getMyWishlistAPI.fulfilled, (state, action) => {
       state.myWishlist = [action.payload]
     })
+
+    builder.addCase(logoutAPI.fulfilled, (state) => {
+      state.user = null
+      localStorage.clear()
+      window.location.href = '/'
+    })
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { logout } = authSlice.actions
 export default authSlice.reducer

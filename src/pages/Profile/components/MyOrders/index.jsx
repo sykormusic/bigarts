@@ -8,6 +8,7 @@ import { Divider } from 'antd'
 import { Link } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import { Empty } from 'antd'
+import { renderMoney } from '@/utils/functions'
 
 const MyOrders = () => {
   const dispatch = useDispatch()
@@ -53,7 +54,7 @@ const MyOrders = () => {
                           </Badge>
                           <p>{x.product?.title}</p>
                         </div>
-                        <p className={styles.price}>{x.product?.price}</p>
+                        <p className={styles.price}>{renderMoney(x.product?.price)}</p>
                       </div>
                     </Link>
                     {index !== (order.products || []).length - 1 && (

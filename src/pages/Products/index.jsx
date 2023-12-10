@@ -22,10 +22,21 @@ const Products = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(12)
   const [formValues, setFormValues] = useState({
-    category: categoryName
+    category: [categoryName]
   })
 
   const productsPerPage = (products || []).slice((page - 1) * pageSize, page * pageSize)
+
+  useEffect(() => {
+    if (categoryName !== formValues.category?.[0]) {
+      setFormValues({
+        category: [categoryName]
+      })
+      form.setFieldsValue({
+        category: [categoryName]
+      })
+    }
+  }, [categoryName])
 
   const getBrands = () => {
     dispatch(getBrandsAPI())
