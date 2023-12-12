@@ -73,15 +73,15 @@ export const homeSlice = createSlice({
       state.isLoadingPopularProducts = true
     })
     builder.addCase(getFeaturedProducts.fulfilled, (state, action) => {
-      state.featuredProducts = action.payload
+      state.featuredProducts = action.payload?.data || []
       state.isLoadingFeaturedProducts = false
     })
     builder.addCase(getSpecialProducts.fulfilled, (state, action) => {
-      state.specialProducts = action.payload
+      state.specialProducts = action.payload?.data || []
       state.isLoadingSpecialProducts = false
     })
     builder.addCase(getPopularProducts.fulfilled, (state, action) => {
-      state.popularProducts = action.payload
+      state.popularProducts = action.payload?.data || []
       state.isLoadingPopularProducts = false
     })
 
