@@ -72,7 +72,11 @@ const Blogs = () => {
               key={item._id}
               hoverable
               onClick={() => navigate(`/blogs/${item._id}`)}
-              cover={!isEmpty(item.images) && <img alt={item.title} src={item.images?.[0]?.url} />}
+              cover={
+                !isEmpty(item.images) && (
+                  <img alt={item.title} style={{ objectFit: 'cover', maxHeight: 150 }} src={item.images?.[0]?.url} />
+                )
+              }
               actions={[
                 <div key='views' onClick={() => navigate(`/blogs/${item._id}`)}>
                   <EyeFilled /> {item.numViews}

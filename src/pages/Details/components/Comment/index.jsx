@@ -6,7 +6,12 @@ const Comment = ({ data }) => {
     <div className={styles.Comment}>
       <Avatar size={44} />
       <div className={styles.right}>
-        <Rate defaultValue={data?.star} disabled />
+        <div className={styles.title}>
+          <p className={styles.username}>
+            {data?.postedby?.firstname} {data?.postedby?.lastname}
+          </p>
+          <Rate defaultValue={data?.star} disabled />
+        </div>
         <p>{data?.comment}</p>
       </div>
     </div>

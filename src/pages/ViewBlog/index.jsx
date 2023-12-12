@@ -78,7 +78,8 @@ const ViewBlog = () => {
                     alt='example'
                     src={blogDetails?.images?.[0]?.url}
                     style={{
-                      height: 200
+                      height: 200,
+                      objectFit: 'cover'
                     }}
                   />
                 )

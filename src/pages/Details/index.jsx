@@ -96,7 +96,7 @@ const Details = () => {
   }
 
   const onRate = async (values) => {
-    if (values.star < 1 || values.star > 5) {
+    if (!values.star || values.star < 1 || values.star > 5) {
       return
     }
     const res = await dispatch(
@@ -281,8 +281,8 @@ const Details = () => {
                       name='comment'
                       rules={[
                         {
-                          min: 25,
-                          message: 'Đánh giá tối thiểu 25 ký tự!'
+                          min: 20,
+                          message: 'Đánh giá tối thiểu 20 ký tự!'
                         }
                       ]}
                     >
