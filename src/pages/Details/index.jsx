@@ -27,12 +27,12 @@ import styles from './index.module.scss'
 import { TAG_COLOR } from '@/utils/constants'
 import { useRef } from 'react'
 import { isEmpty } from 'lodash'
-import { getMyWishlistAPI } from '@/store/reducers/authSlice'
+import { getMyWishlistAPI } from '@/store/reducers/userSlice'
 
 const Details = () => {
   const [form] = Form.useForm()
   const { productDetails = {}, isLoadingProductDetails } = useSelector((state) => state.product)
-  const { myWishlist = [] } = useSelector((state) => state.auth)
+  const { myWishlist = [] } = useSelector((state) => state.user)
   const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()

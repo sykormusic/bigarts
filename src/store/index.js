@@ -1,4 +1,5 @@
 import authReducer from './reducers/authSlice'
+import userReducer from './reducers/userSlice'
 import categoryReducer from './reducers/categorySlice'
 import productReducer from './reducers/productSlice'
 import homeReducer from './reducers/homeSlice'
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   home: homeReducer,
   cart: cartReducer,
   brand: brandReducer,
-  blog: blogReducer
+  blog: blogReducer,
+  user: userReducer
   // Add other reducers as needed
 })
 

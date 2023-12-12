@@ -1,4 +1,4 @@
-import { getMyWishlistAPI, logoutAPI } from '@/store/reducers/authSlice'
+import { logoutAPI } from '@/store/reducers/authSlice'
 import { HeartOutlined, LogoutOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Button, Input } from 'antd'
 import { useState } from 'react'
@@ -8,12 +8,13 @@ import CartDrawer from '../CartDrawer'
 import Item from './components/Item'
 import styles from './index.module.scss'
 import { useEffect } from 'react'
+import { getMyWishlistAPI } from '@/store/reducers/userSlice'
 
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((state) => state.auth)
-  const { myWishlist = [] } = useSelector((state) => state.auth)
+  const { myWishlist = [] } = useSelector((state) => state.user)
   const {
     cart: { products = [] }
   } = useSelector((state) => state.cart)

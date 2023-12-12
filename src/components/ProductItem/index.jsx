@@ -7,12 +7,12 @@ import { Rate, message } from 'antd'
 import { renderMoney } from '@/utils/functions'
 import { Tag } from 'antd'
 import { TAG_COLOR } from '@/utils/constants'
-import { getMyWishlistAPI } from '@/store/reducers/authSlice'
+import { getMyWishlistAPI } from '@/store/reducers/userSlice'
 
 const ProductItem = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { myWishlist = [] } = useSelector((state) => state.auth)
+  const { myWishlist = [] } = useSelector((state) => state.user)
   const { data: { _id, title, brand, images, price, tags, totalrating } = {} } = props
 
   const isInWishlist = (myWishlist || []).some((item) => item._id === _id)

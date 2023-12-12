@@ -7,9 +7,7 @@ const initialState = {
   user: null,
   isLoadingLogin: false,
   isLoadingSignUp: false,
-  isLoadingForgot: false,
-  myOrders: [],
-  myWishlist: []
+  isLoadingForgot: false
 }
 
 export const loginAPI = createAsyncThunk('user/login', async (payload) => {
@@ -72,32 +70,6 @@ export const updateUserAPI = createAsyncThunk('user/update', async (payload) => 
   }
 })
 
-export const getMyOrdersAPI = createAsyncThunk('user/my-orders', async () => {
-  try {
-    const { data } = await axios.get(`${BASE_API}/user/get-orders`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-    return data
-  } catch (error) {
-    return error
-  }
-})
-
-export const getMyWishlistAPI = createAsyncThunk('user/my-wishlist', async () => {
-  try {
-    const { data } = await axios.get(`${BASE_API}/user/wishlist`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-    return data
-  } catch (error) {
-    return error
-  }
-})
-
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -138,14 +110,6 @@ export const authSlice = createSlice({
     builder.addCase(updateUserAPI.fulfilled, (state, action) => {
       state.user = { ...state.user, ...action.payload }
       message.success('Cập nhật thông tin thành công')
-    })
-
-    builder.addCase(getMyOrdersAPI.fulfilled, (state, action) => {
-      state.myOrders = action.payload
-    })
-
-    builder.addCase(getMyWishlistAPI.fulfilled, (state, action) => {
-      state.myWishlist = action.payload
     })
 
     builder.addCase(logoutAPI.fulfilled, (state) => {

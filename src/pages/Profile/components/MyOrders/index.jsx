@@ -1,4 +1,3 @@
-import { getMyOrdersAPI } from '@/store/reducers/authSlice'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
@@ -9,10 +8,11 @@ import { Link } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import { Empty } from 'antd'
 import { formatDate, renderMoney } from '@/utils/functions'
+import { getMyOrdersAPI } from '@/store/reducers/userSlice'
 
 const MyOrders = () => {
   const dispatch = useDispatch()
-  const { myOrders = [] } = useSelector((state) => state.auth)
+  const { myOrders = [] } = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(getMyOrdersAPI())

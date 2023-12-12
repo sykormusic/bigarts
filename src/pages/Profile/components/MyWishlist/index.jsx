@@ -1,14 +1,14 @@
 import ProductItem from '@/components/ProductItem'
-import { getMyWishlistAPI } from '@/store/reducers/authSlice'
 import { Empty } from 'antd'
 import { isEmpty } from 'lodash'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
+import { getMyWishlistAPI } from '@/store/reducers/userSlice'
 
 const MyWishlist = () => {
   const dispatch = useDispatch()
-  const { myWishlist = [] } = useSelector((state) => state.auth)
+  const { myWishlist = [] } = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(getMyWishlistAPI())
