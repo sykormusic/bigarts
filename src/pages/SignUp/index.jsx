@@ -25,31 +25,31 @@ const SignUp = () => {
   return (
     <div className={styles.SignUp}>
       <div className={styles.container}>
-        <span className={styles.title}>Sign Up</span>
+        <span className={styles.title}>Đăng ký</span>
         <Form name='signInForm' form={form} onFinish={onSignUp} autoComplete='off' layout='vertical'>
           <Form.Item
-            label='First Name'
+            label='Họ và tên đệm'
             name='firstname'
             rules={[
               {
                 required: true,
-                message: 'Please input your first name!'
+                message: 'Vui lòng điền họ và tên đệm!'
               }
             ]}
           >
-            <Input size='large' placeholder='Input your first name' />
+            <Input size='large' placeholder='Nhập họ và tên đệm' />
           </Form.Item>
           <Form.Item
-            label='Last Name'
+            label='Tên'
             name='lastname'
             rules={[
               {
                 required: true,
-                message: 'Please input your first name!'
+                message: 'Vui lòng điền tên!'
               }
             ]}
           >
-            <Input size='large' placeholder='Input your first name' />
+            <Input size='large' placeholder='Nhập tên' />
           </Form.Item>
           <Form.Item
             label='Email'
@@ -57,42 +57,46 @@ const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your email!'
+                message: 'Vui lòng nhập email'
+              },
+              {
+                type: 'email',
+                message: 'Vui lòng điền đúng định dạng email'
               }
             ]}
           >
-            <Input size='large' placeholder='Input your email' />
+            <Input size='large' placeholder='Nhập email của bạn' />
           </Form.Item>
 
           <Form.Item
-            label='Phone Number'
+            label='Số điện thoại'
             name='mobile'
             rules={[
               {
                 required: true,
-                message: 'Please input your phone number!'
+                message: 'Vui lòng nhập số điện thoại!'
               }
             ]}
           >
-            <Input type='text' size='large' placeholder='Input your phone number' />
+            <Input type='text' size='large' placeholder='Nhập số điện thoại' />
           </Form.Item>
 
           <Form.Item
-            label='Password'
+            label='Mật khẩu'
             name='password'
             rules={[
               {
                 required: true,
-                message: 'Please input your password!'
+                message: 'Vui lòng nhập mật khẩu!'
               }
             ]}
           >
-            <Input.Password size='large' placeholder='Input your password' />
+            <Input.Password size='large' placeholder='Nhập mật khẩu' />
           </Form.Item>
 
           <div className={styles.footer}>
             <Button type='primary' htmlType='submit' size='large' loading={isLoadingSignUp}>
-              Sign Up
+              Đăng ký
             </Button>
             <Button
               type='link'
@@ -102,7 +106,7 @@ const SignUp = () => {
                 navigate('/login')
               }}
             >
-              Login
+              Đăng nhập
             </Button>
           </div>
         </Form>

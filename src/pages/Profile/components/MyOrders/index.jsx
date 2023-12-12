@@ -19,6 +19,21 @@ const MyOrders = () => {
   }, [])
 
   const _renderOrder = (order) => {
+    const orderAddress = [
+      order.paymentAddress?.address,
+      order.paymentAddress?.ward,
+      order.paymentAddress?.district,
+      order.paymentAddress?.state
+    ]
+      .filter(Boolean)
+      .join(', ')
+
+    const orderByInfo = !isEmpty(order.paymentInfo)
+      ? [`${order.paymentInfo?.firstName} ${order.paymentInfo?.lastName}`, order.paymentInfo?.mobile]
+          .filter(Boolean)
+          .join(', ')
+      : null
+
     return (
       <div key={order._id} className={styles.order}>
         <div className={styles.orderHeader}>
@@ -34,10 +49,25 @@ const MyOrders = () => {
             <Col span={16}>{order._id}</Col> */}
 
             <Col span={8}>Tiền đơn hàng</Col>
-            <Col span={16}>{order.paymentIntent?.amount}</Col>
+            <Col
+              span={16}
+              style={{
+                fontWeight: 700,
+                fontSize: 18,
+                color: 'var(--orange)'
+              }}
+            >
+              {renderMoney(order.paymentIntent?.amount)}
+            </Col>
 
             <Col span={8}>Trạng thái đơn hàng</Col>
             <Col span={16}>{order.orderStatus}</Col>
+
+            <Col span={8}>Địa chỉ giao hàng</Col>
+            <Col span={16}>{orderAddress}</Col>
+
+            <Col span={8}>Thông tin nhận hàng</Col>
+            <Col span={16}>{orderByInfo}</Col>
 
             <Col span={8}>Sản phẩm</Col>
             <Col span={16}>

@@ -1,5 +1,5 @@
 import { addToCart, userCartAPI } from '@/store/reducers/cartSlice'
-import { getAProductAPI, rateProductAPI } from '@/store/reducers/productSlice'
+import { addToWishListAPI, getAProductAPI, rateProductAPI } from '@/store/reducers/productSlice'
 import { renderMoney } from '@/utils/functions'
 import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import {
@@ -21,15 +21,18 @@ import {
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import Comment from './components/Comment'
 import styles from './index.module.scss'
 import { TAG_COLOR } from '@/utils/constants'
 import { useRef } from 'react'
 import { isEmpty } from 'lodash'
+import { getMyWishlistAPI } from '@/store/reducers/authSlice'
 
 const Details = () => {
   const [form] = Form.useForm()
   const { productDetails = {}, isLoadingProductDetails } = useSelector((state) => state.product)
+  const { myWishlist = [] } = useSelector((state) => state.auth)
   const { user } = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -53,6 +56,7 @@ const Details = () => {
   const { id } = useParams()
 
   const myRating = ratings.find((rating) => rating.postedby === user?._id)
+  const isInWishlist = myWishlist.some((item) => item._id === _id)
 
   useEffect(() => {
     form.resetFields()
@@ -60,6 +64,21 @@ const Details = () => {
 
   const getProductData = () => {
     dispatch(getAProductAPI(id))
+  }
+
+  const onAddToWishList = (id) => {
+    dispatch(
+      addToWishListAPI({
+        prodId: id
+      })
+    ).then(() => {
+      if (!isInWishlist) {
+        message.success('Đã thêm vào danh sách yêu thích')
+      } else {
+        message.success('Đã xoá khỏi danh sách yêu thích')
+      }
+      dispatch(getMyWishlistAPI())
+    })
   }
 
   const onCheckoutThisItem = async () => {
@@ -188,6 +207,27 @@ const Details = () => {
                 <Space>
                   <ShoppingCartOutlined />
                   Mua ngay
+                </Space>
+              </Button>
+            </div>
+            <div
+              className={styles.buttons}
+              style={{
+                marginTop: 24
+              }}
+            >
+              <Button onClick={() => onAddToWishList(_id)} type='default' danger={isInWishlist}>
+                <Space>
+                  {isInWishlist ? (
+                    <HeartFilled
+                      style={{
+                        color: 'var(--red)'
+                      }}
+                    />
+                  ) : (
+                    <HeartOutlined />
+                  )}
+                  {!isInWishlist ? 'Thêm vào danh sách yêu thích' : 'Xoá khỏi danh sách yêu thích'}
                 </Space>
               </Button>
             </div>

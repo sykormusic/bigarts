@@ -3,22 +3,24 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
+import ProtectedRoute from './components/ProtectedRoute'
 import ErrorPage from './error-page'
 import './index.css'
 import MainLayout from './layouts/MainLayout'
+import Blogs from './pages/Blogs'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
+import Contact from './pages/Contact'
 import Details from './pages/Details'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Products from './pages/Products'
-import SignUp from './pages/SignUp'
-import { persistor, store } from './store'
 import Profile from './pages/Profile'
-import ProtectedRoute from './components/ProtectedRoute'
-import Contact from './pages/Contact'
-import Blogs from './pages/Blogs'
+import SignUp from './pages/SignUp'
 import ViewBlog from './pages/ViewBlog'
+import ForgotPassword from './pages/ForgotPassword'
+import { persistor, store } from './store'
+import ResetPassword from './pages/ResetPassword'
 
 const router = createBrowserRouter([
   {
@@ -39,6 +41,20 @@ const router = createBrowserRouter([
         element: <Login />,
         handle: {
           crumb: () => 'Đăng nhập'
+        }
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgotPassword />,
+        handle: {
+          crumb: () => 'Quên mật khẩu'
+        }
+      },
+      {
+        path: '/reset-password/:token',
+        element: <ResetPassword />,
+        handle: {
+          crumb: () => 'Đặt lại mật khẩu'
         }
       },
       {

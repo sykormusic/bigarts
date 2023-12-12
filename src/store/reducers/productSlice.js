@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const initialState = {
   products: [],
+  totalProduct: 0,
   isLoadingProducts: false,
   productDetails: {},
   isLoadingProductDetails: false
@@ -71,7 +72,8 @@ export const productSlice = createSlice({
     })
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(getProductsAPI.fulfilled, (state, action) => {
-      state.products = action.payload
+      state.products = action.payload?.data || []
+      state.totalProduct = action.payload?.total || 0
       state.isLoadingProducts = false
     })
     builder.addCase(getProductsAPI.rejected, (state) => {

@@ -7,6 +7,7 @@ const initialState = {
   user: null,
   isLoadingLogin: false,
   isLoadingSignUp: false,
+  isLoadingForgot: false,
   myOrders: [],
   myWishlist: []
 }
@@ -32,6 +33,26 @@ export const signupAPI = createAsyncThunk('user/sign-up', async (payload) => {
 export const logoutAPI = createAsyncThunk('user/logout', async () => {
   try {
     const { data } = await axios.get(`${BASE_API}/user/logout`)
+    return data
+  } catch (error) {
+    return error
+  }
+})
+
+export const forgotPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) => {
+  try {
+    const { data } = await axios.post(`${BASE_API}/user/forgot-password-token`, payload)
+    return data
+  } catch (error) {
+    return error
+  }
+})
+
+export const resetPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) => {
+  try {
+    const { data } = await axios.put(`${BASE_API}/user/reset-password/${payload.token}`, {
+      password: payload.password
+    })
     return data
   } catch (error) {
     return error
@@ -66,7 +87,7 @@ export const getMyOrdersAPI = createAsyncThunk('user/my-orders', async () => {
 
 export const getMyWishlistAPI = createAsyncThunk('user/my-wishlist', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/user/get-wishlist`, {
+    const { data } = await axios.get(`${BASE_API}/user/wishlist`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
@@ -104,17 +125,27 @@ export const authSlice = createSlice({
       state.isLoadingSignUp = false
     })
 
+    builder.addCase(forgotPwdAPI.pending, (state) => {
+      state.isLoadingForgot = true
+    })
+    builder.addCase(forgotPwdAPI.fulfilled, (state) => {
+      state.isLoadingForgot = false
+    })
+    builder.addCase(forgotPwdAPI.rejected, (state) => {
+      state.isLoadingForgot = false
+    })
+
     builder.addCase(updateUserAPI.fulfilled, (state, action) => {
       state.user = { ...state.user, ...action.payload }
       message.success('Cập nhật thông tin thành công')
     })
 
     builder.addCase(getMyOrdersAPI.fulfilled, (state, action) => {
-      state.myOrders = [action.payload]
+      state.myOrders = action.payload
     })
 
     builder.addCase(getMyWishlistAPI.fulfilled, (state, action) => {
-      state.myWishlist = [action.payload]
+      state.myWishlist = action.payload
     })
 
     builder.addCase(logoutAPI.fulfilled, (state) => {

@@ -12,7 +12,7 @@ import { debounce, isEmpty } from 'lodash'
 import { CloseOutlined } from '@ant-design/icons'
 const Products = () => {
   const [form] = Form.useForm()
-  const { isLoadingProducts, products = [] } = useSelector((state) => state.product)
+  const { isLoadingProducts, totalProduct = 0, products = [] } = useSelector((state) => state.product)
   const { brands = [] } = useSelector((state) => state.brand)
   const { categories = [] } = useSelector((state) => state.category)
   const dispatch = useDispatch()
@@ -23,11 +23,11 @@ const Products = () => {
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(12)
   const [formValues, setFormValues] = useState({
-    category: [categoryName],
-    tags: [tags]
+    category: categoryName ? [categoryName] : undefined,
+    tags: tags ? [tags] : undefined
   })
 
-  const productsPerPage = (products || []).slice((page - 1) * pageSize, page * pageSize)
+  const isFormEmpty = Object.values(formValues).every((value) => isEmpty(value))
 
   useEffect(() => {
     if (categoryName !== formValues?.category?.[0]) {
@@ -56,11 +56,7 @@ const Products = () => {
   }
 
   const getData = (params) => {
-    dispatch(
-      getProductsAPI({
-        ...params
-      })
-    )
+    dispatch(getProductsAPI(params))
     getBrands()
   }
 
@@ -69,8 +65,8 @@ const Products = () => {
   }, 500)
 
   useEffect(() => {
-    getData(formValues)
-  }, [JSON.stringify(formValues)])
+    getData({ ...formValues, page, limit: pageSize })
+  }, [JSON.stringify(formValues), page, pageSize])
 
   const _renderFilterItem = (title, content) => {
     return (
@@ -82,13 +78,13 @@ const Products = () => {
   }
   return (
     <div className={styles.Products}>
-      <Form initialValues={formValues} form={form} onValuesChange={(values) => debounceSaveFormValues(values)}>
+      <Form initialValues={formValues} form={form} onValuesChange={(_, values) => debounceSaveFormValues(values)}>
         <Row gutter={[24, 24]}>
           <Col span={6}>
             <div className={styles.filterContainer}>
               <div className={styles.header}>
                 <span className={styles.title}>Lọc sản phẩm</span>
-                {!isEmpty(formValues) && (
+                {!isFormEmpty && (
                   <Button
                     danger
                     size='small'
@@ -242,7 +238,7 @@ const Products = () => {
                 <div className={styles.productList}>
                   <Spin spinning={isLoadingProducts}>
                     <div className={styles.productContainer}>
-                      {productsPerPage.map((product) => (
+                      {products.map((product) => (
                         <ProductItem key={product._id} data={product} />
                       ))}
                     </div>
@@ -254,7 +250,7 @@ const Products = () => {
                         setPage(p)
                         setPageSize(l)
                       }}
-                      total={products.length}
+                      total={totalProduct}
                     />
                   </Spin>
                 </div>

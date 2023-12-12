@@ -1,11 +1,8 @@
-import { Form, Button, Input } from 'antd'
-import styles from './index.module.scss'
-import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import { loginAPI } from '@/store/reducers/authSlice'
-import { useSelector } from 'react-redux'
-import { notification } from 'antd'
-import { message } from 'antd'
+import { Button, Form, Input, message } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import styles from './index.module.scss'
 
 const Login = () => {
   const { isLoadingLogin } = useSelector((state) => state.auth)
@@ -26,49 +23,43 @@ const Login = () => {
   return (
     <div className={styles.Login}>
       <div className={styles.container}>
-        <span className={styles.title}>Login</span>
-        <Form
-          initialValues={{
-            email: 'sykormusic@gmail.com',
-            password: '19052001Sam'
-          }}
-          name='signInForm'
-          form={form}
-          onFinish={onSignIn}
-          autoComplete='off'
-          layout='vertical'
-        >
+        <span className={styles.title}>Đăng nhập</span>
+        <Form name='signInForm' form={form} onFinish={onSignIn} autoComplete='off' layout='vertical'>
           <Form.Item
             label='Email'
             name='email'
             rules={[
               {
                 required: true,
-                message: 'Please input your email!'
+                message: 'Vui lòng nhập email'
+              },
+              {
+                type: 'email',
+                message: 'Vui lòng điền đúng định dạng email'
               }
             ]}
           >
-            <Input size='large' placeholder='Input your email' />
+            <Input size='large' placeholder='Nhập email của bạn' />
           </Form.Item>
 
           <Form.Item
-            label='Password'
+            label='Mật khẩu'
             name='password'
             rules={[
               {
                 required: true,
-                message: 'Please input your password!'
+                message: 'Vui lòng nhập mật khẩu!'
               }
             ]}
           >
-            <Input.Password size='large' placeholder='Input your password' />
+            <Input.Password size='large' placeholder='Nhập mật khẩu' />
           </Form.Item>
 
-          <a href='#'>Forgot password?</a>
+          <a href='/forgot-password'>Quên mật khẩu?</a>
 
           <div className={styles.footer}>
             <Button type='primary' htmlType='submit' size='large' loading={isLoadingLogin}>
-              Login
+              Đăng nhập
             </Button>
             <Button
               type='link'
@@ -78,7 +69,7 @@ const Login = () => {
                 navigate('/sign-up')
               }}
             >
-              Sign Up
+              Đăng ký
             </Button>
           </div>
         </Form>

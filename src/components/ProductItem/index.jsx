@@ -1,24 +1,35 @@
 import styles from './index.module.scss'
 import { useNavigate } from 'react-router-dom'
-import { HeartOutlined } from '@ant-design/icons'
-import { useDispatch } from 'react-redux'
+import { HeartOutlined, HeartFilled } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToWishListAPI } from '@/store/reducers/productSlice'
-import { Rate } from 'antd'
+import { Rate, message } from 'antd'
 import { renderMoney } from '@/utils/functions'
 import { Tag } from 'antd'
 import { TAG_COLOR } from '@/utils/constants'
+import { getMyWishlistAPI } from '@/store/reducers/authSlice'
 
 const ProductItem = (props) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const { myWishlist = [] } = useSelector((state) => state.auth)
   const { data: { _id, title, brand, images, price, tags, totalrating } = {} } = props
+
+  const isInWishlist = (myWishlist || []).some((item) => item._id === _id)
 
   const onAddToWishList = (id) => {
     dispatch(
       addToWishListAPI({
         prodId: id
       })
-    )
+    ).then(() => {
+      if (!isInWishlist) {
+        message.success('Đã thêm vào danh sách yêu thích')
+      } else {
+        message.success('Đã xoá khỏi danh sách yêu thích')
+      }
+      dispatch(getMyWishlistAPI())
+    })
   }
 
   return (
@@ -55,7 +66,15 @@ const ProductItem = (props) => {
           onAddToWishList(_id)
         }}
       >
-        <HeartOutlined />
+        {isInWishlist ? (
+          <HeartFilled
+            style={{
+              color: 'var(--red)'
+            }}
+          />
+        ) : (
+          <HeartOutlined />
+        )}
       </button>
     </div>
   )
