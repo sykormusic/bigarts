@@ -14,9 +14,11 @@ const SignUp = () => {
   const [form] = Form.useForm()
   const onSignUp = async (values) => {
     const res = await dispatch(signupAPI(values))
-    if (res.payload) {
+    if (res.payload?._id) {
       message.success('Đăng ký thành công.')
       navigate('/login')
+    } else {
+      message.error(res?.payload?.message)
     }
   }
 
