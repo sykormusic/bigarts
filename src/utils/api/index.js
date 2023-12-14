@@ -27,7 +27,8 @@ const handleResponse = (response) => {
 }
 
 const handleError = (error) => {
-  notification.error({ message: error?.message, description: error?.config?.url })
+  console.log('🚀 ~ file: index.js:30 ~ handleError ~ error:', error)
+  notification.error({ message: 'Error', description: error?.response?.data?.message })
   return {
     data: undefined,
     status: 500
