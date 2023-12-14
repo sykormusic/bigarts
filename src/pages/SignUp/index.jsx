@@ -1,11 +1,8 @@
-import { Button, Form, Input } from 'antd'
+import { signupAPI } from '@/store/reducers/authSlice'
+import { Button, Form, Input, message } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
-import { useDispatch } from 'react-redux'
-import { signupAPI } from '@/store/reducers/authSlice'
-import { notification } from 'antd'
-import { useSelector } from 'react-redux'
-import { message } from 'antd'
 
 const SignUp = () => {
   const { isLoadingSignUp } = useSelector((state) => state.auth)
@@ -14,11 +11,9 @@ const SignUp = () => {
   const [form] = Form.useForm()
   const onSignUp = async (values) => {
     const res = await dispatch(signupAPI(values))
-    if (res.payload?._id) {
+    if (res.payload?.status === 200) {
       message.success('Đăng ký thành công.')
       navigate('/login')
-    } else {
-      message.error(res?.payload?.message)
     }
   }
 

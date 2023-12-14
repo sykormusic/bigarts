@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   myOrders: [],
@@ -9,11 +8,7 @@ const initialState = {
 
 export const getMyOrdersAPI = createAsyncThunk('user/my-orders', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/user/get-orders`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.get(`/user/get-orders`)
     return data
   } catch (error) {
     return error
@@ -22,11 +17,7 @@ export const getMyOrdersAPI = createAsyncThunk('user/my-orders', async () => {
 
 export const getMyWishlistAPI = createAsyncThunk('user/my-wishlist', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/user/wishlist`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.get(`/user/wishlist`)
     return data
   } catch (error) {
     return error

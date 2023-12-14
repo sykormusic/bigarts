@@ -1,7 +1,6 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { message } from 'antd'
-import axios from 'axios'
 
 const initialState = {
   user: null,
@@ -12,8 +11,8 @@ const initialState = {
 
 export const loginAPI = createAsyncThunk('user/login', async (payload) => {
   try {
-    const { data } = await axios.post(`${BASE_API}/user/login`, payload)
-    return data
+    const res = await api.post(`/user/login`, payload)
+    return res
   } catch (error) {
     return error
   }
@@ -21,8 +20,8 @@ export const loginAPI = createAsyncThunk('user/login', async (payload) => {
 
 export const signupAPI = createAsyncThunk('user/sign-up', async (payload) => {
   try {
-    const { data } = await axios.post(`${BASE_API}/user/register`, payload)
-    return data
+    const res = await api.post(`/user/register`, payload)
+    return res
   } catch (error) {
     return error
   }
@@ -30,7 +29,7 @@ export const signupAPI = createAsyncThunk('user/sign-up', async (payload) => {
 
 export const logoutAPI = createAsyncThunk('user/logout', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/user/logout`)
+    const { data } = await api.get(`/user/logout`)
     return data
   } catch (error) {
     return error
@@ -39,7 +38,7 @@ export const logoutAPI = createAsyncThunk('user/logout', async () => {
 
 export const forgotPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) => {
   try {
-    const { data } = await axios.post(`${BASE_API}/user/forgot-password-token`, payload)
+    const { data } = await api.post(`/user/forgot-password-token`, payload)
     return data
   } catch (error) {
     return error
@@ -48,7 +47,7 @@ export const forgotPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) =
 
 export const resetPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) => {
   try {
-    const { data } = await axios.put(`${BASE_API}/user/reset-password/${payload.token}`, {
+    const { data } = await api.put(`/user/reset-password/${payload.token}`, {
       password: payload.password
     })
     return data
@@ -59,11 +58,7 @@ export const resetPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) =>
 
 export const updateUserAPI = createAsyncThunk('user/update', async (payload) => {
   try {
-    const { data } = await axios.put(`${BASE_API}/user/edit-user`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.put(`/user/edit-user`, payload)
     return data
   } catch (error) {
     return error
@@ -80,8 +75,8 @@ export const authSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(loginAPI.fulfilled, (state, action) => {
       state.isLoadingLogin = false
-      state.user = action.payload
-      localStorage.setItem('token', action.payload.token)
+      localStorage.setItem('token', action.payload.data?.token)
+      state.user = action.payload?.data
     })
     builder.addCase(loginAPI.rejected, (state) => {
       state.isLoadingLogin = false
@@ -91,7 +86,7 @@ export const authSlice = createSlice({
     })
     builder.addCase(signupAPI.fulfilled, (state, action) => {
       state.isLoadingSignUp = false
-      state.user = action.payload
+      state.user = action.payload?.data
     })
     builder.addCase(signupAPI.rejected, (state) => {
       state.isLoadingSignUp = false
@@ -114,8 +109,6 @@ export const authSlice = createSlice({
 
     builder.addCase(logoutAPI.fulfilled, (state) => {
       state.user = null
-      state.myOrders = []
-      state.myWishlist = []
       localStorage.clear()
       window.location.href = '/'
     })

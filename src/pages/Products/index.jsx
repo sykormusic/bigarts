@@ -1,15 +1,15 @@
 import ProductItem from '@/components/ProductItem'
 import styles from './index.module.scss'
 
+import { getBrandsAPI } from '@/store/reducers/brandSlice'
 import { getProductsAPI } from '@/store/reducers/productSlice'
 import { goToTop } from '@/utils/functions'
-import { Button, Checkbox, Col, Form, InputNumber, Pagination, Row, Select, Space, Spin } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
+import { Alert, Button, Checkbox, Col, Form, InputNumber, Pagination, Row, Select, Space, Spin } from 'antd'
+import { debounce, isEmpty, omit } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { getBrandsAPI } from '@/store/reducers/brandSlice'
-import { debounce, isEmpty } from 'lodash'
-import { CloseOutlined } from '@ant-design/icons'
 const Products = () => {
   const [form] = Form.useForm()
   const { isLoadingProducts, totalProduct = 0, products = [] } = useSelector((state) => state.product)
@@ -18,16 +18,17 @@ const Products = () => {
   const dispatch = useDispatch()
   const { state } = useLocation()
 
-  const { categoryName, tags } = state || {}
+  const { categoryName, tags, searchKey } = state || {}
 
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(12)
   const [formValues, setFormValues] = useState({
     category: categoryName ? [categoryName] : undefined,
-    tags: tags ? [tags] : undefined
+    tags: tags ? [tags] : undefined,
+    searchKey: searchKey ? searchKey : undefined
   })
 
-  const isFormEmpty = Object.values(formValues).every((value) => isEmpty(value))
+  const isFormEmpty = Object.values(omit(formValues, 'searchKey')).every((value) => isEmpty(value))
 
   useEffect(() => {
     if (categoryName !== formValues?.category?.[0]) {
@@ -50,6 +51,14 @@ const Products = () => {
       })
     }
   }, [tags])
+
+  useEffect(() => {
+    if (searchKey !== formValues.searchKey) {
+      setFormValues({
+        searchKey: searchKey
+      })
+    }
+  }, [searchKey])
 
   const getBrands = () => {
     dispatch(getBrandsAPI())
@@ -234,6 +243,19 @@ const Products = () => {
                   <div className={styles.right}>{products.length} sản phẩm</div>
                 </div>
               </Col>
+              {searchKey ? (
+                <Col span={24}>
+                  <Alert
+                    message={
+                      <span>
+                        Kết quả tìm kiếm cho từ khoá <b>{searchKey}</b>
+                      </span>
+                    }
+                    type='info'
+                    showIcon
+                  />
+                </Col>
+              ) : null}
               <Col span={24}>
                 <div className={styles.productList}>
                   <Spin spinning={isLoadingProducts}>

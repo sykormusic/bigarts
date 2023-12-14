@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   brands: []
@@ -8,7 +7,7 @@ const initialState = {
 
 export const getBrandsAPI = createAsyncThunk('brand/get-all', async (params) => {
   try {
-    const { data } = await axios.get(`${BASE_API}/brand`, params)
+    const { data } = await api.get(`/brand`, params)
     return data
   } catch (error) {
     return error

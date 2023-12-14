@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   products: [],
@@ -12,7 +11,7 @@ const initialState = {
 
 export const getProductsAPI = createAsyncThunk('product/get-all', async (params) => {
   try {
-    const { data } = await axios.get(`${BASE_API}/product`, {
+    const { data } = await api.get(`/product`, {
       params
     })
     return data
@@ -23,7 +22,7 @@ export const getProductsAPI = createAsyncThunk('product/get-all', async (params)
 
 export const getAProductAPI = createAsyncThunk('product/get-one', async (id) => {
   try {
-    const { data } = await axios.get(`${BASE_API}/product/${id}`)
+    const { data } = await api.get(`/product/${id}`)
     return data
   } catch (error) {
     return error
@@ -32,11 +31,7 @@ export const getAProductAPI = createAsyncThunk('product/get-one', async (id) => 
 
 export const addToWishListAPI = createAsyncThunk('product/add-to-wishlist', async (payload) => {
   try {
-    const { data } = await axios.put(`${BASE_API}/product/wishlist`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.put(`/product/wishlist`, payload)
     return data
   } catch (error) {
     return error
@@ -45,12 +40,20 @@ export const addToWishListAPI = createAsyncThunk('product/add-to-wishlist', asyn
 
 export const rateProductAPI = createAsyncThunk('product/rate', async (payload) => {
   try {
-    const { data } = await axios.put(`${BASE_API}/product/rating`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.put(`/product/rating`, payload)
     return data
+  } catch (error) {
+    return error
+  }
+})
+
+export const searchProductAPI = createAsyncThunk('product/search', async (params) => {
+  try {
+    const res = await api.get(`/search`, {
+      params
+    })
+    console.log('🚀 ~ file: productSlice.js:54 ~ searchProductAPI ~ res:', res)
+    return res
   } catch (error) {
     return error
   }

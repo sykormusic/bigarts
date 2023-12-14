@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   cart: {
@@ -13,11 +12,7 @@ const initialState = {
 
 export const userCartAPI = createAsyncThunk('cart/add-to-cart', async (payload) => {
   try {
-    const { data } = await axios.post(`${BASE_API}/user/cart`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.post(`/user/cart`, payload)
     return data
   } catch (error) {
     return error
@@ -26,11 +21,7 @@ export const userCartAPI = createAsyncThunk('cart/add-to-cart', async (payload) 
 
 export const applyCouponAPI = createAsyncThunk('cart/apply-coupon', async (payload) => {
   try {
-    const { data } = await axios.post(`${BASE_API}/user/cart/applycoupon`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.post(`/user/cart/applycoupon`, payload)
     return data
   } catch (error) {
     return error
@@ -39,11 +30,7 @@ export const applyCouponAPI = createAsyncThunk('cart/apply-coupon', async (paylo
 
 export const emptyCartAPI = createAsyncThunk('cart/empty-cart', async () => {
   try {
-    const { data } = await axios.delete(`${BASE_API}/user/empty-cart`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.delete(`/user/empty-cart`)
     return data
   } catch (error) {
     return error
@@ -52,11 +39,7 @@ export const emptyCartAPI = createAsyncThunk('cart/empty-cart', async () => {
 
 export const getUserCartAPI = createAsyncThunk('cart/get-user-cart', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/user/cart`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.get(`/user/cart`)
     return data
   } catch (error) {
     return error
@@ -65,11 +48,7 @@ export const getUserCartAPI = createAsyncThunk('cart/get-user-cart', async () =>
 
 export const createCashOrderAPI = createAsyncThunk('cart/create-cash-order', async (payload) => {
   try {
-    const { data } = await axios.post(`${BASE_API}/user/cart/cash-order`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.post(`/user/cart/cash-order`, payload)
     return data
   } catch (error) {
     return error

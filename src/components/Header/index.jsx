@@ -1,14 +1,15 @@
 import { logoutAPI } from '@/store/reducers/authSlice'
-import { HeartOutlined, LogoutOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
-import { Badge, Button, Input } from 'antd'
-import { useState } from 'react'
+import { searchProductAPI } from '@/store/reducers/productSlice'
+import { getMyWishlistAPI } from '@/store/reducers/userSlice'
+import { HeartOutlined, LogoutOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { Badge, Input, Dropdown } from 'antd'
+import { debounce } from 'lodash'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CartDrawer from '../CartDrawer'
 import Item from './components/Item'
 import styles from './index.module.scss'
-import { useEffect } from 'react'
-import { getMyWishlistAPI } from '@/store/reducers/userSlice'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -20,6 +21,25 @@ const Header = () => {
   } = useSelector((state) => state.cart)
 
   const [isCartOpen, setIsCartOpen] = useState(false)
+  const [searchData, setSearchData] = useState([])
+  const [isLoadingSearch, setIsLoadingSearch] = useState(false)
+
+  const handleSearch = debounce(async (e) => {
+    setIsLoadingSearch(true)
+    // setSearchValue(newValue)
+
+    const { value } = e.target
+    if (!value) {
+      setSearchData([])
+      setIsLoadingSearch(false)
+      return
+    }
+    const { payload: { status, data = [] } = {} } = await dispatch(searchProductAPI({ searchKey: value }))
+    if (status === 200) {
+      setSearchData(data)
+      setIsLoadingSearch(false)
+    }
+  }, 1000)
 
   useEffect(() => {
     if (user) {
@@ -121,16 +141,38 @@ const Header = () => {
           <a href='/'>BigArts</a>
         </div>
         <div className={styles.center}>
-          <Input
-            placeholder='Tìm kiếm sản phẩm...'
-            size='large'
-            allowClear
-            addonAfter={
-              <Button type='text'>
-                <SearchOutlined />
-              </Button>
-            }
-          />
+          <Dropdown
+            menu={{
+              items: searchData.map((d) => ({
+                value: d._id,
+                label: d.title,
+                onClick: () => {
+                  navigate(`/products/${d._id}`)
+                }
+              }))
+            }}
+          >
+            <Input
+              placeholder='Tìm kiếm sản phẩm...'
+              onSearch={handleSearch}
+              onChange={handleSearch}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  navigate(`/products`, {
+                    state: {
+                      searchKey: e.target.value
+                    }
+                  })
+                }
+              }}
+              loading={isLoadingSearch}
+              style={{
+                width: '100%'
+              }}
+              size='large'
+              allowClear
+            />
+          </Dropdown>
         </div>
         <div className={styles.right}>
           {headerItems.map((item) => (

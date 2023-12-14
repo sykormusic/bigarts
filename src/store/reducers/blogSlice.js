@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   blogs: [],
@@ -10,7 +9,7 @@ const initialState = {
 
 export const getBlogsAPI = createAsyncThunk('blog/get-all', async (params) => {
   try {
-    const { data } = await axios.get(`${BASE_API}/blog`, params)
+    const { data } = await api.get(`/blog`, params)
     return data
   } catch (error) {
     return error
@@ -19,7 +18,7 @@ export const getBlogsAPI = createAsyncThunk('blog/get-all', async (params) => {
 
 export const getABlogAPI = createAsyncThunk('blog/get-one', async (id) => {
   try {
-    const { data } = await axios.get(`${BASE_API}/blog/${id}`)
+    const { data } = await api.get(`/blog/${id}`)
     return data
   } catch (error) {
     return error
@@ -28,11 +27,7 @@ export const getABlogAPI = createAsyncThunk('blog/get-one', async (id) => {
 
 export const likeBlogAPI = createAsyncThunk('blog/like', async (payload) => {
   try {
-    const { data } = await axios.put(`${BASE_API}/blog/likes`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.put(`/blog/likes`, payload)
     return data
   } catch (error) {
     return error
@@ -41,11 +36,7 @@ export const likeBlogAPI = createAsyncThunk('blog/like', async (payload) => {
 
 export const dislikeBlogAPI = createAsyncThunk('blog/dislike', async (payload) => {
   try {
-    const { data } = await axios.put(`${BASE_API}/blog/dislikes`, payload, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    })
+    const { data } = await api.put(`/blog/dislikes`, payload)
     return data
   } catch (error) {
     return error

@@ -12,11 +12,9 @@ const Login = () => {
 
   const onSignIn = async (values) => {
     const res = await dispatch(loginAPI(values))
-    if (res.payload?._id) {
+    if (res.payload?.status === 200) {
       message.success('Đăng nhập thành công.')
-      navigate(-1)
-    } else {
-      message.error(res?.payload?.message)
+      navigate('/')
     }
   }
 

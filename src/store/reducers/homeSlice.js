@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   featuredProducts: [],
@@ -13,7 +12,7 @@ const initialState = {
 
 export const getFeaturedProducts = createAsyncThunk('home/get-featured', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/product`, {
+    const { data } = await api.get(`/product`, {
       params: {
         tags: 'featured',
         limit: 10
@@ -27,7 +26,7 @@ export const getFeaturedProducts = createAsyncThunk('home/get-featured', async (
 
 export const getSpecialProducts = createAsyncThunk('home/get-special', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/product`, {
+    const { data } = await api.get(`/product`, {
       params: {
         tags: 'special',
         limit: 5
@@ -41,7 +40,7 @@ export const getSpecialProducts = createAsyncThunk('home/get-special', async () 
 
 export const getPopularProducts = createAsyncThunk('home/get-popular', async () => {
   try {
-    const { data } = await axios.get(`${BASE_API}/product`, {
+    const { data } = await api.get(`/product`, {
       params: {
         tags: 'popular',
         limit: 10

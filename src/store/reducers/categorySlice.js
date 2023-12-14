@@ -1,6 +1,5 @@
-import { BASE_API } from '@/utils/api'
+import api from '@/utils/api'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 const initialState = {
   categories: []
@@ -8,7 +7,7 @@ const initialState = {
 
 export const getCategoriesAPI = createAsyncThunk('category/get-all', async (params) => {
   try {
-    const { data } = await axios.get(`${BASE_API}/category`, params)
+    const { data = [] } = await api.get(`/category`, params)
     return data
   } catch (error) {
     return error
@@ -25,9 +24,8 @@ export const categorySlice = createSlice({
     // }
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(getCategoriesAPI.fulfilled, (state, action) => {
-      state.categories = action.payload
+      state.categories = action.payload || []
     })
   }
 })

@@ -10,6 +10,7 @@ import styles from './index.module.scss'
 import { Select } from 'antd'
 import { Radio } from 'antd'
 import { renderMoney } from '@/utils/functions'
+import { level1s } from 'dvhcvn'
 
 const Checkout = () => {
   const navigate = useNavigate()
@@ -23,7 +24,31 @@ const Checkout = () => {
   const [coupon, setCoupon] = useState('CRM2023')
   const [formValues, setFormValues] = useState({})
 
+  const [showingDistricts, setShowingDistricts] = useState([])
+  const [showingWards, setShowingWards] = useState([])
+
   const { products = [], cartTotal } = cartDetails || {}
+
+  const selectedProvince = formValues.state
+  const selectedDistrict = formValues.district
+
+  useEffect(() => {
+    if (selectedProvince) {
+      const find = level1s.find((item) => item.id === selectedProvince?.value)
+      if (find) {
+        setShowingDistricts(find.children)
+      }
+    }
+  }, [JSON.stringify(selectedProvince)])
+
+  useEffect(() => {
+    if (selectedDistrict) {
+      const find = showingDistricts.find((item) => item.id === selectedDistrict?.value)
+      if (find) {
+        setShowingWards(find.children)
+      }
+    }
+  }, [JSON.stringify(selectedDistrict)])
 
   const getCartDetails = async () => {
     const res = await dispatch(getUserCartAPI())
@@ -45,16 +70,15 @@ const Checkout = () => {
   }, [])
 
   const onFinish = async (values) => {
-    console.log(values)
     const res = await dispatch(
       createCashOrderAPI({
         COD: true,
         paymentAddress: {
           address: values.address,
           country: 'VN',
-          ward: values.ward,
-          district: values.district,
-          state: values.state
+          ward: values.ward?.label,
+          district: values.district.label,
+          state: values.state.label
         },
         paymentInfo: {
           firstName: values.firstname,
@@ -178,10 +202,21 @@ const Checkout = () => {
                         ]}
                       >
                         <Select
+                          labelInValue
                           size='large'
                           placeholder='Tỉnh/thành phố'
-                          options={[{ label: 'Thanh Pho Ho Chi Minh', value: 'Thanh Pho Ho Chi Minh' }]}
-                          onChange={() => form.setFieldValue('district', undefined)}
+                          showSearch
+                          filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes((input ?? '').toLowerCase())
+                          }
+                          options={level1s.map((x) => ({
+                            label: x.name,
+                            value: x.id
+                          }))}
+                          onChange={() => {
+                            form.setFieldValue('district', undefined)
+                            form.setFieldValue('ward', undefined)
+                          }}
                         />
                       </Form.Item>
                     </Col>
@@ -196,12 +231,17 @@ const Checkout = () => {
                         ]}
                       >
                         <Select
+                          labelInValue
                           size='large'
+                          showSearch
+                          filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes((input ?? '').toLowerCase())
+                          }
                           placeholder='Quận/huyện'
-                          options={[
-                            { label: 'Quan 1', value: 'Quan 1' },
-                            { label: 'Quan 2', value: 'Quan 2' }
-                          ]}
+                          options={showingDistricts.map((x) => ({
+                            label: x.name,
+                            value: x.id
+                          }))}
                           onChange={() => form.setFieldValue('ward', undefined)}
                         />
                       </Form.Item>
@@ -218,9 +258,17 @@ const Checkout = () => {
                         ]}
                       >
                         <Select
+                          labelInValue
                           size='large'
                           placeholder='Phường/xã'
-                          options={[{ label: 'Phuong 1', value: 'Phuong 1' }]}
+                          showSearch
+                          filterOption={(input, option) =>
+                            (option?.label ?? '').toLowerCase().includes((input ?? '').toLowerCase())
+                          }
+                          options={showingWards.map((x) => ({
+                            label: x.name,
+                            value: x.id
+                          }))}
                         />
                       </Form.Item>
                     </Col>

@@ -17,6 +17,9 @@ dependencies:
   axios:
     specifier: ^1.6.2
     version: 1.6.2
+  dvhcvn:
+    specifier: 1.1.20230410-b
+    version: 1.1.20230410-b
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1437,6 +1440,10 @@ packages:
     dependencies:
       esutils: 2.0.3
     dev: true
+
+  /dvhcvn@1.1.20230410-b:
+    resolution: {integrity: sha512-QIAOzcYfXBjMmBcfDec9LvC4txoGVk3RF/sRQ0gLCCFwsO8yJ6YH/Ra7ZN+r60WHHIct+0FbmyAlogBdPq9B1g==}
+    dev: false
 
   /electron-to-chromium@1.4.607:
     resolution: {integrity: sha512-YUlnPwE6eYxzwBnFmawA8LiLRfm70R2aJRIUv0n03uHt/cUzzYACOogmvk8M2+hVzt/kB80KJXx7d5f5JofPvQ==}
