@@ -329,10 +329,12 @@ const Checkout = () => {
                   <span>Tổng</span>
                   <span>{renderMoney(cartTotal)}</span>
                 </div>
-                <div className={styles.item}>
-                  <span>Mã giảm giá {couponApplied && <Tag color='green'>{coupon}</Tag>}</span>
-                  <span>{couponApplied && renderMoney(totalAfterDiscount - cartTotal)}</span>
-                </div>
+                {couponApplied && (
+                  <div className={styles.item}>
+                    <span>Mã giảm giá {<Tag color='green'>{coupon}</Tag>}</span>
+                    <span>{renderMoney(totalAfterDiscount - cartTotal)}</span>
+                  </div>
+                )}
                 <div className={styles.item}>
                   <span>Phí vận chuyển</span>
                   <span>{renderMoney(0)}</span>

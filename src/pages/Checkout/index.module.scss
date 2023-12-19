@@ -12,6 +12,9 @@
     background-color: #fff;
     padding: var(--padding-lg);
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    .addressForm {
+      margin-top: 32px;
+    }
   }
   .checkoutContainer {
     border-radius: var(--my-border-radius);
@@ -62,6 +65,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-block: 4px;
+
         span {
           line-height: 24px;
         }
