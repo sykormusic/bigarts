@@ -200,23 +200,23 @@ const Details = () => {
             <div className={styles.rating}>
               <Rate defaultValue={totalrating} disabled />
               <span>
-                <span>({ratings.length} reviews)</span>
+                <span>({ratings.length} đánh giá)</span>
                 {!!user && (
                   <Button type='link' onClick={() => reviewInputRef.current.focus()}>
-                    Write a review
+                    Viết đánh giá
                   </Button>
                 )}
               </span>
             </div>
             <Divider />
             <span className={styles.info}>
-              Brand: <Tag color='orange'>{brand}</Tag>
+              Thương hiệu: <Tag color='orange'>{brand}</Tag>
             </span>
             <span className={styles.info}>
-              Category: <Tag color='blue'>{category}</Tag>
+              Danh mục: <Tag color='blue'>{category}</Tag>
             </span>
             <span className={styles.info}>
-              Tag: <Tag color={TAG_COLOR[tags]}>{tags}</Tag>
+              Thẻ: <Tag color={TAG_COLOR[tags]}>{tags}</Tag>
             </span>
             <Divider />
             <div className={styles.buttons}>
