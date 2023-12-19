@@ -1,7 +1,8 @@
 .MyOrders {
   .order {
     &:not(:last-child) {
-      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: var(--padding-lg);
     }
     .orderHeader {
       display: flex;
@@ -14,6 +15,7 @@
       padding: calc(var(--padding-lg) / 2);
       border: 1px solid var(--border-color);
       border-radius: var(--my-border-radius);
+
       .product {
         display: flex;
         gap: 16px;

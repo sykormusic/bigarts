@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 import { useDispatch } from 'react-redux'
-import { getUserCartAPI, removeFromCart } from '@/store/reducers/cartSlice'
+import { getUserCartAPI, removeFromCart, userCartAPI } from '@/store/reducers/cartSlice'
 import { useEffect } from 'react'
 import { Spin } from 'antd'
 import { renderMoney } from '@/utils/functions'
@@ -18,8 +18,13 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const onRemoveItem = (id) => {
-    dispatch(removeFromCart(id))
+  const onRemoveItem = async (id) => {
+    await dispatch(
+      userCartAPI({
+        cart: products.filter((item) => item._id !== id).map((item) => ({ _id: item.product?._id, count: item.count }))
+      })
+    )
+    dispatch(getUserCartAPI())
   }
 
   const onCheckout = () => {
@@ -28,7 +33,7 @@ const CartDrawer = ({ open, onClose = () => {} }) => {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user && open) {
       dispatch(getUserCartAPI())
     }
   }, [user, open])

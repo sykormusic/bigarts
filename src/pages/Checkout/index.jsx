@@ -1,6 +1,6 @@
 import { applyCouponAPI, createCashOrderAPI, emptyCartAPI, getUserCartAPI } from '@/store/reducers/cartSlice'
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import { Button, Col, Divider, Form, Input, Row, Space } from 'antd'
+import { Button, Tag, message, Col, Divider, Form, Input, Row, Space } from 'antd'
 import { useForm } from 'antd/es/form/Form'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,13 +21,14 @@ const Checkout = () => {
   const [cartDetails, setCartDetails] = useState({})
 
   const [orderStatus, setOrderStatus] = useState('')
-  const [coupon, setCoupon] = useState('CRM2023')
+  const [coupon, setCoupon] = useState('')
   const [formValues, setFormValues] = useState({})
+  const [couponApplied, setCouponApplied] = useState(false)
 
   const [showingDistricts, setShowingDistricts] = useState([])
   const [showingWards, setShowingWards] = useState([])
 
-  const { products = [], cartTotal } = cartDetails || {}
+  const { products = [], cartTotal, totalAfterDiscount } = cartDetails || {}
 
   const selectedProvince = formValues.state
   const selectedDistrict = formValues.district
@@ -58,11 +59,19 @@ const Checkout = () => {
   }
 
   const onApplyCoupon = async () => {
-    await dispatch(
+    if (!coupon) {
+      message.error('Vui lòng nhập mã giảm giá!')
+      return
+    }
+    const res = await dispatch(
       applyCouponAPI({
         coupon
       })
     )
+    if (res.payload?.status === 200) {
+      setCouponApplied(true)
+      getCartDetails()
+    }
   }
 
   useEffect(() => {
@@ -73,6 +82,7 @@ const Checkout = () => {
     const res = await dispatch(
       createCashOrderAPI({
         COD: true,
+        couponApplied,
         paymentAddress: {
           address: values.address,
           country: 'VN',
@@ -302,7 +312,7 @@ const Checkout = () => {
                 ))}
               </div>
               <Divider />
-              {/* <Input
+              <Input
                 placeholder='Nhập mã giảm giá'
                 defaultValue={coupon}
                 onChange={(e) => setCoupon(e.target.value)}
@@ -313,18 +323,22 @@ const Checkout = () => {
                   </Button>
                 }
               />
-              <Divider /> */}
-              {/* <div className={styles.prices}>
+              <Divider />
+              <div className={styles.prices}>
                 <div className={styles.item}>
                   <span>Tổng</span>
-                  <span>{getSubTotal()}</span>
+                  <span>{renderMoney(cartTotal)}</span>
+                </div>
+                <div className={styles.item}>
+                  <span>Mã giảm giá {couponApplied && <Tag color='green'>{coupon}</Tag>}</span>
+                  <span>{couponApplied && renderMoney(totalAfterDiscount - cartTotal)}</span>
                 </div>
                 <div className={styles.item}>
                   <span>Phí vận chuyển</span>
-                  <span>{shippingFee}</span>
+                  <span>{renderMoney(0)}</span>
                 </div>
               </div>
-              <Divider /> */}
+              <Divider />
 
               <div className={styles.paymentMethod}>
                 <Radio.Group
@@ -341,7 +355,7 @@ const Checkout = () => {
               <div className={styles.footer}>
                 <div className={styles.total}>
                   <span>Tổng</span>
-                  <span>{renderMoney(cartTotal)}</span>
+                  <span>{renderMoney(couponApplied ? totalAfterDiscount : cartTotal)}</span>
                 </div>
                 <div className={styles.btns}>
                   <Button type='primary' htmlType='submit' form='checkoutForm' className={styles.checkout} size='large'>

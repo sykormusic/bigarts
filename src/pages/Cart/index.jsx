@@ -1,4 +1,4 @@
-import { emptyCartAPI, getUserCartAPI, removeFromCart, updateCartQty } from '@/store/reducers/cartSlice'
+import { emptyCartAPI, getUserCartAPI, removeFromCart, updateCartQty, userCartAPI } from '@/store/reducers/cartSlice'
 import { ArrowRightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Button, InputNumber, Space, Table, Tooltip } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
 import { useEffect } from 'react'
 import { renderMoney } from '@/utils/functions'
+import { debounce } from 'lodash'
 
 const Cart = () => {
   const navigate = useNavigate()
@@ -15,21 +16,36 @@ const Cart = () => {
     loadingGetCart = false
   } = useSelector((state) => state.cart)
 
-  const onRemoveItem = (id) => {
-    dispatch(removeFromCart(id))
+  const onRemoveItem = async (id) => {
+    await dispatch(
+      userCartAPI({
+        cart: products.filter((item) => item._id !== id).map((item) => ({ _id: item.product?._id, count: item.count }))
+      })
+    )
+    dispatch(getUserCartAPI())
   }
 
   const onClearCart = () => {
     dispatch(emptyCartAPI())
   }
 
-  const onChangeQty = (id, qty) => {
-    dispatch(
-      updateCartQty({
-        _id: id,
-        count: qty
+  const onChangeQty = async (id, qty) => {
+    if (!id) return
+    const newProducts = products.map((item) => {
+      if (item._id === id) {
+        return {
+          ...item,
+          count: qty
+        }
+      }
+      return item
+    })
+    await dispatch(
+      userCartAPI({
+        cart: newProducts.map((item) => ({ _id: item.product?._id, count: item.count }))
       })
     )
+    dispatch(getUserCartAPI())
   }
 
   const onCheckout = async () => {
@@ -71,7 +87,12 @@ const Cart = () => {
       dataIndex: 'qty',
       key: 'qty',
       render: (text, row) => (
-        <InputNumber size='large' defaultValue={row.count} min={1} onChange={(val) => onChangeQty(row._id, val)} />
+        <InputNumber
+          size='large'
+          defaultValue={row.count}
+          min={1}
+          onChange={debounce((val) => onChangeQty(row._id, val), 500)}
+        />
       )
     },
     {

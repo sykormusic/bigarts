@@ -30,7 +30,7 @@ const Profile = () => {
       key: 'orders',
       children: <MyOrders />
     },
-    { label: 'Danh sách yêu thích', key: 'wishlist', children: <MyWishlist /> }
+    { label: 'Sản phẩm yêu thích', key: 'wishlist', children: <MyWishlist /> }
   ]
   return (
     <div className={styles.Profile}>

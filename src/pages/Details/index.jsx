@@ -1,7 +1,9 @@
-import { addToCart, userCartAPI } from '@/store/reducers/cartSlice'
+import { getUserCartAPI, userCartAPI } from '@/store/reducers/cartSlice'
 import { addToWishListAPI, getAProductAPI, rateProductAPI } from '@/store/reducers/productSlice'
+import { getMyWishlistAPI } from '@/store/reducers/userSlice'
+import { TAG_COLOR } from '@/utils/constants'
 import { renderMoney } from '@/utils/functions'
-import { PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
+import { HeartFilled, HeartOutlined, PlusOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import {
   Button,
   Carousel,
@@ -18,19 +20,16 @@ import {
   Tag,
   message
 } from 'antd'
-import { useEffect, useState } from 'react'
+import { isEmpty } from 'lodash'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { HeartOutlined, HeartFilled } from '@ant-design/icons'
 import Comment from './components/Comment'
 import styles from './index.module.scss'
-import { TAG_COLOR } from '@/utils/constants'
-import { useRef } from 'react'
-import { isEmpty } from 'lodash'
-import { getMyWishlistAPI } from '@/store/reducers/userSlice'
 
 const Details = () => {
   const [form] = Form.useForm()
+  const { cart = {} } = useSelector((state) => state.cart)
   const { productDetails = {}, isLoadingProductDetails } = useSelector((state) => state.product)
   const { myWishlist = [] } = useSelector((state) => state.user)
   const { user } = useSelector((state) => state.auth)
@@ -53,6 +52,7 @@ const Details = () => {
     totalrating = 0,
     ratings = []
   } = productDetails || {}
+  console.log('🚀  ~ _id:', _id)
   const { id } = useParams()
 
   const myRating = ratings.find((rating) => rating.postedby === user?._id)
@@ -118,12 +118,43 @@ const Details = () => {
     }
   }, [id])
 
-  const onAddToCart = () => {
+  const onAddToCart = async () => {
     if (!user) {
       navigate('/login')
       return
     }
-    dispatch(addToCart({ product: productDetails, count: count }))
+
+    const newItem = {
+      product: { _id },
+      count: count
+    }
+    let newCart = cart
+    const isItemExist = cart.products.some((x) => x.product._id === newItem.product._id)
+
+    if (isItemExist) {
+      newCart = {
+        ...newCart,
+        products: cart.products.map((x) =>
+          x.product._id === newItem.product._id ? { ...x, count: x.count + newItem.count } : x
+        )
+      }
+    } else {
+      newCart = {
+        ...newCart,
+        products: [...newCart.products, newItem]
+      }
+    }
+
+    await dispatch(
+      userCartAPI({
+        cart: newCart.products.map((x) => ({
+          _id: x.product?._id,
+          count: x.count
+        }))
+      })
+    )
+    dispatch(getUserCartAPI())
+    // dispatch(addToCart({ product: productDetails, count: count }))
 
     message.success('Đã thêm vào giỏ hàng')
   }
@@ -291,7 +322,7 @@ const Details = () => {
 
                     <Form.Item>
                       <Button type='primary' htmlType='submit'>
-                        Đánh giá
+                        {!isEmpty(myRating) ? 'Cập nhật đánh giá' : 'Đánh giá'}
                       </Button>
                     </Form.Item>
                   </Form>

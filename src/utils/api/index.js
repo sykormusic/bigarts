@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { notification } from 'antd'
 
-export const BASE_API = 'https://bigarts-be.onrender.com/api'
-// export const BASE_API = 'http://localhost:5000/api'
+// export const BASE_API = 'https://bigarts-be.onrender.com/api'
+export const BASE_API = 'http://localhost:5000/api'
 
 const createAxiosInstance = () => {
   const token = localStorage.getItem('token')
@@ -27,7 +27,6 @@ const handleResponse = (response) => {
 }
 
 const handleError = (error) => {
-  console.log('🚀 ~ file: index.js:30 ~ handleError ~ error:', error)
   notification.error({ message: 'Error', description: error?.response?.data?.message })
   return {
     data: undefined,

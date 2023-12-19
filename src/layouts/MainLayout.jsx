@@ -3,17 +3,17 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import NavBar from '@/components/NavBar'
 import TopBar from '@/components/TopBar'
-import { userCartAPI } from '@/store/reducers/cartSlice'
+import { getCategoriesAPI } from '@/store/reducers/categorySlice'
 import { goToTop } from '@/utils/functions'
 import { FloatButton } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useLocation } from 'react-router-dom'
 import styles from './MainLayout.module.scss'
-import { getCategoriesAPI } from '@/store/reducers/categorySlice'
+import { getUserCartAPI } from '@/store/reducers/cartSlice'
 
 const MainLayout = () => {
-  const { cart = {} } = useSelector((state) => state.cart)
+  const { user } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const location = useLocation()
 
@@ -26,17 +26,10 @@ const MainLayout = () => {
   }, [])
 
   useEffect(() => {
-    if ((cart?.products || []).length > 0) {
-      dispatch(
-        userCartAPI({
-          cart: cart.products.map((x) => ({
-            _id: x.product?._id,
-            count: x.count
-          }))
-        })
-      )
+    if (user) {
+      dispatch(getUserCartAPI())
     }
-  }, [JSON.stringify(cart?.products)])
+  }, [user, open])
 
   return (
     <div className={styles.MainLayout}>

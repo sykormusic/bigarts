@@ -1,18 +1,15 @@
+import { getMyOrdersAPI } from '@/store/reducers/userSlice'
+import { formatDate, renderMoney } from '@/utils/functions'
+import { Badge, Col, Divider, Empty, Row, Spin, Tag } from 'antd'
+import { isEmpty } from 'lodash'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styles from './index.module.scss'
-import { Badge, Col, Row } from 'antd'
-import { Tag } from 'antd'
-import { Divider } from 'antd'
 import { Link } from 'react-router-dom'
-import { isEmpty } from 'lodash'
-import { Empty } from 'antd'
-import { formatDate, renderMoney } from '@/utils/functions'
-import { getMyOrdersAPI } from '@/store/reducers/userSlice'
+import styles from './index.module.scss'
 
 const MyOrders = () => {
   const dispatch = useDispatch()
-  const { myOrders = [] } = useSelector((state) => state.user)
+  const { myOrders = [], loadingGetMyOrders } = useSelector((state) => state.user)
 
   useEffect(() => {
     dispatch(getMyOrdersAPI())
@@ -87,13 +84,13 @@ const MyOrders = () => {
                         <p className={styles.price}>{renderMoney(x.product?.price)}</p>
                       </div>
                     </Link>
-                    {index !== (order.products || []).length - 1 && (
+                    {/* {index !== (order.products || []).length - 1 && (
                       <Divider
                         style={{
                           marginBlock: 8
                         }}
                       />
-                    )}
+                    )} */}
                   </>
                 ))}
               </div>
@@ -103,14 +100,12 @@ const MyOrders = () => {
       </div>
     )
   }
-
-  if (isEmpty(myOrders)) {
-    return (
+  return (
+    <Spin spinning={loadingGetMyOrders}>
       <div className={styles.MyOrders}>
-        <Empty description='Chưa có đơn hàng' />
+        {isEmpty(myOrders) ? <Empty description='Chưa có đơn hàng' /> : myOrders.map((x) => _renderOrder(x))}
       </div>
-    )
-  }
-  return <div className={styles.MyOrders}>{myOrders.map((x) => _renderOrder(x))}</div>
+    </Spin>
+  )
 }
 export default MyOrders

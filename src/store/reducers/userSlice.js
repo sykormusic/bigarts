@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   myOrders: [],
-  myWishlist: []
+  myWishlist: [],
+  loadingGetMyOrders: false
 }
 
 export const getMyOrdersAPI = createAsyncThunk('user/my-orders', async () => {
@@ -28,8 +29,15 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   extraReducers: (builder) => {
+    builder.addCase(getMyOrdersAPI.pending, (state) => {
+      state.loadingGetMyOrders = true
+    })
     builder.addCase(getMyOrdersAPI.fulfilled, (state, action) => {
       state.myOrders = action.payload
+      state.loadingGetMyOrders = false
+    })
+    builder.addCase(getMyOrdersAPI.rejected, (state) => {
+      state.loadingGetMyOrders = false
     })
 
     builder.addCase(getMyWishlistAPI.fulfilled, (state, action) => {

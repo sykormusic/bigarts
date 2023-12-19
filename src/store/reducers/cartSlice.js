@@ -21,8 +21,8 @@ export const userCartAPI = createAsyncThunk('cart/add-to-cart', async (payload) 
 
 export const applyCouponAPI = createAsyncThunk('cart/apply-coupon', async (payload) => {
   try {
-    const { data } = await api.post(`/user/cart/applycoupon`, payload)
-    return data
+    const res = await api.post(`/user/cart/applycoupon`, payload)
+    return res
   } catch (error) {
     return error
   }
@@ -58,37 +58,7 @@ export const createCashOrderAPI = createAsyncThunk('cart/create-cash-order', asy
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  reducers: {
-    addToCart: (state, action) => {
-      const newItem = {
-        product: action.payload.product,
-        count: action.payload.count
-      }
-
-      const existItem = state.cart.products.find((x) => x.product._id === newItem.product._id)
-      if (existItem) {
-        existItem.count += newItem.count
-      } else {
-        state.cart.products = [...state.cart.products, newItem]
-      }
-    },
-    updateCartQty: (state, action) => {
-      const { _id, count } = action.payload
-
-      const item = state.cart.products.find((x) => x._id === _id)
-
-      if (item) {
-        item.count = count
-      }
-    },
-    removeFromCart: (state, action) => {
-      const id = action.payload
-      state.cart.products = state.cart.products.filter((x) => x._id !== id)
-    },
-    updateCart: (state, action) => {
-      state.cart.products = state.cart.products.map((x) => (x._id === action.payload._id ? action.payload : x))
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserCartAPI.pending, (state) => {
       state.loadingGetCart = true
@@ -122,6 +92,9 @@ export const cartSlice = createSlice({
     builder.addCase(createCashOrderAPI.rejected, (state) => {
       state.loadingCreateOrder = false
     })
+    // builder.addCase(userCartAPI.fulfilled, (state, action) => {
+    //   state.cart = action.payload
+    // })
   }
 })
 
