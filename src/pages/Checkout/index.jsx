@@ -341,15 +341,14 @@ const Checkout = () => {
               <Divider />
 
               <div className={styles.paymentMethod}>
-                <Radio.Group
-                  options={[
-                    {
-                      label: 'Thanh toán khi nhận hàng',
-                      value: 'COD'
-                    }
-                  ]}
-                  value='COD'
-                />
+                <Radio.Group value='COD'>
+                  <Space direction='vertical'>
+                    <Radio value='COD'>Thanh toán khi nhận hàng</Radio>
+                    <Radio value='Paypal' disabled>
+                      Paypal
+                    </Radio>
+                  </Space>
+                </Radio.Group>
               </div>
               <Divider />
               <div className={styles.footer}>
