@@ -16,7 +16,7 @@ const TopBar = () => {
   return (
     <div className={styles.TopBar}>
       <div className={styles.contentWrapper}>
-        <div className={styles.left}>Miễn phí ship mọi đơn hàng trên 10 triệu đồng</div>
+        <div className={styles.left}>Trang mua sắm sản phẩm công nghệ, phụ kiện</div>
 
         <div className={styles.right}>
           <span>Hotline: (+84) 827250515</span>
