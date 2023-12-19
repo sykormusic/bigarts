@@ -1,13 +1,11 @@
+import { getUserCartAPI, userCartAPI } from '@/store/reducers/cartSlice'
+import { renderMoney } from '@/utils/functions'
 import { DeleteOutlined } from '@ant-design/icons'
-import { Button, Drawer, Tooltip } from 'antd'
-import { useSelector } from 'react-redux'
+import { Button, Drawer, Spin, Tooltip } from 'antd'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
-import { useDispatch } from 'react-redux'
-import { getUserCartAPI, removeFromCart, userCartAPI } from '@/store/reducers/cartSlice'
-import { useEffect } from 'react'
-import { Spin } from 'antd'
-import { renderMoney } from '@/utils/functions'
 
 const CartDrawer = ({ open, onClose = () => {} }) => {
   const {

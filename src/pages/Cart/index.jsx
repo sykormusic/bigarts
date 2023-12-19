@@ -1,12 +1,12 @@
-import { emptyCartAPI, getUserCartAPI, removeFromCart, updateCartQty, userCartAPI } from '@/store/reducers/cartSlice'
+import { emptyCartAPI, getUserCartAPI, userCartAPI } from '@/store/reducers/cartSlice'
+import { renderMoney } from '@/utils/functions'
 import { ArrowRightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons'
 import { Button, InputNumber, Space, Table, Tooltip } from 'antd'
+import { debounce } from 'lodash'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './index.module.scss'
-import { useEffect } from 'react'
-import { renderMoney } from '@/utils/functions'
-import { debounce } from 'lodash'
 
 const Cart = () => {
   const navigate = useNavigate()
