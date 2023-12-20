@@ -9,12 +9,13 @@ import { Alert, Button, Checkbox, Col, Form, InputNumber, Pagination, Row, Selec
 import { debounce, isEmpty, omit } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 const Products = () => {
   const [form] = Form.useForm()
   const { isLoadingProducts, totalProduct = 0, products = [] } = useSelector((state) => state.product)
   const { brands = [] } = useSelector((state) => state.brand)
   const { categories = [] } = useSelector((state) => state.category)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const { state } = useLocation()
 
@@ -65,12 +66,13 @@ const Products = () => {
   }
 
   const getData = (params) => {
+    console.log('🚀 ~ file: index.jsx:68 ~ getData ~ params:', params)
     dispatch(getProductsAPI(params))
     getBrands()
   }
 
   const debounceSaveFormValues = debounce((values) => {
-    setFormValues(values)
+    setFormValues((prev) => ({ ...prev, ...values }))
   }, 500)
 
   useEffect(() => {
@@ -253,6 +255,10 @@ const Products = () => {
                     }
                     type='info'
                     showIcon
+                    closeIcon
+                    onClose={() => {
+                      navigate('.', { replace: true })
+                    }}
                   />
                 </Col>
               ) : null}

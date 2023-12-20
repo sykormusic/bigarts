@@ -46,6 +46,7 @@ const Details = () => {
     tags,
     brand,
     quantity,
+    sold,
     title,
     description,
     price,
@@ -55,7 +56,7 @@ const Details = () => {
   console.log('🚀  ~ _id:', _id)
   const { id } = useParams()
 
-  const myRating = ratings.find((rating) => rating.postedby === user?._id)
+  const myRating = ratings.find((rating) => rating.postedby?._id === user?._id)
   const isInWishlist = myWishlist.some((item) => item._id === _id)
 
   useEffect(() => {
@@ -186,6 +187,9 @@ const Details = () => {
         <Col span={14}>
           <div className={styles.productInfo}>
             <span className={styles.title}>{title}</span>
+            <Tag className={styles.sold} color='green'>
+              Đã bán {sold}
+            </Tag>
             <Divider />
             <div className={styles.price}>
               <div className={styles.priceItem}>
@@ -219,7 +223,12 @@ const Details = () => {
               Thẻ: <Tag color={TAG_COLOR[tags]}>{tags}</Tag>
             </span>
             <Divider />
-            <div className={styles.buttons}>
+            <Space
+              style={{
+                flex: 1,
+                width: '100%'
+              }}
+            >
               <InputNumber
                 size='large'
                 defaultValue={count}
@@ -228,13 +237,17 @@ const Details = () => {
                 onChange={(value) => setCount(value)}
                 value={count}
               />
-              <Button size='large' onClick={onAddToCart}>
+              <span className={styles.quantity}>{quantity} sản phẩm còn lại</span>
+            </Space>
+            <Divider />
+            <div className={styles.buttons}>
+              <Button size='large' onClick={onAddToCart} disabled={quantity === 0}>
                 <Space>
                   <PlusOutlined />
                   Thêm vào giỏ hàng
                 </Space>
               </Button>
-              <Button size='large' type='primary' onClick={onCheckoutThisItem}>
+              <Button size='large' type='primary' onClick={onCheckoutThisItem} disabled={quantity === 0}>
                 <Space>
                   <ShoppingCartOutlined />
                   Mua ngay
