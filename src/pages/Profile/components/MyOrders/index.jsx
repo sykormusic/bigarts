@@ -1,11 +1,29 @@
 import { getMyOrdersAPI } from '@/store/reducers/userSlice'
 import { formatDate, renderMoney } from '@/utils/functions'
-import { Badge, Col, Divider, Empty, Row, Spin, Tag } from 'antd'
+import { Badge, Col, Empty, Row, Spin, Tag } from 'antd'
 import { isEmpty } from 'lodash'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styles from './index.module.scss'
+
+const STATUSES = {
+  NOT_PROCESSED: 'Not Processed',
+  CASH_ON_DELIVERY: 'Cash on Delivery',
+  PROCESSING: 'Processing',
+  DISPATCHED: 'Dispatched',
+  CANCELLED: 'Cancelled',
+  DELIVERED: 'Delivered'
+}
+
+const COLOR_STATUS = {
+  [STATUSES.CASH_ON_DELIVERY]: 'blue',
+  [STATUSES.NOT_PROCESSED]: 'gray',
+  [STATUSES.PROCESSING]: 'orange',
+  [STATUSES.DISPATCHED]: 'purple',
+  [STATUSES.CANCELLED]: 'red',
+  [STATUSES.DELIVERED]: 'green'
+}
 
 const MyOrders = () => {
   const dispatch = useDispatch()
@@ -35,7 +53,7 @@ const MyOrders = () => {
       <div key={order._id} className={styles.order}>
         <div className={styles.orderHeader}>
           <h3>Đơn hàng</h3>
-          <Tag color='green'>{order.orderStatus}</Tag>
+          <Tag color={COLOR_STATUS[order.orderStatus]}>{order.orderStatus}</Tag>
         </div>
         <div className={styles.orderBody}>
           <Row className={styles.orderItem} gutter={[12, 12]}>
@@ -56,9 +74,6 @@ const MyOrders = () => {
             >
               {renderMoney(order.paymentIntent?.amount)}
             </Col>
-
-            <Col span={8}>Trạng thái đơn hàng</Col>
-            <Col span={16}>{order.orderStatus}</Col>
 
             <Col span={8}>Địa chỉ giao hàng</Col>
             <Col span={16}>{orderAddress}</Col>
