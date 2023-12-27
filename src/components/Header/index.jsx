@@ -1,7 +1,7 @@
 import { logoutAPI } from '@/store/reducers/authSlice'
 import { searchProductAPI } from '@/store/reducers/productSlice'
 import { getMyWishlistAPI } from '@/store/reducers/userSlice'
-import { HeartOutlined, LogoutOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { HeartOutlined,LockOutlined,LogoutOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Badge, Input, Dropdown } from 'antd'
 import { debounce } from 'lodash'
 import { useEffect, useState } from 'react'
@@ -90,6 +90,12 @@ const Header = () => {
                 key: 'profile',
                 onClick: () => navigate(`/profile/info`),
                 icon: <UserOutlined />
+              },
+              {
+                label: 'Đổi mật khẩu',
+                key: 'change-password',
+                onClick: () => navigate(`/change-password`),
+                icon: <LockOutlined />
               },
               {
                 label: 'Đơn hàng của tôi',

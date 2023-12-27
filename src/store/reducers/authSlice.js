@@ -56,6 +56,17 @@ export const resetPwdAPI = createAsyncThunk('user/reset-pwd', async (payload) =>
   }
 })
 
+export const changePwdAPI = createAsyncThunk('user/change-pwd', async (payload) => {
+  try {
+    const { data } = await api.put(`/user/password`, {
+      password: payload.password
+    })
+    return data
+  } catch (error) {
+    return error
+  }
+})
+
 export const updateUserAPI = createAsyncThunk('user/update', async (payload) => {
   try {
     const { data } = await api.put(`/user/edit-user`, payload)

@@ -21,6 +21,7 @@ import ViewBlog from './pages/ViewBlog'
 import ForgotPassword from './pages/ForgotPassword'
 import { persistor, store } from './store'
 import ResetPassword from './pages/ResetPassword'
+import ChangePassword from './pages/ChangePassword'
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,13 @@ const router = createBrowserRouter([
         element: <ForgotPassword />,
         handle: {
           crumb: () => 'Quên mật khẩu'
+        }
+      },
+      {
+        path: '/change-password',
+        element: <ChangePassword />,
+        handle: {
+          crumb: () => 'Đổi mật khẩu'
         }
       },
       {

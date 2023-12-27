@@ -67,7 +67,6 @@ const Products = () => {
 
   const getData = (params) => {
     dispatch(getProductsAPI(params))
-    getBrands()
   }
 
   const debounceSaveFormValues = debounce((values) => {
@@ -77,6 +76,10 @@ const Products = () => {
   useEffect(() => {
     getData({ ...formValues, page, limit: pageSize })
   }, [JSON.stringify(formValues), page, pageSize])
+
+  useEffect(() => {
+    getBrands()
+  }, [])
 
   const _renderFilterItem = (title, content) => {
     return (
