@@ -52,7 +52,6 @@ export const searchProductAPI = createAsyncThunk('product/search', async (params
     const res = await api.get(`/search`, {
       params
     })
-    console.log('🚀 ~ file: productSlice.js:54 ~ searchProductAPI ~ res:', res)
     return res
   } catch (error) {
     return error

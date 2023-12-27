@@ -20,7 +20,10 @@ const Categories = () => {
         return '/images/tv.jpg'
       case 'Chuột máy tính':
         return '/images/mouse.png'
-
+      case 'RAM':
+        return '/images/RAM.jpg'
+      case 'CPU':
+        return '/images/CPU.jpg'
       default:
         return ''
     }
@@ -40,7 +43,7 @@ const Categories = () => {
     }
   })
 
-  const rows = Math.ceil(items.length / 5)
+  const rows = Math.ceil(items.length / 4)
 
   if (isEmpty(items)) return null
   return (
@@ -54,7 +57,7 @@ const Categories = () => {
                 borderBottom: index === rows - 1 ? 'none' : '1px solid #f0f0f0'
               }}
             >
-              {items.slice(index * 5, index * 5 + 5).map((item) => (
+              {items.slice(index * 4, index * 4 + 4).map((item) => (
                 <td key={item.key}>
                   <Item key={item.key} {...item} />
                 </td>

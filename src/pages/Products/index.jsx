@@ -66,7 +66,6 @@ const Products = () => {
   }
 
   const getData = (params) => {
-    console.log('🚀 ~ file: index.jsx:68 ~ getData ~ params:', params)
     dispatch(getProductsAPI(params))
     getBrands()
   }
@@ -242,7 +241,7 @@ const Products = () => {
                       />
                     </Form.Item>
                   </div>
-                  <div className={styles.right}>{products.length} sản phẩm</div>
+                  <div className={styles.right}>{totalProduct} sản phẩm</div>
                 </div>
               </Col>
               {searchKey ? (
