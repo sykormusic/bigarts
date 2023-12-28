@@ -95,9 +95,9 @@ export const authSlice = createSlice({
     builder.addCase(signupAPI.pending, (state) => {
       state.isLoadingSignUp = true
     })
-    builder.addCase(signupAPI.fulfilled, (state, action) => {
+    builder.addCase(signupAPI.fulfilled, (state) => {
       state.isLoadingSignUp = false
-      state.user = action.payload?.data
+      // state.user = action.payload?.data
     })
     builder.addCase(signupAPI.rejected, (state) => {
       state.isLoadingSignUp = false
